@@ -1,0 +1,295 @@
+#Copyright 2017 AT&T Intellectual Property.  All other rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+# Site/Region wide definitions. Each design part will be a constituent
+# of the design for exactly one Region
+apiVersion: 'drydock/v1'
+kind: Region
+metadata:
+  name: atl_foundry
+  date: 17-FEB-2017
+  description: Sample site design
+  author: sh8121@att.com
+spec:
+  # List of query-based definitions for applying tags to deployed nodes
+  tag_definitions:
+  - tag: 'high_memory'
+    # Tag to apply to nodes that qualify for the query
+    definition_type: 'lshw_xpath'
+    # Only support on type for now - 'lshw_xpath' used by MaaS
+    definition: //node[@id="memory"]/'size units="bytes"' > 137438953472
+    # an xpath query that is run against the output of 'lshw -xml' from the node
+  # Image and package repositories needed by Drydock drivers. Needs to be defined
+  repositories:
+  - name: 'ubuntu-main'
+  authorized_keys:
+    - |
+      ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAgqUTJwZEMjZCWOnXQw+FFdvnf/lYrGXm01
+      rf/ZYUanoymkMWIK1/c8a3Ez9/HY3dyfWBcuzlIV4bNCvJcMg4UPuh6NQBJWAlfp7wfW9O
+      8ZyDE3x1FYno5u3OB4rRDcvKe6J0ygPcu4Uec5ASsd58yGnE4zTl1D/J30rNa00si+s= r
+      sa-key-20120124
+---
+apiVersion: 'drydock/v1'
+kind: NetworkLink
+metadata:
+  name: oob
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Describe layer 1 attributes. Primary key is 'name'. These settings will generally be things the switch and server have to agree on
+  labels:
+    - 'noconfig'
+spec:
+  bonding:
+    # Mode can be 'disabled', '802.3ad', 'balanced-rr', 'active-backup'. Defaults to disabled
+    mode: 'disabled'
+  # Physical link default MTU size. No default
+  mtu: 1500
+  # Physical link speed. Supports 'auto', '100full'. Gigabit+ speeds require auto. No default
+  linkspeed: 'auto'
+  # Settings for using a link for multiple L2 networks
+  trunking:
+    # Trunking mode. Supports 'disabled', '802.1q'. Defaults to disabled
+    mode: disabled
+    # If disabled, what network is this port on. If '802.1q' what is the default network for the port. No default.
+    default_network: oob
+  allowed_networks:
+  - 'oob'
+---
+apiVersion: 'drydock/v1'
+kind: NetworkLink
+metadata:
+  name: pxe-rack1
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Describe layer 1 attributes. Primary key is 'name'. These settings will generally be things the switch and server have to agree on
+spec:
+  bonding:
+    # Mode can be 'disabled', '802.3ad', 'balanced-rr', 'active-backup'. Defaults to disabled
+    mode: 'disabled'
+  # Physical link default MTU size. No default
+  mtu: 1500
+  # Physical link speed. Supports 'auto', '100full'. Gigabit+ speeds require auto. No default
+  linkspeed: 'auto'
+  # Settings for using a link for multiple L2 networks
+  trunking:
+    # Trunking mode. Supports 'disabled', '802.1q'. Defaults to disabled
+    mode: disabled
+    # If disabled, what network is this port on. If '802.1q' what is the default network for the port. No default.
+    default_network: pxe-rack1
+  allowed_networks:
+  - 'pxe-rack1'
+---
+apiVersion: 'drydock/v1'
+kind: Network
+metadata:
+  name: oob
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Describe layer 2 and 3 attributes. Primary key is 'name'.
+  labels:
+    - 'noconfig'
+spec:
+  # CIDR representation of network number and netmask
+  cidr: '172.24.10.0/24'
+  # How addresses are allocated on the network. Supports 'static', 'dhcp'. Defaults to 'static'
+  allocation: 'static'
+---
+apiVersion: 'drydock/v1'
+kind: Network
+metadata:
+  name: pxe-rack1
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Describe layer 2 and 3 attributes. Primary key is 'name'.
+spec:
+  # CIDR representation of network number and netmask
+  cidr: '172.24.1.0/24'
+  # How addresses are allocated on the network. Supports 'static', 'dhcp'. Defaults to 'static'
+  allocation: 'static'
+  routes:
+    # The network being routed to in CIDR notation. Default gateway is 0.0.0.0/0.
+  - subnet: '0.0.0.0/0'
+    # Next hop for traffic using this route
+    gateway: '172.24.1.1'
+    # Selection metric for the host selecting this route. No default
+    metric: 100
+  ranges:
+    # Type of range. Supports 'reserved', 'static' or 'dhcp'. No default
+  - type: 'reserved'
+    # Start of the address range, inclusive. No default
+    start: '172.24.1.1'
+    # End of the address range, inclusive. No default
+    end: '172.24.1.100'
+  - type: 'dhcp'
+    start: '172.24.1.200'
+    end: '172.24.1.250'
+---
+apiVersion: 'drydock/v1'
+kind: Network
+metadata:
+  name: pxe-rack2
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Describe layer 2 and 3 attributes. Primary key is 'name'.
+spec:
+  # CIDR representation of network number and netmask
+  cidr: '172.24.2.0/24'
+  # How addresses are allocated on the network. Supports 'static', 'dhcp'. Defaults to 'static'
+  allocation: 'static'
+  routes:
+    # The network being routed to in CIDR notation. Default gateway is 0.0.0.0/0.
+  - subnet: '0.0.0.0/0'
+    # Next hop for traffic using this route
+    gateway: '172.24.2.1'
+    # Selection metric for the host selecting this route. No default
+    metric: 100
+  ranges:
+    # Type of range. Supports 'reserved', 'static' or 'dhcp'. No default
+  - type: 'reserved'
+    # Start of the address range, inclusive. No default
+    start: '172.24.2.1'
+    # End of the address range, inclusive. No default
+    end: '172.24.2.100'
+  - type: 'dhcp'
+    start: '172.24.2.200'
+    end: '172.24.2.250'
+---
+apiVersion: 'drydock/v1'
+kind: HardwareProfile
+metadata:
+  name: DellR820v1
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Describe server hardware attributes. Not a specific server, but profile adopted by a server defintion.
+spec:
+  # Chassis vendor
+  vendor: 'Dell'
+  # Chassis model generation
+  generation: '1'
+  # Chassis model version
+  hw_version: '2'
+  # Certified BIOS version for this chassis
+  bios_version: '2.2.3'
+  # Boot mode. Supports 'bios' or 'uefi'
+  boot_mode: 'bios'
+  # How the node should be initially bootstrapped. Supports 'pxe'
+  bootstrap_protocol: 'pxe'
+  # What network interface to use for PXE booting
+  # for chassis that support selection
+  pxe_interface: '0'
+  # Mapping of hardware alias/role to physical address
+  device_aliases:
+    # the device alias that will be referenced in HostProfile or BaremetalNode design parts
+  - alias: 'pnic01'
+    # The hardware bus the device resides on. Supports 'pci' and 'scsi'. No default
+    bus_type: 'pci'
+    # The type of device as reported by lshw. Can be used to validate hardware manifest. No default
+    dev_type: 'Intel 10Gbps NIC'
+    # Physical address on the bus
+    address: '0000:00:03.0'
+---
+apiVersion: 'drydock/v1'
+kind: HostProfile
+metadata:
+  name: defaults
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Specify a physical server. 
+spec:
+  # The HardwareProfile describing the node hardware. No default.
+  hardware_profile: 'DellR820v1'
+  primary_network: 'pxe-rack1'
+  # OOB access to node
+  oob:
+    # Type of OOB access. Supports 'ipmi'
+    type: 'ipmi'
+    # Which network - as defined in a Network design part - to access the OOB interface on
+    network: 'oob'
+    # Account name for authenticating on the OOB interface
+    account: 'admin'
+    # Credential for authentication on the OOB interface. The OOB driver will interpret this. 
+    credential: 'password'
+  # How local node storage is configured
+  storage:
+    physical_devices:
+      sda:
+        labels:
+          bootdrive: true
+        partitions:
+          - name: 'root'
+            size: '10g'
+            bootable: true
+            filesystem:
+              mountpoint: '/'
+              fstype: 'ext4'
+              mount_options: 'defaults'
+          - name: 'boot'
+            size: '1g'
+            filesystem:
+              mountpoint: '/boot'
+              fstype: 'ext4'
+              mount_options: 'defaults'
+  # Physical and logical network interfaces
+  interfaces:
+      # What the interface should be named in the operating system. May not match a hardware device name
+    ens3:
+      # The NetworkLink connected to this interface. Must be the name of a NetworkLink design part
+      device_link: 'pxe-rack1'
+      # Hardware devices that support this interface. For configurating a physical device, this would be a list of one
+      # For bonds, this would be a list of all the physical devices in the bond. These can refer to HardwareProfile device aliases
+      # or explicit device names
+      slaves:
+        - 'ens3'
+      # Network that will be accessed on this interface. These should each be to the name of a Network design part
+      # Multiple networks listed here assume that this interface is attached to a NetworkLink supporting trunking
+      networks:
+        - 'pxe-rack1'
+  platform:
+      # Which image to deploy on the node, must be available in the provisioner. Defaults to 'ubuntu/xenial'
+      image: 'ubuntu/xenial'
+      # Which kernel to enable. Defaults to generic, can also be hwe (hardware enablement)
+      kernel: 'generic'
+      # K/V list of kernel parameters to configure on boot. No default. Use value of true for params that are just flags
+  metadata:
+      # Explicit tags to propagate to Kubernetes. Simple strings of any value
+    rack: rack1
+---
+apiVersion: 'drydock/v1'
+kind: BaremetalNode
+metadata:
+  name: node2
+  region: atl_foundry
+  date: 17-FEB-2017
+  author: sh8121@att.com
+  description: Specify a physical server.
+spec:
+  host_profile: defaults
+  addressing:
+      # The name of a defined Network design part also listed in the 'networks' section of a interface definition
+    - network: 'pxe-rack1'
+      # Address should be an explicit IP address assignment or 'dhcp'
+      address: '172.24.1.101'
+    - network: 'oob'
+      address: '172.24.10.101'
+  metadata:
+    tags:
+      - 'masters'
+...

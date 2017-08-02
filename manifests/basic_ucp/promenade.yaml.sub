@@ -1,0 +1,82 @@
+---
+apiVersion: promenade/v1
+kind: Cluster
+metadata:
+  name: example
+  target: none
+spec:
+  nodes:
+    ${GENESIS_NODE_NAME}:
+      ip: ${GENESIS_NODE_IP}
+      roles:
+        - master
+        - genesis
+      additional_labels:
+        - beta.kubernetes.io/arch=amd64
+        - ucp-control-plane=enabled
+        - ceph-mon=enabled
+        - ceph-osd=enabled
+        - ceph-mds=enabled
+    ${MASTER_NODE_NAME}:
+      ip: ${MASTER_NODE_IP}
+      roles:
+        - master
+      additional_labels:
+        - beta.kubernetes.io/arch=amd64
+        - ucp-control-plane=enabled
+        - ceph-mon=enabled
+        - ceph-osd=enabled
+        - ceph-mds=enabled
+---
+apiVersion: promenade/v1
+kind: Network
+metadata:
+  cluster: example
+  name: example
+  target: all
+spec:
+  cluster_domain: cluster.local
+  cluster_dns: 10.96.0.10
+  kube_service_ip: 10.96.0.1
+  pod_ip_cidr: 10.97.0.0/16
+  service_ip_cidr: 10.96.0.0/16
+  calico_etcd_service_ip: 10.96.232.136
+  calico_interface: ${NODE_NET_IFACE}
+  dns_servers:
+    - 8.8.8.8
+    - 8.8.4.4
+---
+apiVersion: promenade/v1
+kind: Versions
+metadata:
+  cluster: example
+  name: example
+  target: all
+spec:
+  images:
+    armada: ${ARMADA_IMAGE}
+    calico:
+      cni: quay.io/calico/cni:v1.9.1
+      etcd: quay.io/coreos/etcd:v3.2.1
+      node: quay.io/calico/node:v1.3.0
+      policy-controller: quay.io/calico/kube-policy-controller:v0.6.0
+    kubernetes:
+      apiserver: gcr.io/google_containers/hyperkube-amd64:v1.6.7
+      controller-manager: quay.io/attcomdev/kube-controller-manager:v1.6.7
+      dns:
+        dnsmasq: gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.2
+        kubedns: gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.2
+        sidecar: gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.2
+      etcd: quay.io/coreos/etcd:v3.2.1
+      kubectl: gcr.io/google_containers/hyperkube-amd64:v1.6.7
+      proxy: gcr.io/google_containers/hyperkube-amd64:v1.6.7
+      scheduler: gcr.io/google_containers/hyperkube-amd64:v1.6.7
+    promenade: ${PROMENADE_IMAGE}
+    tiller: gcr.io/kubernetes-helm/tiller:v2.5.0
+  packages:
+    docker: docker.io=1.12.6-0ubuntu1~16.04.1
+    dnsmasq: dnsmasq=2.75-1ubuntu0.16.04.2
+    socat: socat=1.7.3.1-1
+  additional_packages:
+    - ceph-common=10.2.7-0ubuntu0.16.04.1
+...
