@@ -129,3 +129,70 @@ Success message example:
   "code": 200
 }
 ```
+
+## Health Check API
+Each UCP component shall expose an endpoint that allows other component
+to access and validate its health status.  The response shall be received
+within 30 seconds.
+
+### GET /v1.0/health
+Invokes a UCP component to return its health status
+
+#### Health Check Output
+The current design will be for the UCP component to return an empty response
+to show that it is alive and healthy. This means that the UCP component that
+is performing the query will receive HTTP response code 204.
+
+HTTP response code 503 will be returned if the UCP component fails to receive
+any response from the component that it is querying.  The time out will be set
+to 30 seconds.
+
+### GET /v1.0/health/extended
+Invokes a UCP component to return its detailed health status. Authentication
+will be required to invoke this API call.
+
+This feature will be implemented in the future.
+
+#### Extended Health Check Output
+The output structure reuses the Kubernetes Status kind to represent the health
+check results. The Status kind will be returned for both successful and failed
+health checks to ensure consistencies. The message field will contain summary
+information related to the results of the health check. Detailed information
+of the health check will be provided as well.
+
+Failure message example:
+```
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Service Unavailable",
+  "message": "{{UCP Component Name}} failed to respond",
+  "reason": "Health Check",
+  "details": {
+    "errorCount": {{n}},
+    "errorList": [
+       { "message" : "{{Detailed Health Check failure information}}"},
+       ...
+    ]
+  },
+  "code": 503
+}
+```
+
+Success message example:
+```
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Healthy",
+  "message": "",
+  "reason": "Health Check",
+  "details": {
+    "errorCount": 0,
+    "errorList": []
+  },
+  "code": 200
+}
+```
