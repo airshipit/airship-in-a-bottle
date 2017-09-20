@@ -21,12 +21,12 @@ more specific to point to a particular service.
      version here
 ```
 ---
-## Error responses
-Error responses (HTTP response body accompanying 4xx and 5xx series responses
-where possible) are a more specific version of the
+## Status responses
+Status responses, and more specifically error responses (HTTP response body accompanying 4xx and 5xx series responses
+where possible) are a customized version of the
 [Kubernetes standard for error representation](https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#response-status-kind).
 UCP utilizes the details field in a more formalized way to represent multiple
-messages related to an error response, as follows:
+messages related to a status response, as follows:
 
 ```
 {
@@ -34,12 +34,12 @@ messages related to an error response, as follows:
   "apiVersion": "v1",
   "metadata": {},
   "status": "Failure",
-  "message": "{{UCP Component Name}} {{error phrase}}",
+  "message": "{{UCP Component Name}} {{status phrase}}",
   "reason": "{{appropriate reason phrase}}",
   "details": {
     "errorCount": {{n}},
-    "errorList": [
-       { "message" : "{{validation failure message}}"},
+    "messageList": [
+       { "message" : "{{validation failure message}}", "error": true|false},
        ...
     ]
   },
@@ -50,8 +50,9 @@ messages related to an error response, as follows:
 such that:
 1. the details field is still optional
 2. if used, the details follow that format
-3. the repeating entity inside the errorList can be decorated with as many
-other fields as are useful, but at least have a message field
+3. the repeating entity inside the messageList can be decorated with as many other fields as are useful, but at least have a message field and error field.
+4. the errorCount field is an integer representing the count of messageList entities that have `error: true`
+5. when using this document as the body of a HTTP response, `code` is populated with a valid HTTP [status code](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
 ---
 ## Headers
 ### Required
@@ -104,8 +105,8 @@ Failure message example:
   "reason": "Validation",
   "details": {
     "errorCount": {{n}},
-    "errorList": [
-       { "message" : "{{validation failure message}}"},
+    "messageList": [
+       { "message" : "{{validation failure message}}", "error": true},
        ...
     ]
   },
@@ -124,7 +125,7 @@ Success message example:
   "reason": "Validation",
   "details": {
     "errorCount": 0,
-    "errorList": []
+    "messageList": []
   },
   "code": 200
 }
@@ -171,8 +172,8 @@ Failure message example:
   "reason": "Health Check",
   "details": {
     "errorCount": {{n}},
-    "errorList": [
-       { "message" : "{{Detailed Health Check failure information}}"},
+    "messageList": [
+       { "message" : "{{Detailed Health Check failure information}}", "error": true},
        ...
     ]
   },
@@ -191,7 +192,7 @@ Success message example:
   "reason": "Health Check",
   "details": {
     "errorCount": 0,
-    "errorList": []
+    "messageList": []
   },
   "code": 200
 }
