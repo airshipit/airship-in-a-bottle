@@ -132,7 +132,7 @@ Success message example:
 ```
 
 ## Health Check API
-Each UCP component shall expose an endpoint that allows other component
+Each UCP component shall expose an endpoint that allows other components
 to access and validate its health status.  The response shall be received
 within 30 seconds.
 
@@ -193,6 +193,36 @@ Success message example:
   "details": {
     "errorCount": 0,
     "messageList": []
+  },
+  "code": 200
+}
+```
+
+## Versions API
+Each UCP component shall expose an endpoint that allows other components to
+discover its different API versions.
+
+### GET /versions
+Invokes a UCP component to return its list of API versions.
+
+#### Versions output
+Each UCP component shall return a list of its different API versions. The
+response body shall be keyed with the name of each API version, with
+accompanying information pertaining to the version's `path` and `status`. The
+`status` field shall be an enum which accepts the values "stable" and "beta",
+where "stable" implies a stable API and "beta" implies an under-development
+API.
+
+Success message example:
+```
+{
+  "v1.0": {
+    "path": "/api/v1.0",
+    "status": "stable"
+  },
+  "v1.1": {
+    "path": "/api/v1.1",
+    "status": "beta"
   },
   "code": 200
 }
