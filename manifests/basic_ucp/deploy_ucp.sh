@@ -25,6 +25,8 @@ export MASTER_NODE_IP=${MASTER_NODE_IP:-"NA"}
 export NODE_NET_IFACE=${NODE_NET_IFACE:-"eth0"}
 export PROXY_ADDRESS=${PROXY_ADDRESS:-"http://one.proxy.att.com:8080"}
 export PROXY_ENABLED=${PROXY_ENABLED:-"false"}
+export AIRFLOW_NODE_PORT=${AIRFLOW_NODE_PORT:-32080}
+export SHIPYARD_NODE_PORT=${SHIPYARD_NODE_PORT:-31901}
 
 # Storage
 export CEPH_OSD_DIR=${CEPH_OSD_DIR:-"/var/lib/openstack-helm/ceph/osd"}
@@ -42,12 +44,16 @@ export MAAS_CHART_REPO=${MAAS_CHART_REPO:-"https://github.com/openstack/openstac
 export MAAS_CHART_BRANCH=${MAAS_CHART_BRANCH:-"master"}
 export DECKHAND_CHART_REPO=${DECKHAND_CHART_REPO:-"https://github.com/att-comdev/aic-helm"}
 export DECKHAND_CHART_BRANCH=${DECKHAND_CHART_BRANCH:-"master"}
+export SHIPYARD_CHART_REPO=${SHIPYARD_CHART_REPO:-"https://github.com/att-comdev/aic-helm"}
+export SHIPYARD_CHART_BRANCH=${SHIPYARD_CHART_BRANCH:-"master"}
 
 # Images
 export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:0.2.0-a1"}
 export ARMADA_IMAGE=${ARMADA_IMAGE:-"quay.io/attcomdev/armada:v0.6.0"}
 export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:master"}
 export DECKHAND_IMAGE=${DECKHAND_IMAGE:-"quay.io/attcomdev/deckhand:master"}
+export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:master"}
+export AIRFLOW_IMAGE=${AIRFLOW_IMAGE:-"quay.io/attcomdev/airflow:master"}
 
 # Filenames
 export ARMADA_CONFIG=${ARMADA_CONFIG:-"armada.yaml"}
@@ -117,6 +123,20 @@ docker run -t -v ~/.kube:/armada/.kube -v $(pwd):/target --net=host \
 # Polling for UCP service deployment
 
 while [[ -z $(kubectl get pods -n ucp | grep drydock | grep Running) ]]
+do
+  sleep 5
+done
+
+# Check the status of deckhand-api pod
+# Ignore deckhand db or ks related pod
+while [[ -z $(kubectl get pods -n ucp | grep deckhand | grep -v db | grep -v ks | grep Running) ]]
+do
+  sleep 5
+done
+
+# Check the status of shipyard-api pod
+# Ignore shipyard db or ks related pod
+while [[ -z $(kubectl get pods -n ucp | grep shipyard | grep -v db | grep -v ks | grep Running) ]]
 do
   sleep 5
 done

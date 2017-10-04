@@ -13,6 +13,3 @@ export DRYDOCK_IMAGE=docker.io/sthussey/drydock:bonding-rc3
 export ARMADA_IMAGE=quay.io/attcomdev/armada:master
 export PROMENADE_IMAGE=quay.io/attcomdev/promenade:v0.2.0
 export CEPH_OSD_DIR=/var/lib/openstack-helm/ceph/osd
-export DECKHAND_IMAGE=quay.io/attcomdev/deckhand:latest
-export DECKHAND_CHART_REPO=https://github.com/att-comdev/aic-helm
-export DECKHAND_CHART_BRANCH=master

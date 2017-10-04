@@ -431,6 +431,105 @@ data:
   dependencies:
     - helm-toolkit
 ---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: shipyard
+data:
+  chart_name: shipyard
+  release: shipyard
+  namespace: ucp
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    prod_environment: true
+    images:
+      airflow: ${AIRFLOW_IMAGE}
+      shipyard: ${SHIPYARD_IMAGE}
+      airflow_db_sync: ${AIRFLOW_IMAGE}
+    labels:
+      node_selector_key: ucp-control-plane
+      node_selector_value: enabled
+    network:
+      shipyard:
+        node_port: ${SHIPYARD_NODE_PORT}
+        enable_node_port: true
+      airflow:
+        web:
+          node_port: ${AIRFLOW_NODE_PORT}
+          enable_node_port: true
+  source:
+    type: git
+    location: ${SHIPYARD_CHART_REPO}
+    subpath: shipyard
+    reference: ${SHIPYARD_CHART_BRANCH}
+  dependencies:
+    - helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-etcd-rabbitmq
+data:
+  chart_name: ucp-etcd-rabbitmq
+  release: etcd-rabbitmq
+  namespace: ucp
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  pre:
+    delete: []
+  post:
+    delete: []
+    create: []
+  values:
+    pod:
+      replicas:
+        etcd: 1
+    labels:
+      node_selector_key: ucp-control-plane
+      node_selector_value: enabled
+  source:
+    type: git
+    location: https://git.openstack.org/openstack/openstack-helm
+    subpath: etcd
+  dependencies:
+    - helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-rabbitmq
+data:
+  chart_name: ucp-rabbitmq
+  release: rabbitmq
+  namespace: ucp
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  pre:
+    delete: []
+  post:
+    delete: []
+    create: []
+  values:
+    pod:
+      replicas:
+        server: 1
+    labels:
+      node_selector_key: ucp-control-plane
+      node_selector_value: enabled
+  source:
+    type: git
+    location: https://git.openstack.org/openstack/openstack-helm
+    subpath: rabbitmq
+  dependencies:
+    - helm-toolkit
+---
 schema: armada/Manifest/v1
 metadata:
   schema: metadata/Document/v1
@@ -463,6 +562,8 @@ data:
     - ucp-mariadb
     - ucp-memcached
     - maas-postgresql
+    - ucp-etcd-rabbitmq
+    - ucp-rabbitmq
 ---
 schema: armada/ChartGroup/v1
 metadata:
@@ -474,6 +575,7 @@ data:
     - maas
     - drydock
     - deckhand
+    - shipyard
     - ucp-keystone
     - ucp-barbican
 ...
