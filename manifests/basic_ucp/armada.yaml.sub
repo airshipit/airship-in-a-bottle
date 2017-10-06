@@ -251,7 +251,7 @@ metadata:
 data:
   chart_name: maas-postgresql
   release: maas-postgresql
-  namespace: ucp 
+  namespace: ucp
   install:
     no_hooks: false
   upgrade:
@@ -270,7 +270,7 @@ data:
       node_selector_value: enabled
   source:
     type: git
-    location: https://git.openstack.org/openstack/openstack-helm-addons
+    location: https://git.openstack.org/openstack/openstack-helm
     subpath: postgresql
     reference: master
   dependencies: []
