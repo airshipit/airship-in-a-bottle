@@ -273,7 +273,8 @@ data:
     location: https://git.openstack.org/openstack/openstack-helm
     subpath: postgresql
     reference: master
-  dependencies: []
+  dependencies:
+    - helm-toolkit
 ---
 schema: armada/Chart/v1
 metadata:
