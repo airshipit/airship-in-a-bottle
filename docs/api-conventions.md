@@ -3,15 +3,17 @@ A collection of conventions that components of the UnderCloud Platform (UCP)
 utilize for their REST APIs
 ---
 ## Resource path naming
-* Resource paths nodes follow an all lower case naming scheme, and pluralize
-the resource names. Nodes that refer to keys, ids or names that are externally
-controlled, the external naming will be honored.
-* The version of the API resource path will be prefixed before the first node
-of the path for that resource using v#.# format.
-* By default, the API will be namespaced by /api before the version. For the
-purposes of documentation, this will not be specified in each of the resource
-paths below. In more complex APIs, it makes sense to allow the /api node to be
-more specific to point to a particular service.
+
+* Resource paths nodes follow an all lower case naming scheme, and
+pluralize the resource names. Nodes that refer to keys, ids or names that are
+externally controlled, the external naming will be honored.
+* The version of the API resource path will be prefixed before the first
+node of the path for that resource using v#.# format.
+* By default, the API will be namespaced by /api before the version. For
+the purposes of documentation, this will not be specified in each of the
+resource paths below. In more complex APIs, it makes sense to allow the /api
+node to be more specific to point to a particular service.
+
 ```
 /api/v1.0/sampleresources/ExTeRnAlNAME-1234
       ^         ^       ^       ^
@@ -22,7 +24,8 @@ more specific to point to a particular service.
 ```
 ---
 ## Status responses
-Status responses, and more specifically error responses (HTTP response body accompanying 4xx and 5xx series responses
+Status responses, and more specifically error responses (HTTP response body
+accompanying 4xx and 5xx series responses
 where possible) are a customized version of the
 [Kubernetes standard for error representation](https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#response-status-kind).
 UCP utilizes the details field in a more formalized way to represent multiple
@@ -48,42 +51,51 @@ messages related to a status response, as follows:
 ```
 
 such that:
-1. the details field is still optional
-2. if used, the details follow that format
-3. the repeating entity inside the messageList can be decorated with as many other fields as are useful, but at least have a message field and error field.
-4. the errorCount field is an integer representing the count of messageList entities that have `error: true`
-5. when using this document as the body of a HTTP response, `code` is populated with a valid HTTP [status code](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
+* the details field is still optional
+* if used, the details follow that format
+* the repeating entity inside the messageList can be decorated with as many
+other fields as are useful, but at least have a message field and error field.
+* the errorCount field is an integer representing the count of messageList
+entities that have `error: true`
+* when using this document as the body of a HTTP response, `code` is
+populated with a valid HTTP
+[status code](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html)
+
 ---
 ## Headers
 ### Required
 
-* X-Auth-Token  
-The auth token to identify the invoking user.
+<dl>
+  <dt>X-Auth-Token</dt>
+  <dd>The auth token to identify the invoking user.</dd>
+</dl>
 
 ### Optional
 
-* X-Context-Marker  
-A context id that will be carried on all logs for this client-provided marker.
-This marker may only be a 36-character canonical representation of an UUID
-(8-4-4-4-12)
+<dl>
+  <dt>X-Context-Marker</dt>
+  <dd>A context id that will be carried on all logs for this client-provided
+marker. This marker may only be a 36-character canonical representation of an
+UUID (8-4-4-4-12)</dd>
+</dl>
 
-## Validation API  
+## Validation API
 All UCP components that participate in validation of the design supplied to a
 site implement a common resource to perform document validations. Document
-validations are syncrhonous and target completion in 30 seconds or less.
+validations are synchronous and target completion in 30 seconds or less.
 Because of the different sources of documents that should be supported, a
 flexible input descriptor is used to indicate from where a UCP component will
 retrieve the documents to be validated.
-  
-### POST /v1.0/validatedesign  
+
+### POST /v1.0/validatedesign
 Invokes a UCP component to perform validations against the documents specified
 by the input structure.  Synchronous.
 
-#### Input structure  
+#### Input structure
 ```
 {
   rel : "design",
-  href: "deckhand+https://deckhand/{{revision_id}}/rendered-documents",
+  href: "deckhand+https://{{deckhand_url}}/revisions/{{revision_id}}/rendered-documents",
   type: "application/x-yaml"
 }
 ```
