@@ -461,6 +461,12 @@ data:
         web:
           node_port: ${AIRFLOW_NODE_PORT}
           enable_node_port: true
+    conf:
+      shipyard:
+        keystone_authtoken:
+          keystonemiddleware:
+            auth_token:
+              memcache_security_strategy: None
   source:
     type: git
     location: ${SHIPYARD_CHART_REPO}
