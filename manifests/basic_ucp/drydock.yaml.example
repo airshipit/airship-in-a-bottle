@@ -197,13 +197,13 @@ spec:
   # Mapping of hardware alias/role to physical address
   device_aliases:
     # the device alias that will be referenced in HostProfile or BaremetalNode design parts
-  - alias: 'pnic01'
-    # The hardware bus the device resides on. Supports 'pci' and 'scsi'. No default
-    bus_type: 'pci'
-    # The type of device as reported by lshw. Can be used to validate hardware manifest. No default
-    dev_type: 'Intel 10Gbps NIC'
-    # Physical address on the bus
-    address: '0000:00:03.0'
+    pnic01:
+      # The hardware bus the device resides on. Supports 'pci' and 'scsi'. No default
+      bus_type: 'pci'
+      # The type of device as reported by lshw. Can be used to validate hardware manifest. No default
+      dev_type: 'Intel 10Gbps NIC'
+      # Physical address on the bus
+      address: '0000:00:03.0'
 ---
 apiVersion: 'drydock/v1'
 kind: HostProfile

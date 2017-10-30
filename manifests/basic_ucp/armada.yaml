@@ -11,9 +11,9 @@ data:
   values: {}
   source:
     type: git
-    location: ${HTK_CHART_REPO}
-    subpath: ${HTK_CHART_PATH}
-    reference: ${HTK_CHART_BRANCH}
+    location: https://github.com/openstack/openstack-helm-infra
+    subpath: helm-toolkit
+    reference: master
   dependencies: []
 ---
 schema: armada/Chart/v1
@@ -82,10 +82,10 @@ data:
     ceph:
       rgw_keystone_auth: true
       storage:
-        osd_directory: ${CEPH_OSD_DIR}
+        osd_directory: /var/lib/openstack-helm/ceph/osd
     network:
-      public: ${CEPH_PUBLIC_NET}
-      cluster: ${CEPH_CLUSTER_NET}
+      public: 172.24.1.0/24
+      cluster: 172.24.1.0/24
     deployment:
       storage_secrets: true
       ceph: true
@@ -96,9 +96,9 @@ data:
       enabled: true
   source:
     type: git
-    location: ${CEPH_CHART_REPO}
-    subpath: ${CEPH_CHART_PATH}
-    reference: ${CEPH_CHART_BRANCH}
+    location: https://github.com/openstack/openstack-helm
+    subpath: ceph
+    reference: master
   dependencies:
     - helm-toolkit
 ---
@@ -138,8 +138,8 @@ data:
     ceph:
       rgw_keystone_auth: true
     network:
-      public: ${CEPH_PUBLIC_NET}
-      cluster: ${CEPH_CLUSTER_NET}
+      public: 172.24.1.0/24
+      cluster: 172.24.1.0/24
     deployment:
       storage_secrets: false
       ceph: false
@@ -148,9 +148,9 @@ data:
       rgw_keystone_user_and_endpoints: false
   source:
     type: git
-    location: ${CEPH_CHART_REPO}
-    subpath: ${CEPH_CHART_PATH}
-    reference: ${CEPH_CHART_BRANCH}
+    location: https://github.com/openstack/openstack-helm
+    subpath: ceph
+    reference: master
   dependencies:
     - helm-toolkit
 ---
@@ -289,7 +289,7 @@ data:
   upgrade:
     no_hooks: false
   values:
-    bootdata_url: http://${DRYDOCK_NODE_IP}:${DRYDOCK_NODE_PORT}/api/v1.0/bootdata/
+    bootdata_url: http://172.24.1.100:31000/api/v1.0/bootdata/
     labels:
       rack:
         node_selector_key: ucp-control-plane
@@ -312,10 +312,10 @@ data:
           secret:
             namespace: ucp
         url:
-          maas_url: http://${MAAS_NODE_IP}:${MAAS_NODE_PORT}/MAAS
+          maas_url: http://172.24.1.100:31900/MAAS
         proxy:
-          proxy_enabled: '${PROXY_ENABLED}'
-          proxy_server: ${PROXY_ADDRESS}
+          proxy_enabled: 'false'
+          proxy_server: http://one.proxy.att.com:8080
         ntp:
           use_external_only: 'false'
           ntp_servers: ntp.ubuntu.com
@@ -327,9 +327,9 @@ data:
         value: 3858a12230ac3c915f300c664f12063f
   source:
     type: git
-    location: ${MAAS_CHART_REPO}
-    subpath: ${MAAS_CHART_PATH}
-    reference: ${MAAS_CHART_BRANCH}
+    location: https://github.com/att-comdev/maas
+    subpath: charts/maas
+    reference: refs/changes/79/384379/1
   dependencies:
     - helm-toolkit
 ---
@@ -348,8 +348,8 @@ data:
   values:
     images:
       tags:
-        drydock: ${DRYDOCK_IMAGE}
-        drydock_db_sync: ${DRYDOCK_IMAGE}
+        drydock: docker.io/sthussey/drydock:384384v1
+        drydock_db_sync: docker.io/sthussey/drydock:384384v1
     labels:
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
@@ -357,21 +357,20 @@ data:
       drydock:
         node_port:
           enabled: true
-          port: ${DRYDOCK_NODE_PORT}
     endpoints:
       physicalprovisioner:
         port:
           api:
-            nodeport: ${DRYDOCK_NODE_PORT}
+            nodeport: 31000
     conf:
       drydock:
         maasdriver:
-          maas_api_url: http://${MAAS_NODE_IP}:${MAAS_NODE_PORT}/MAAS/api/2.0/
+          maas_api_url: http://172.24.1.100:31900/MAAS/api/2.0/
   source:
     type: git
-    location: ${DRYDOCK_CHART_REPO}
-    subpath: ${DRYDOCK_CHART_PATH}
-    reference: ${DRYDOCK_CHART_BRANCH}
+    location: https://github.com/att-comdev/drydock
+    subpath: charts/drydock
+    reference: master
   dependencies:
     - helm-toolkit
 ---
@@ -389,8 +388,7 @@ data:
     no_hooks: false
   values:
     images:
-      tags:
-        deckhand: ${DECKHAND_IMAGE}
+      deckhand: quay.io/attcomdev/deckhand:master
     labels:
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
@@ -400,13 +398,11 @@ data:
           debug: true
           use_stderr: true
           use_syslog: true
-        keystone_authtoken:
-          memcache_security_strategy: None
   source:
     type: git
-    location: ${DECKHAND_CHART_REPO}
-    subpath: ${DECKHAND_CHART_PATH}
-    reference: ${DECKHAND_CHART_BRANCH}
+    location: https://github.com/att-comdev/deckhand
+    subpath: charts/deckhand
+    reference: master
   dependencies:
     - helm-toolkit
 ---
@@ -428,6 +424,11 @@ data:
     delete: []
     create: []
   values:
+    images:
+      tags:
+        api: docker.io/kolla/ubuntu-source-barbican-api:3.0.3
+        db_sync: docker.io/kolla/ubuntu-source-barbican-api:3.0.3
+        test: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
     pod:
       replicas:
         api: 1
@@ -456,20 +457,19 @@ data:
   values:
     prod_environment: true
     images:
-      tags:
-        airflow: ${AIRFLOW_IMAGE}
-        shipyard: ${SHIPYARD_IMAGE}
-        airflow_db_sync: ${AIRFLOW_IMAGE}
+      airflow: quay.io/attcomdev/airflow:master
+      shipyard: quay.io/attcomdev/shipyard:master
+      airflow_db_sync: quay.io/attcomdev/airflow:master
     labels:
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
     network:
       shipyard:
-        node_port: ${SHIPYARD_NODE_PORT}
+        node_port: 31901
         enable_node_port: true
       airflow:
         web:
-          node_port: ${AIRFLOW_NODE_PORT}
+          node_port: 32080
           enable_node_port: true
     conf:
       shipyard:
@@ -477,9 +477,9 @@ data:
           memcache_security_strategy: None
   source:
     type: git
-    location: ${SHIPYARD_CHART_REPO}
-    subpath: ${SHIPYARD_CHART_PATH}
-    reference: ${SHIPYARD_CHART_BRANCH}
+    location: https://github.com/att-comdev/shipyard
+    subpath: charts/shipyard
+    reference: master
   dependencies:
     - helm-toolkit
 ---
