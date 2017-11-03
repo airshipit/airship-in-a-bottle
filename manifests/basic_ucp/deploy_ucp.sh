@@ -27,6 +27,7 @@ export PROXY_ADDRESS=${PROXY_ADDRESS:-"http://one.proxy.att.com:8080"}
 export PROXY_ENABLED=${PROXY_ENABLED:-"false"}
 export AIRFLOW_NODE_PORT=${AIRFLOW_NODE_PORT:-32080}
 export SHIPYARD_NODE_PORT=${SHIPYARD_NODE_PORT:-31901}
+export ARMADA_NODE_PORT=${ARMADA_NODE_PORT:-31903}
 
 # Storage
 export CEPH_OSD_DIR=${CEPH_OSD_DIR:-"/var/lib/openstack-helm/ceph/osd"}
@@ -56,6 +57,9 @@ export DECKHAND_CHART_BRANCH=${DECKHAND_CHART_BRANCH:-"master"}
 export SHIPYARD_CHART_REPO=${SHIPYARD_CHART_REPO:-"https://github.com/att-comdev/shipyard"}
 export SHIPYARD_CHART_PATH=${SHIPYARD_CHART_PATH:-"charts/shipyard"}
 export SHIPYARD_CHART_BRANCH=${SHIPYARD_CHART_BRANCH:-"master"}
+export ARMADA_CHART_REPO=${ARMADA_CHART_REPO:-"https://github.com/att-comdev/armada"}
+export ARMADA_CHART_PATH=${ARMADA_CHART_PATH:-"charts/armada"}
+export ARMADA_CHART_BRANCH=${ARMADA_CHART_BRANCH:-"master"}
 
 # Images
 export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:master"}
@@ -143,24 +147,39 @@ docker run -t -v ~/.kube:/armada/.kube -v $(pwd):/target --net=host \
   ${ARMADA_IMAGE} apply /target/${ARMADA_CONFIG} --tiller-host=${GENESIS_NODE_IP} --tiller-port=44134
 
 # Polling for UCP service deployment
+deploy_counter=1
+deploy_timeout=${1:-720}
 
-while [[ -z $(kubectl get pods -n ucp | grep drydock | grep Running) ]]
-do
-  sleep 5
+check_timeout_counter() {
+
+    # Check total elapsed time
+    # The default time out is set to 1hr
+    # This value can be changed by setting $1
+    if [[ $deploy_counter -eq $deploy_timeout ]]; then
+       echo 'UCP control plane deployment timed out.'
+       break
+    fi
+}
+
+while true; do
+  # Check the status of drydock, deckhand, armada and shipyard api pod
+  # Ignore db or ks related pod
+  for i in drydock deckhand armada shipyard
+  do
+    while [[ -z $(kubectl get pods -n ucp | grep $i | grep -v db | grep -v ks | grep Running) ]]
+    do
+      ((deploy_counter++))
+      check_timeout_counter
+      sleep 5
+    done
+  done
+
+  # Check that the total elapsed time is less than time out
+  # Print message stating that UCP Control Plane is deployed
+  if [[ $deploy_counter -lt $deploy_timeout ]]; then
+    echo 'UCP control plane deployed.'
+  fi
+
+  # Exit while loop
+  break
 done
-
-# Check the status of deckhand-api pod
-# Ignore deckhand db or ks related pod
-while [[ -z $(kubectl get pods -n ucp | grep deckhand | grep -v db | grep -v ks | grep Running) ]]
-do
-  sleep 5
-done
-
-# Check the status of shipyard-api pod
-# Ignore shipyard db or ks related pod
-while [[ -z $(kubectl get pods -n ucp | grep shipyard | grep -v db | grep -v ks | grep Running) ]]
-do
-  sleep 5
-done
-
-echo 'UCP control plane deployed.'

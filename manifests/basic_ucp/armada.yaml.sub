@@ -486,6 +486,38 @@ data:
 schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
+  name: armada
+data:
+  chart_name: armada
+  release: armada
+  namespace: ucp
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    images:
+      tags:
+        api: ${ARMADA_IMAGE}
+    labels:
+      node_selector_key: ucp-control-plane
+      node_selector_value: enabled
+    network:
+      api:
+        node_port:
+          enabled: true
+          port: ${ARMADA_NODE_PORT}
+  source:
+    type: git
+    location: ${ARMADA_CHART_REPO}
+    subpath: ${ARMADA_CHART_PATH}
+    reference: ${ARMADA_CHART_BRANCH}
+  dependencies:
+    - helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
   name: ucp-etcd-rabbitmq
 data:
   chart_name: ucp-etcd-rabbitmq
@@ -591,6 +623,7 @@ data:
     - drydock
     - deckhand
     - shipyard
+    - armada
     - ucp-keystone
     - ucp-barbican
 ...
