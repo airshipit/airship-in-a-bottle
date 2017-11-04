@@ -577,6 +577,32 @@ data:
   dependencies:
     - helm-toolkit
 ---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ingress
+data:
+  chart_name: ingress
+  release: ingress
+  namespace: ucp
+  timeout: 300
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    labels:
+      jobs:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+  source:
+    type: git
+    location: https://github.com/openstack/openstack-helm
+    subpath: ingress
+    reference: master
+  dependencies:
+    - helm-toolkit
+---
 schema: armada/Manifest/v1
 metadata:
   schema: metadata/Document/v1
@@ -611,6 +637,7 @@ data:
     - maas-postgresql
     - ucp-etcd-rabbitmq
     - ucp-rabbitmq
+    - ingress
 ---
 schema: armada/ChartGroup/v1
 metadata:
