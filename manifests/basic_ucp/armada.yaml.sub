@@ -592,9 +592,8 @@ data:
     no_hooks: false
   values:
     labels:
-      jobs:
-        node_selector_key: ucp-control-plane
-        node_selector_value: enabled
+      node_selector_key: ucp-control-plane
+      node_selector_value: enabled
   source:
     type: git
     location: https://github.com/openstack/openstack-helm
