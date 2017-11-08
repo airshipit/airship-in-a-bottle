@@ -1,0 +1,40 @@
+---
+schema: promenade/Genesis/v1
+metadata:
+  schema: metadata/Document/v1
+  name: genesis
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  hostname: ${GENESIS_NODE_NAME}
+  ip: ${GENESIS_NODE_IP}
+  labels:
+    static:
+      - calico-etcd=enabled
+      - node-role.kubernetes.io/master=
+    dynamic:
+      - kubernetes-apiserver=enabled
+      - kubernetes-controller-manager=enabled
+      - kubernetes-etcd=enabled
+      - kubernetes-scheduler=enabled
+      - promenade-genesis=enabled
+      - ucp-control-plane=enabled
+      - ceph-osd=enabled
+      - ceph-mon=enabled
+      - ceph-rgw=enabled
+      - ceph-mds=enabled
+  images:
+    armada: ${ARMADA_IMAGE}
+    helm:
+      tiller: ${TILLER_IMAGE}
+    kubernetes:
+      apiserver: ${KUBE_APISERVER_IMAGE}
+      controller-manager: ${KUBE_CTLRMGR_IMAGE}
+      etcd: ${KUBE_ETCD_IMAGE}
+      scheduler: ${KUBE_SCHED_IMAGE}
+  files:
+    - path: /var/lib/anchor/calico-etcd-bootstrap
+      content: "# placeholder for triggering calico etcd bootstrapping"
+      mode: 0644
+...

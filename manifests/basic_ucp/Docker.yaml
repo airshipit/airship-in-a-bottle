@@ -1,0 +1,15 @@
+---
+schema: promenade/Docker/v1
+metadata:
+  schema: metadata/Document/v1
+  name: docker
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  config:
+    insecure-registries:
+      - registry:5000
+    live-restore: true
+    storage-driver: overlay2
+...

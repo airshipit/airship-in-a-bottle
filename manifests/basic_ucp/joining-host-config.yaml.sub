@@ -1,0 +1,46 @@
+---
+schema: promenade/KubernetesNode/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ${GENESIS_NODE_NAME}
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  hostname: ${GENESIS_NODE_NAME}
+  ip: ${GENESIS_NODE_IP}
+  join_ip: ${MASTER_NODE_IP}
+  labels:
+    dynamic:
+      - ucp-control-plane=enabled
+      - ceph-osd=enabled
+      - ceph-mon=enabled
+      - ceph-rgw=enabled
+      - ceph-mds=enabled
+---
+schema: promenade/KubernetesNode/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ${MASTER_NODE_NAME}
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  hostname: ${MASTER_NODE_NAME}
+  ip: ${MASTER_NODE_IP}
+  join_ip: ${GENESIS_NODE_IP}
+  labels:
+    static:
+      - node-role.kubernetes.io/master=
+    dynamic:
+      - calico-etcd=enabled
+      - kubernetes-apiserver=enabled
+      - kubernetes-controller-manager=enabled
+      - kubernetes-etcd=enabled
+      - kubernetes-scheduler=enabled
+      - ucp-control-plane=enabled
+      - ceph-osd=enabled
+      - ceph-mon=enabled
+      - ceph-rgw=enabled
+      - ceph-mds=enabled
+...

@@ -28,13 +28,13 @@ data:
       8ZyDE3x1FYno5u3OB4rRDcvKe6J0ygPcu4Uec5ASsd58yGnE4zTl1D/J30rNa00si+s= r
       sa-key-20120124
 ---
-schema: 'drydock/Region/v1'
+schema: 'drydock/NetworkLink/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: oob
 data:
   labels:
-    - 'noconfig'
+    noconfig: 'enabled'
   bonding:
     mode: 'disabled'
   mtu: 1500
@@ -66,9 +66,8 @@ metadata:
   name: oob
 data:
   labels:
-    - 'noconfig'
+    noconfig: 'enabled'
   cidr: '172.24.10.0/24'
-  allocation: 'static'
 ---
 schema: 'drydock/Network/v1'
 metadata:
@@ -117,7 +116,7 @@ data:
   bios_version: '2.2.3'
   boot_mode: 'bios'
   bootstrap_protocol: 'pxe'
-  pxe_interface: '0'
+  pxe_interface: 0
   device_aliases:
     pnic01:
       bus_type: 'pci'
@@ -140,7 +139,7 @@ data:
     physical_devices:
       sda:
         labels:
-          bootdrive: true
+          bootdrive: 'true'
         partitions:
           - name: 'root'
             size: '10g'
@@ -166,7 +165,7 @@ data:
       image: 'ubuntu/xenial'
       kernel: 'generic'
   metadata:
-    rack: rack1
+      rack: rack1
 ---
 schema: 'drydock/BaremetalNode/v1'
 metadata:
@@ -182,4 +181,40 @@ data:
   metadata:
     tags:
       - 'masters'
+...
+---
+schema: 'drydock/BootAction/v1'
+metadata:
+  schema: 'metadata/Document/v1'
+  name: promjoin
+  storagePolicy: 'cleartext'
+  labels:
+    application: 'drydock'
+data:
+  node_filter:
+    filter_set_type: 'union'
+    filter_set:
+      - filter_type: 'union'
+        node_names:
+          - 'node2'
+  assets:
+    - path: /opt/promjoin.sh
+      type: file
+      permissions: '555'
+      location: http://172.24.1.100:6880/{{node.hostname}}.join
+      location_pipeline:
+        - template
+      data_pipeline:
+        - utf8_decode
+    - path: /lib/systemd/system/promjoin.service
+      type: unit
+      permissions: '600'
+      data: |-
+        W1VuaXRdCkRlc2NyaXB0aW9uPVByb21lbmFkZSBJbml0aWFsaXphdGlvbiBTZXJ2aWNlCkFmdGVy
+        PW5ldHdvcmstb25saW5lLnRhcmdldCBsb2NhbC1mcy50YXJnZXQKQ29uZGl0aW9uUGF0aEV4aXN0
+        cz0hL3Zhci9saWIvcHJvbS5kb25lCgpbU2VydmljZV0KVHlwZT1zaW1wbGUKRXhlY1N0YXJ0PS9v
+        cHQvcHJvbWpvaW4uc2gKCltJbnN0YWxsXQpXYW50ZWRCeT1tdWx0aS11c2VyLnRhcmdldAo=
+      data_pipeline:
+        - base64_decode
+        - utf8_decode
 ...

@@ -31,6 +31,10 @@ export ARMADA_NODE_PORT=${ARMADA_NODE_PORT:-31903}
 
 # Storage
 export CEPH_OSD_DIR=${CEPH_OSD_DIR:-"/var/lib/openstack-helm/ceph/osd"}
+export ETCD_KUBE_DATA_PATH=${ETCD_KUBE_DATA_PATH:-"/var/lib/etcd/kubernetes"}
+export ETCD_KUBE_ETC_PATH=${ETCD_KUBE_ETC_PATH:-"/etc/etcd/kubernetes"}
+export ETCD_CALICO_DATA_PATH=${ETCD_CALICO_DATA_PATH:-"/var/lib/etcd/calico"}
+export ETCD_CALICO_ETC_PATH=${ETCD_CALICO_ETC_PATH:-"/etc/etcd/calico"}
 
 # Hostnames
 export GENESIS_NODE_NAME=${GENESIS_NODE_NAME:-"node1"}
@@ -61,7 +65,26 @@ export ARMADA_CHART_REPO=${ARMADA_CHART_REPO:-"https://github.com/att-comdev/arm
 export ARMADA_CHART_PATH=${ARMADA_CHART_PATH:-"charts/armada"}
 export ARMADA_CHART_BRANCH=${ARMADA_CHART_BRANCH:-"master"}
 
+#Kubernetes artifacts
+export KUBE_PROXY_IMAGE=${KUBE_PROXY_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+export KUBE_ETCD_IMAGE=${KUBE_ETCD_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
+export KUBE_ETCDCTL_IMAGE=${KUBE_ETCDCTL_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
+export KUBE_ANCHOR_IMAGE=${KUBE_ANCHOR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+export KUBE_COREDNS_IMAGE=${KUBE_COREDNS_IMAGE:-"coredns/coredns:0.9.9"}
+export KUBE_APISERVER_IMAGE=${KUBE_APISERVER_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+export KUBE_CTLRMGR_IMAGE=${KUBE_CTLRMGR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+export KUBE_SCHED_IMAGE=${KUBE_SCHED_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+export KUBECTL_IMAGE=${KUBECTL_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+export CALICO_CNI_IMAGE=${CALICO_CNI_IMAGE:-"quay.io/calico/cni:v1.11.0"}
+export CALICO_CTL_IMAGE=${CALICO_CTL_IMAGE:-"quay.io/calico/ctl:v1.6.1"}
+export CALICO_NODE_IMAGE=${CALICO_NODE_IMAGE:-"quay.io/calico/node:v2.6.1"}
+export CALICO_POLICYCTLR_IMAGE=${CALICO_POLICYCTLR_IMAGE:-"quay.io/calico/kube-controllers:v1.0.0"}
+export CALICO_ETCD_IMAGE=${CALICO_ETCD_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
+export CALICO_ETCDCTL_IMAGE=${CALICO_ETCDCTL_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
+export KUBE_KUBELET_TAR=${KUBE_KUBELET_TAR:-"https://dl.k8s.io/v1.8.0/kubernetes-node-linux-amd64.tar.gz"}
+
 # Images
+export TILLER_IMAGE=${TILLER_IMAGE:-"gcr.io/kubernetes-helm/tiller:v2.5.1"}
 export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:master"}
 export ARMADA_IMAGE=${ARMADA_IMAGE:-"quay.io/attcomdev/armada:master"}
 export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:master"}
@@ -69,10 +92,13 @@ export DECKHAND_IMAGE=${DECKHAND_IMAGE:-"quay.io/attcomdev/deckhand:master"}
 export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:master"}
 export AIRFLOW_IMAGE=${AIRFLOW_IMAGE:-"quay.io/attcomdev/airflow:master"}
 
+# Docker
+export DOCKER_REPO_URL=${DOCKER_REPO_URL:-"http://apt.dockerproject.org/repo"}
+export DOCKER_PACKAGE=${DOCKER_PACKAGE:-"docker-engine=1.13.1-0~ubuntu-xenial"}
+
 # Filenames
 export ARMADA_CONFIG=${ARMADA_CONFIG:-"armada.yaml"}
-export PROMENADE_CONFIG=${PROMENADE_CONFIG:-"promenade.yaml"}
-export UP_SCRIPT_FILE=${UP_SCRIPT_FILE:-"up.sh"}
+export UP_SCRIPT_FILE=${UP_SCRIPT_FILE:-"genesis.sh"}
 
 # Validate environment
 if [[ $GENESIS_NODE_IP == "NA" || $MASTER_NODE_IP == "NA" ]]
@@ -99,87 +125,67 @@ then
   exit -1
 fi
 
+rm -rf configs
+mkdir configs
+chmod 777 configs
+
+cat joining-host-config.yaml.sub | envsubst > configs/joining-host-config.yaml
+cat armada-resources.yaml.sub | envsubst > configs/armada-resources.yaml
+cat armada.yaml.sub | envsubst > ${ARMADA_CONFIG}
+cat Genesis.yaml.sub | envsubst > configs/Genesis.yaml
+cat HostSystem.yaml.sub | envsubst > configs/HostSystem.yaml
+cp KubernetesNetwork.yaml.sub configs/KubernetesNetwork.yaml
+cp Docker.yaml configs/
+cp ArmadaManifest.yaml configs/
+
 if [[ $PROXY_ENABLED == 'true' ]]
 then
   export http_proxy=$PROXY_ADDRESS
   export https_proxy=$PROXY_ADDRESS
   export HTTP_PROXY=$PROXY_ADDRESS
   export HTTPS_PROXY=$PROXY_ADDRESS
+  echo '  proxy:' >> configs/KubernetesNetwork.yaml
+  echo "    url: ${PROXY_ADDRESS}" >> configs/KubernetesNetwork.yaml
 fi
 
 # Install docker
 apt -qq update
 apt -y install docker.io jq
 
-# Required inputs
-#   Promenade input-config.yaml
-#   Armada Manifest for integrated UCP services
+# Generate certificates
+docker run --rm -t -w /target -v $(pwd)/configs:/target ${PROMENADE_IMAGE} promenade generate-certs -o /target $(ls ./configs)
 
-cat promenade.yaml.sub | envsubst > ${PROMENADE_CONFIG}
-cat armada.yaml.sub | envsubst > ${ARMADA_CONFIG}
-rm -rf configs
-mkdir configs
+if [[ $? -ne 0 ]]
+then
+  echo "Promenade certificate generation failed."
+  exit
+fi
 
-# Generate Promenade configuration
-docker run -t -v $(pwd):/target ${PROMENADE_IMAGE} promenade generate -c /target/${PROMENADE_CONFIG} -o /target/configs
+# Generate promenade join artifactos
+docker run --rm -t -w /target -v $(pwd)/configs:/target ${PROMENADE_IMAGE} promenade build-all -o /target --validators $(ls ./configs)
+
+if [[ $? -ne 0 ]]
+then
+  echo "Promenade join artifact generation failed."
+  exit
+fi
 
 # Do Promenade genesis process
 cd configs
-sudo bash ${UP_SCRIPT_FILE} ./${GENESIS_NODE_NAME}.yaml
+. ${UP_SCRIPT_FILE}
 cd ..
+
+if [[ $? -ne 0 ]]
+then
+  echo "Genesis process failed."
+  exit
+fi
 
 # Setup kubeconfig
 mkdir ~/.kube
 cp -r /etc/kubernetes/admin/pki ~/.kube/pki
 cat /etc/kubernetes/admin/kubeconfig.yaml | sed -e 's/\/etc\/kubernetes\/admin/./' > ~/.kube/config
 
-# Polling to ensure genesis is complete
-while [[ -z $(kubectl get pods -n kube-system | grep 'kube-dns' | grep -e '3/3') ]]
-do
-  sleep 5
-done
+docker run -t -v ~/.kube:/armada/.kube -v $(pwd):/target --net=host ${ARMADA_IMAGE} apply /target/${ARMADA_CONFIG}
 
-# Squash Kubernetes RBAC to be compatible w/ OSH
-kubectl update -f ./rbac-generous-permissions.yaml
-
-# Do Armada deployment of UCP integrated services
-docker run -t -v ~/.kube:/armada/.kube -v $(pwd):/target --net=host \
-  ${ARMADA_IMAGE} apply /target/${ARMADA_CONFIG} --tiller-host=${GENESIS_NODE_IP} --tiller-port=44134
-
-# Polling for UCP service deployment
-deploy_counter=1
-deploy_timeout=${1:-720}
-
-check_timeout_counter() {
-
-    # Check total elapsed time
-    # The default time out is set to 1hr
-    # This value can be changed by setting $1
-    if [[ $deploy_counter -eq $deploy_timeout ]]; then
-       echo 'UCP control plane deployment timed out.'
-       break
-    fi
-}
-
-while true; do
-  # Check the status of drydock, deckhand, armada and shipyard api pod
-  # Ignore db or ks related pod
-  for i in drydock deckhand armada shipyard
-  do
-    while [[ -z $(kubectl get pods -n ucp | grep $i | grep -v db | grep -v ks | grep Running) ]]
-    do
-      ((deploy_counter++))
-      check_timeout_counter
-      sleep 5
-    done
-  done
-
-  # Check that the total elapsed time is less than time out
-  # Print message stating that UCP Control Plane is deployed
-  if [[ $deploy_counter -lt $deploy_timeout ]]; then
-    echo 'UCP control plane deployed.'
-  fi
-
-  # Exit while loop
-  break
-done
+echo 'UCP control plane deployed.'

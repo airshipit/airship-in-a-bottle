@@ -1,0 +1,39 @@
+---
+schema: promenade/KubernetesNetwork/v1
+metadata:
+  schema: metadata/Document/v1
+  name: kubernetes-network
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  dns:
+    cluster_domain: cluster.local
+    service_ip: 10.96.0.10
+    bootstrap_validation_checks:
+      - calico-etcd.kube-system.svc.cluster.local
+      - google.com
+      - kubernetes-etcd.kube-system.svc.cluster.local
+      - kubernetes.default.svc.cluster.local
+    upstream_servers:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  kubernetes:
+    pod_cidr: 10.97.0.0/16
+    service_cidr: 10.96.0.0/16
+    service_ip: 10.96.0.1
+
+  etcd:
+    service_ip: 10.96.0.2
+
+  hosts_entries:
+    - ip: 192.168.77.1
+      names:
+        - registry
+
+#  proxy:
+#    url: http://proxy.example.com:8080
+#    additional_no_proxy:
+#      - 10.0.1.1
+...

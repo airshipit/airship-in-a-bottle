@@ -1,0 +1,17 @@
+---
+schema: armada/Manifest/v1
+metadata:
+  schema: metadata/Document/v1
+  name: cluster-bootstrap
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  release_prefix: ucp
+  chart_groups:
+    - kubernetes-proxy
+    - container-networking
+    - dns
+    - kubernetes
+    - kubernetes-rbac
+...

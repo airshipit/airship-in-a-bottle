@@ -289,7 +289,6 @@ data:
   upgrade:
     no_hooks: false
   values:
-    bootdata_url: http://${DRYDOCK_NODE_IP}:${DRYDOCK_NODE_PORT}/api/v1.0/bootdata/
     labels:
       rack:
         node_selector_key: ucp-control-plane
@@ -307,6 +306,8 @@ data:
           enabled: true
           port: 31900
     conf:
+      drydock:
+        bootaction_url: http://${DRYDOCK_NODE_IP}:${DRYDOCK_NODE_PORT}/api/v1.0/bootactions/nodes/
       maas:
         credentials:
           secret:
@@ -367,6 +368,8 @@ data:
       drydock:
         maasdriver:
           maas_api_url: http://${MAAS_NODE_IP}:${MAAS_NODE_PORT}/MAAS/api/2.0/
+        plugins:
+          ingester: drydock_provisioner.ingester.plugins.deckhand.DeckhandIngester
   source:
     type: git
     location: ${DRYDOCK_CHART_REPO}
@@ -602,17 +605,6 @@ data:
   dependencies:
     - helm-toolkit
 ---
-schema: armada/Manifest/v1
-metadata:
-  schema: metadata/Document/v1
-  name: ucp-basic
-data:
-  release_prefix: armada-ucp
-  chart_groups:
-    - ceph
-    - ucp-infra
-    - ucp-services
----
 schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
@@ -652,4 +644,19 @@ data:
     - armada
     - ucp-keystone
     - ucp-barbican
+...
+---
+schema: armada/Manifest/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp_deploy
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  release_prefix: ucp
+  chart_groups:
+    - ceph
+    - ucp-infra
+    - ucp-services
 ...
