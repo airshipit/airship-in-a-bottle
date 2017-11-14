@@ -4,6 +4,9 @@ UCP, or Undercloud Platform, is a broad integration of several components
 enabling an automated, resilient Kubernetes-based infrastructure for hosting
 Helm-deployed containerized workloads
 
+Find documentation for Undercloud Platform Integration on
+[readthedocs](http://ucpintegration.readthedocs.org).
+
 ## Components
 
 ### Shipyard
