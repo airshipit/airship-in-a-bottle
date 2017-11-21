@@ -98,19 +98,19 @@ metadata:
         name: kubernetes
         path: $
       dest:
-        path: '$.values.tls.ca'
+        path: '$.values.secrets.tls.ca'
     - src:
         schema: deckhand/Certificate/v1
         name: proxy
         path: $
       dest:
-        path: '$.values.tls.cert'
+        path: '$.values.secrets.tls.cert'
     - src:
         schema: deckhand/CertificateKey/v1
         name: proxy
         path: $
       dest:
-        path: '$.values.tls.key'
+        path: '$.values.secrets.tls.key'
 data:
   chart_name: proxy
   release: kubernetes-proxy
@@ -119,12 +119,14 @@ data:
   upgrade:
     no_hooks: true
   values:
-    tls:
-      ca: placeholder
-      cert: placeholder
-      key: placeholder
+    secrets:
+      tls:
+        ca: placeholder
+        cert: placeholder
+        key: placeholder
     images:
-      proxy: ${KUBE_PROXY_IMAGE}
+      tags:
+        proxy: ${KUBE_PROXY_IMAGE}
     network:
       kubernetes_netloc: apiserver.kubernetes.promenade:6443
       pod_cidr: 10.97.0.0/16
@@ -132,7 +134,8 @@ data:
     type: local
     location: /etc/genesis/armada/assets/charts
     subpath: proxy
-  dependencies: []
+  dependencies:
+    - helm-toolkit
 ---
 schema: armada/Chart/v1
 metadata:
