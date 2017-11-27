@@ -134,6 +134,7 @@ cat armada-resources.yaml.sub | envsubst > configs/armada-resources.yaml
 cat armada.yaml.sub | envsubst > ${ARMADA_CONFIG}
 cat Genesis.yaml.sub | envsubst > configs/Genesis.yaml
 cat HostSystem.yaml.sub | envsubst > configs/HostSystem.yaml
+cp Kubelet.yaml.sub configs/Kubelet.yaml
 cp KubernetesNetwork.yaml.sub configs/KubernetesNetwork.yaml
 cp Docker.yaml configs/
 cp ArmadaManifest.yaml configs/
