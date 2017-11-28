@@ -482,8 +482,9 @@ data:
       etcd:
         endpoints: https://etcd.kubernetes.promenade:2379
     images:
-      anchor: ${KUBE_ANCHOR_IMAGE}
-      apiserver: ${KUBE_APISERVER_IMAGE}
+      tags:
+        anchor: ${KUBE_ANCHOR_IMAGE}
+        apiserver: ${KUBE_APISERVER_IMAGE}
     secrets:
       service_account:
         public_key: placeholder
