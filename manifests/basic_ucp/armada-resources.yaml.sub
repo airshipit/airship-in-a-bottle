@@ -575,19 +575,19 @@ metadata:
         name: kubernetes
         path: $
       dest:
-        path: $.values.tls.ca
+        path: $.values.secrets.tls.ca
     - src:
         schema: deckhand/Certificate/v1
         name: scheduler
         path: $
       dest:
-        path: $.values.tls.cert
+        path: $.values.secrets.tls.cert
     - src:
         schema: deckhand/CertificateKey/v1
         name: scheduler
         path: $
       dest:
-        path: $.values.tls.key
+        path: $.values.secrets.tls.key
 
 data:
   chart_name: scheduler
@@ -597,17 +597,19 @@ data:
   upgrade:
     no_hooks: true
   values:
-    tls:
-      ca: placeholder
-      cert: placeholder
-      key: placeholder
+    secrets:
+      tls:
+        ca: placeholder
+        cert: placeholder
+        key: placeholder
 
     network:
       kubernetes_netloc: apiserver.kubernetes.promenade:6443
 
     images:
-      anchor: ${KUBE_ANCHOR_IMAGE}
-      scheduler: ${KUBE_SCHED_IMAGE}
+      tags:
+        anchor: ${KUBE_ANCHOR_IMAGE}
+        scheduler: ${KUBE_SCHED_IMAGE}
 
   source:
     type: local
