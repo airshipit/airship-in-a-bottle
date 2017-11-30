@@ -150,25 +150,25 @@ metadata:
         name: calico-etcd
         path: $
       dest:
-        path: '$.values.tls.client.ca'
+        path: '$.values.secrets.tls.client.ca'
     - src:
         schema: deckhand/CertificateAuthority/v1
         name: calico-etcd-peer
         path: $
       dest:
-        path: '$.values.tls.peer.ca'
+        path: '$.values.secrets.tls.peer.ca'
     - src:
         schema: deckhand/Certificate/v1
         name: calico-etcd-anchor
         path: $
       dest:
-        path: '$.values.anchor.tls.cert'
+        path: '$.values.secrets.anchor.tls.cert'
     - src:
         schema: deckhand/CertificateKey/v1
         name: calico-etcd-anchor
         path: $
       dest:
-        path: '$.values.anchor.tls.key'
+        path: '$.values.secrets.anchor.tls.key'
     - src:
         schema: deckhand/Certificate/v1
         name: calico-etcd-${GENESIS_NODE_NAME}
@@ -227,12 +227,20 @@ data:
   values:
     anchor:
       etcdctl_endpoint: 10.96.232.136
-      node_selector:
-        key: calico-etcd
-        value: enabled
+    labels:
+      anchor:
+        node_selector_key: calico-etcd
+        node_selector_value: enabled
+    secrets:
+      anchor:
+        tls:
+          cert: placeholder
+          key: placeholder
       tls:
-        cert: placeholder
-        key: placeholder
+        client:
+          ca: placeholder
+        peer:
+          ca: placeholder
     etcd:
       host_data_path: ${ETCD_CALICO_DATA_PATH}
       host_etc_path: ${ETCD_CALICO_ETC_PATH}
@@ -241,8 +249,9 @@ data:
       host_directory: /var/lib/anchor
       filename: calico-etcd-bootstrap
     images:
-      etcd: ${CALICO_ETCD_IMAGE}
-      etcdctl: ${CALICO_ETCDCTL_IMAGE}
+      tags:
+        etcd: ${CALICO_ETCD_IMAGE}
+        etcdctl: ${CALICO_ETCDCTL_IMAGE}
     nodes:
       - name: ${GENESIS_NODE_NAME}
         tls:
@@ -263,17 +272,15 @@ data:
     service:
       name: calico-etcd
       ip: 10.96.232.136
-      client:
+    network:
+      service_client:
+        name: service_client
         port: 6666
         target_port: 6666
-      peer:
+      service_peer:
+        name: service_peer
         port: 6667
         target_port: 6667
-    tls:
-      client:
-        ca: placeholder
-      peer:
-        ca: placeholder
   source:
     type: local
     location: /etc/genesis/armada/assets/charts
@@ -632,14 +639,14 @@ metadata:
         name: kubernetes-etcd
         path: $
       dest:
-        path: '$.values.tls.client.ca'
+        path: '$.values.secrets.tls.client.ca'
     -
       src:
         schema: deckhand/CertificateAuthority/v1
         name: kubernetes-etcd-peer
         path: $
       dest:
-        path: '$.values.tls.peer.ca'
+        path: '$.values.secrets.tls.peer.ca'
 
     -
       src:
@@ -647,14 +654,14 @@ metadata:
         name: kubernetes-etcd-anchor
         path: $
       dest:
-        path: '$.values.anchor.tls.cert'
+        path: '$.values.secrets.anchor.tls.cert'
     -
       src:
         schema: deckhand/CertificateKey/v1
         name: kubernetes-etcd-anchor
         path: $
       dest:
-        path: '$.values.anchor.tls.key'
+        path: '$.values.secrets.anchor.tls.key'
 
     -
       src:
@@ -724,18 +731,27 @@ data:
   values:
     anchor:
       etcdctl_endpoint: 10.96.0.2
-      node_selector:
-        key: kubernetes-etcd
-        value: enabled
+    labels:
+      anchor:
+        node_selector_key: kubernetes-etcd
+        node_selector_value: enabled
+    secrets:
+      anchor:
+        tls:
+          cert: placeholder
+          key: placeholder
       tls:
-        cert: placeholder
-        key: placeholder
+        client:
+          ca: placeholder
+        peer:
+          ca: placeholder
     etcd:
       host_data_path: ${ETCD_KUBE_DATA_PATH}
       host_etc_path: ${ETCD_KUBE_ETC_PATH}
     images:
-      etcd: ${KUBE_ETCD_IMAGE}
-      etcdctl: ${KUBE_ETCDCTL_IMAGE}
+      tags:
+        etcd: ${KUBE_ETCD_IMAGE}
+        etcdctl: ${KUBE_ETCDCTL_IMAGE}
     nodes:
       - name: ${GENESIS_NODE_NAME}
         tls:
@@ -756,17 +772,15 @@ data:
     service:
       name: kubernetes-etcd
       ip: 10.96.0.2
-      client:
+    network:
+      service_client:
+        name: service_client
         port: 2379
         target_port: 2379
-      peer:
+      service_peer:
+        name: service_peer
         port: 2380
         target_port: 2380
-    tls:
-      client:
-        ca: placeholder
-      peer:
-        ca: placeholder
   source:
     type: local
     location: /etc/genesis/armada/assets/charts
