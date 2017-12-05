@@ -29,6 +29,13 @@ export AIRFLOW_NODE_PORT=${AIRFLOW_NODE_PORT:-32080}
 export SHIPYARD_NODE_PORT=${SHIPYARD_NODE_PORT:-31901}
 export ARMADA_NODE_PORT=${ARMADA_NODE_PORT:-31903}
 
+# UCP Service Config
+export SHIPYARD_PROD_DEPLOY=${SHIPYARD_PROD_DEPLOY:-"true"}
+export AIRFLOW_PATH_DAG=${AIRFLOW_PATH_DAG:-"/var/tmp/airflow/dags"}
+export AIRFLOW_PATH_PLUGIN=${AIRFLOW_PATH_PLUGIN:-"/var/tmp/airflow/plugins"}
+export AIRFLOW_PATH_LOG=${AIRFLOW_PATH_LOG:-"/var/tmp/airflow/logs"}
+export MAAS_CACHE_ENABLED=${MAAS_CACHE_ENABLED:-"false"}
+
 # Storage
 export CEPH_OSD_DIR=${CEPH_OSD_DIR:-"/var/lib/openstack-helm/ceph/osd"}
 export ETCD_KUBE_DATA_PATH=${ETCD_KUBE_DATA_PATH:-"/var/lib/etcd/kubernetes"}
@@ -91,6 +98,9 @@ export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:master"}
 export DECKHAND_IMAGE=${DECKHAND_IMAGE:-"quay.io/attcomdev/deckhand:master"}
 export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:master"}
 export AIRFLOW_IMAGE=${AIRFLOW_IMAGE:-"quay.io/attcomdev/airflow:master"}
+export MAAS_CACHE_IMAGE=${MAAS_CACHE_IMAGE:-"quay.io/attcomdev/maas-cache:master"}
+export MAAS_REGION_IMAGE=${MAAS_REGION_IMAGE:-"quay.io/attcomdev/maas-region:master"}
+export MAAS_RACK_IMAGE=${MAAS_RACK_IMAGE:-"quay.io/attcomdev/maas-rack:master"}
 
 # Docker
 export DOCKER_REPO_URL=${DOCKER_REPO_URL:-"http://apt.dockerproject.org/repo"}
@@ -125,6 +135,9 @@ then
   exit -1
 fi
 
+echo "Saving deployment environment to deploy-env.sh."
+env | xargs -n 1 -d '\n' echo "export" >> deploy-env.sh
+
 rm -rf configs
 mkdir configs
 chmod 777 configs
@@ -147,6 +160,15 @@ then
   export HTTPS_PROXY=$PROXY_ADDRESS
   echo '  proxy:' >> configs/KubernetesNetwork.yaml
   echo "    url: ${PROXY_ADDRESS}" >> configs/KubernetesNetwork.yaml
+fi
+
+# Support a custom deployment for shipyard developers
+
+if [[ $SHIPYARD_PROD_DEPLOY == 'false' ]]
+then
+  mkdir -p $AIRFLOW_PATH_DAG
+  mkdir -p $AIRFLOW_PATH_PLUGIN
+  mkdir -p $AIRFLOW_PATH_LOG
 fi
 
 # Install docker
@@ -186,6 +208,15 @@ fi
 mkdir ~/.kube
 cp -r /etc/kubernetes/admin/pki ~/.kube/pki
 cat /etc/kubernetes/admin/kubeconfig.yaml | sed -e 's/\/etc\/kubernetes\/admin/./' > ~/.kube/config
+
+# Run helm init since promenade tears down temporary tiller
+helm init
+
+while [[ -z $(kubectl get pods -n kube-system | grep tiller | grep Running) ]]
+do
+  echo 'Waiting for tiller to be ready.'
+  sleep 10
+done
 
 docker run -t -v ~/.kube:/armada/.kube -v $(pwd):/target --net=host ${ARMADA_IMAGE} apply /target/${ARMADA_CONFIG}
 

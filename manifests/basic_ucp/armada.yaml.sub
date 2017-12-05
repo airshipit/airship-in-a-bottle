@@ -170,8 +170,9 @@ data:
     labels:
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
-    replicas:
-      server: 1
+    pod:
+      replicas:
+        server: 1
   source:
     type: git
     location: https://git.openstack.org/openstack/openstack-helm
@@ -288,7 +289,19 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: 'job'
+          labels:
+            application: 'maas'
   values:
+    images:
+      tags:
+        db_sync: ${MAAS_REGION_IMAGE}
+        maas_rack: ${MAAS_RACK_MAGE}
+        maas_region: ${MAAS_REGION_IMAGE}
+        export_api_key: ${MAAS_REGION_IMAGE}
+        maas_cache: ${MAAS_CACHE_IMAGE}
     labels:
       rack:
         node_selector_key: ucp-control-plane
@@ -308,6 +321,8 @@ data:
     conf:
       drydock:
         bootaction_url: http://${DRYDOCK_NODE_IP}:${DRYDOCK_NODE_PORT}/api/v1.0/bootactions/nodes/
+      cache:
+        enabled: ${MAAS_CACHE_ENABLED}
       maas:
         credentials:
           secret:
@@ -346,6 +361,11 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: 'job'
+          labels:
+            application: 'drydock'
   values:
     images:
       tags:
@@ -364,6 +384,8 @@ data:
         port:
           api:
             nodeport: ${DRYDOCK_NODE_PORT}
+    replicas:
+      drydock: 1
     conf:
       drydock:
         maasdriver:
@@ -390,6 +412,11 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: 'job'
+          labels:
+            application: 'deckhand'
   values:
     images:
       tags:
@@ -456,8 +483,21 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: 'job'
+          labels:
+            application: 'shipyard'
+        - type: 'job'
+          labels:
+            application: 'airflow'
   values:
-    prod_environment: true
+    prod_environment: ${SHIPYARD_PROD_DEPLOY}
+    pod:
+      mounts:
+        dag_path: ${AIRFLOW_PATH_DAG}
+        plugin_path: ${AIRFLOW_PATH_PLUGIN}
+        log_path: ${AIRFLOW_PATH_LOG}
     images:
       tags:
         airflow: ${AIRFLOW_IMAGE}
