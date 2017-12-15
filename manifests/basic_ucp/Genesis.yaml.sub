@@ -24,6 +24,7 @@ data:
       - ceph-mon=enabled
       - ceph-rgw=enabled
       - ceph-mds=enabled
+      - ceph-mgr=enabled
   images:
     armada: ${ARMADA_IMAGE}
     helm:

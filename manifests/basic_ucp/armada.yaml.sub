@@ -25,6 +25,10 @@ data:
   release: ceph
   namespace: ceph
   timeout: 3600
+  wait:
+    timeout: 3600
+    labels:
+      release_group: ucp-ceph
   install:
     no_hooks: false
   upgrade:
@@ -68,6 +72,32 @@ data:
             - component: osd-keyring-generator
             - release_group: armada-ucp
   values:
+    dependencies:
+      mgr:
+        jobs:
+          - 'ceph-storage-keys-generator'
+          - 'ceph-mgr-keyring-generator'
+      mon:
+        jobs:
+          - 'ceph-storage-keys-generator'
+          - 'ceph-mon-keyring-generator'
+      osd:
+        jobs:
+          - 'ceph-storage-keys-generator'
+          - 'ceph-osd-keyring-generator'
+      rgw:
+        jobs:
+          - 'ceph-storage-keys-generator'
+          - 'ceph-rgw-keyring-generator'
+      mds:
+        jobs:
+          - 'ceph-storage-keys-generator'
+          - 'ceph-mds-keyring-generator'
+    conf:
+      ceph:
+        config:
+          global:
+            osd_pool_default_size: ${CEPH_OSD_POOL_SIZE}
     labels:
       jobs:
         node_selector_key: ucp-control-plane
@@ -298,7 +328,7 @@ data:
     images:
       tags:
         db_sync: ${MAAS_REGION_IMAGE}
-        maas_rack: ${MAAS_RACK_MAGE}
+        maas_rack: ${MAAS_RACK_IMAGE}
         maas_region: ${MAAS_REGION_IMAGE}
         export_api_key: ${MAAS_REGION_IMAGE}
         maas_cache: ${MAAS_CACHE_IMAGE}

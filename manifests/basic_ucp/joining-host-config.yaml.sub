@@ -17,6 +17,7 @@ data:
       - ceph-mon=enabled
       - ceph-rgw=enabled
       - ceph-mds=enabled
+      - ceph-mgr=enabled
 ---
 schema: promenade/KubernetesNode/v1
 metadata:
@@ -43,4 +44,5 @@ data:
       - ceph-mon=enabled
       - ceph-rgw=enabled
       - ceph-mds=enabled
+      - ceph-mgr=enabled
 ...
