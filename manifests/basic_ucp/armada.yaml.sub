@@ -528,6 +528,14 @@ data:
         dag_path: ${AIRFLOW_PATH_DAG}
         plugin_path: ${AIRFLOW_PATH_PLUGIN}
         log_path: ${AIRFLOW_PATH_LOG}
+      replicas:
+        shipyard:
+          api: 1
+        airflow:
+          web: 1
+          worker: 1
+          flower: 1
+          scheduler: 1
     images:
       tags:
         airflow: ${AIRFLOW_IMAGE}

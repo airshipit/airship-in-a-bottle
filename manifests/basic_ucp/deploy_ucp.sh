@@ -140,7 +140,7 @@ function init_env {
 
     echo "Saving deployment environment to deploy-env.sh."
     env | xargs -n 1 -d '\n' echo "export" >> deploy-env.sh
-    }
+}
 
 function genesis {
     rm -rf configs
