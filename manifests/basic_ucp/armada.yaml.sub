@@ -588,6 +588,10 @@ data:
         node_port:
           enabled: true
           port: ${ARMADA_NODE_PORT}
+    conf:
+      armada:
+        DEFAULT:
+          debug: true
   source:
     type: git
     location: ${ARMADA_CHART_REPO}
