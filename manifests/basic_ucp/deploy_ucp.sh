@@ -94,7 +94,7 @@ function init_env {
     export KUBE_KUBELET_TAR=${KUBE_KUBELET_TAR:-"https://dl.k8s.io/v1.8.0/kubernetes-node-linux-amd64.tar.gz"}
 
     # Images
-    export TILLER_IMAGE=${TILLER_IMAGE:-"gcr.io/kubernetes-helm/tiller:v2.5.1"}
+    export TILLER_IMAGE=${TILLER_IMAGE:-"gcr.io/kubernetes-helm/tiller:v2.7.2"}
     export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:master"}
     export ARMADA_IMAGE=${ARMADA_IMAGE:-"quay.io/attcomdev/armada:master"}
     export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:master"}
