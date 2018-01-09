@@ -12,10 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+schema: deckhand/LayeringPolicy/v1
+metadata:
+  schema: metadata/Control/v1
+  name: layering-policy
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  layerOrder:
+    - site
+---
 schema: 'drydock/Region/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: atl_foundry
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   tag_definitions:
   - tag: 'high_memory'
@@ -32,6 +46,9 @@ schema: 'drydock/NetworkLink/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: oob
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   labels:
     noconfig: 'enabled'
@@ -49,6 +66,9 @@ schema: 'drydock/NetworkLink/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: pxe-rack1
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   bonding:
     mode: 'disabled'
@@ -60,10 +80,31 @@ data:
   allowed_networks:
   - 'pxe-rack1'
 ---
+schema: 'drydock/NetworkLink/v1'
+metadata:
+  schema: 'metadata/Document/v1'
+  name: mgmt
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  bonding:
+    mode: 'disabled'
+  mtu: 1500
+  linkspeed: 'auto'
+  trunking:
+    mode: disabled
+    default_network: mgmt
+  allowed_networks:
+    - 'mgmt'
+---
 schema: 'drydock/Network/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: oob
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   labels:
     noconfig: 'enabled'
@@ -73,6 +114,9 @@ schema: 'drydock/Network/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: pxe-rack1
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   cidr: '172.24.1.0/24'
   routes:
@@ -90,7 +134,10 @@ data:
 schema: 'drydock/Network/v1'
 metadata:
   schema: 'metadata/Document/v1'
-  name: pxe-rack2
+  name: mgmt
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   cidr: '172.24.2.0/24'
   routes:
@@ -109,6 +156,9 @@ schema: 'drydock/HardwareProfile/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: DellR820v1
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   vendor: 'Dell'
   generation: '1'
@@ -127,6 +177,9 @@ schema: 'drydock/HostProfile/v1'
 metadata:
   name: defaults
   schema: 'metadata/Document/v1'
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   hardware_profile: 'DellR820v1'
   primary_network: 'pxe-rack1'
@@ -142,7 +195,7 @@ data:
           bootdrive: 'true'
         partitions:
           - name: 'root'
-            size: '10g'
+            size: '20g'
             bootable: true
             filesystem:
               mountpoint: '/'
@@ -155,12 +208,12 @@ data:
               fstype: 'ext4'
               mount_options: 'defaults'
   interfaces:
-    ens3f0:
-      device_link: 'pxe-rack1'
+    ens3:
+      device_link: 'mgmt'
       slaves:
         - 'ens3f0'
       networks:
-        - 'pxe-rack1'
+        - 'mgmt'
   platform:
       image: 'ubuntu/xenial'
       kernel: 'generic'
@@ -171,11 +224,14 @@ schema: 'drydock/BaremetalNode/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: node2
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   host_profile: defaults
   addressing:
-    - network: 'pxe-rack1'
-      address: '172.24.1.101'
+    - network: 'mgmt'
+      address: '172.24.2.101'
     - network: 'oob'
       address: '172.24.10.101'
   metadata:
@@ -188,6 +244,9 @@ metadata:
   schema: 'metadata/Document/v1'
   name: promjoin
   storagePolicy: 'cleartext'
+  layeringDefinition:
+    abstract: false
+    layer: site
   labels:
     application: 'drydock'
 data:
@@ -201,7 +260,7 @@ data:
     - path: /opt/promjoin.sh
       type: file
       permissions: '555'
-      location: http://172.24.1.100:6880/{{node.hostname}}.join
+      location: promenade+http://promenade-api.ucp.svc.cluster.local/ap/v1.0/join-scripts?design_ref={{ action.design_ref }}&hostname={{ node.hostname }}&ip={{ node.network.mgmt.ip }}&{% for k, v in node.labels.items() %}labels.dynamic={{ k }}={{ v }}{% endfor %}
       location_pipeline:
         - template
       data_pipeline:

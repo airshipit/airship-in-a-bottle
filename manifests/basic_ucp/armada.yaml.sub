@@ -35,64 +35,31 @@ data:
     no_hooks: false
     pre:
       delete:
-        - name: ceph-bootstrap
-          type: job
+        - type: job
           labels:
-            - application: ceph
-            - component: bootstrap
-            - release_group: armada-ucp
-        - name: ceph-mds-keyring-generator
-          type: job
+            application: ceph
+            component: bootstrap
+        - type: job
           labels:
-            - application: ceph
-            - component: mds-keyring-generator
-            - release_group: armada-ucp
-        - name: ceph-mon-keyring-generator
-          type: job
+            application: ceph
+            component: mds-keyring-generator
+        - type: job
           labels:
-            - application: ceph
-            - component: mon-keyring-generator
-            - release_group: armada-ucp
-        - name: ceph-rgw-keyring-generator
-          type: job
+            application: ceph
+            component: mon-keyring-generator
+        - type: job
           labels:
-            - application: ceph
-            - component: rgw-keyring-generator
-            - release_group: armada-ucp
-        - name: ceph-storage-keys-generator
-          type: job
+            application: ceph
+            component: rgw-keyring-generator
+        - type: job
           labels:
-            - application: ceph
-            - component: storage-keys-generator
-            - release_group: armada-ucp
-        - name: ceph-osd-keyring-generator
-          type: job
+            application: ceph
+            component: storage-keys-generator
+        - type: job
           labels:
-            - application: ceph
-            - component: osd-keyring-generator
-            - release_group: armada-ucp
+            application: ceph
+            component: osd-keyring-generator
   values:
-    dependencies:
-      mgr:
-        jobs:
-          - 'ceph-storage-keys-generator'
-          - 'ceph-mgr-keyring-generator'
-      mon:
-        jobs:
-          - 'ceph-storage-keys-generator'
-          - 'ceph-mon-keyring-generator'
-      osd:
-        jobs:
-          - 'ceph-storage-keys-generator'
-          - 'ceph-osd-keyring-generator'
-      rgw:
-        jobs:
-          - 'ceph-storage-keys-generator'
-          - 'ceph-rgw-keyring-generator'
-      mds:
-        jobs:
-          - 'ceph-storage-keys-generator'
-          - 'ceph-mds-keyring-generator'
     conf:
       ceph:
         config:
@@ -120,6 +87,7 @@ data:
       storage_secrets: true
       ceph: true
       rbd_provisioner: true
+      cephfs_provisioner: true
       client_secrets: false
       rgw_keystone_user_and_endpoints: false
     bootstrap:
@@ -147,12 +115,10 @@ data:
     no_hooks: false
     pre:
       delete:
-        - name: ceph-namespace-client-key-generator
-          type: job
+        - type: job
           labels:
-            - application: ceph
-            - component: namespace-client-key-generator
-            - release_group: armada-ucp
+            application: ceph
+            component: namespace-client-key-generator
   values:
     labels:
       jobs:
@@ -174,6 +140,7 @@ data:
       storage_secrets: false
       ceph: false
       rbd_provisioner: false
+      cephfs_provisioner: false
       client_secrets: true
       rgw_keystone_user_and_endpoints: false
   source:

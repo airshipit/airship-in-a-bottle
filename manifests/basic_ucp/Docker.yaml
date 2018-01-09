@@ -10,6 +10,7 @@ data:
   config:
     insecure-registries:
       - registry:5000
+      - 10.24.20.19:30092
     live-restore: true
     storage-driver: overlay2
 ...

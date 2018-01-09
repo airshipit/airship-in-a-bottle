@@ -95,8 +95,8 @@ function init_env {
 
     # Images
     export TILLER_IMAGE=${TILLER_IMAGE:-"gcr.io/kubernetes-helm/tiller:v2.7.2"}
-    export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:master"}
-    export ARMADA_IMAGE=${ARMADA_IMAGE:-"quay.io/attcomdev/armada:master"}
+    export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:latest"}
+    export ARMADA_IMAGE=${ARMADA_IMAGE:-"quay.io/attcomdev/armada:latest"}
     export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:master"}
     export DECKHAND_IMAGE=${DECKHAND_IMAGE:-"quay.io/attcomdev/deckhand:master"}
     export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:master"}
