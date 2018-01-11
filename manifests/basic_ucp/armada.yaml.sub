@@ -599,37 +599,6 @@ data:
 schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
-  name: ucp-etcd-rabbitmq
-data:
-  chart_name: ucp-etcd-rabbitmq
-  release: etcd-rabbitmq
-  namespace: ucp
-  install:
-    no_hooks: false
-  upgrade:
-    no_hooks: false
-  pre:
-    delete: []
-  post:
-    delete: []
-    create: []
-  values:
-    pod:
-      replicas:
-        etcd: 1
-    labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
-  source:
-    type: git
-    location: https://git.openstack.org/openstack/openstack-helm
-    subpath: etcd
-  dependencies:
-    - helm-toolkit
----
-schema: armada/Chart/v1
-metadata:
-  schema: metadata/Document/v1
   name: ucp-rabbitmq
 data:
   chart_name: ucp-rabbitmq
@@ -704,7 +673,6 @@ data:
     - ucp-mariadb
     - ucp-memcached
     - maas-postgresql
-    - ucp-etcd-rabbitmq
     - ucp-rabbitmq
     - ingress
 ---
