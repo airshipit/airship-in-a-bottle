@@ -66,7 +66,9 @@ related to a status response, as follows:
     "details": {
       "errorCount": {{n}},
       "messageList": [
-         { "message" : "{{validation failure message}}", "error": true|false},
+         { "message" : "{{message contents}}",
+           "error": true|false,
+           "kind": "SimpleMessage" }
          ...
       ]
     },
@@ -84,12 +86,18 @@ such that:
    should be a camel cased phrase-as-a-word, to mimic the Kubernetes status
    usage.
 *  The details field is optional.
-*  If used, the details follow the shown format, with a errorCount and
+*  If used, the details follow the shown format, with an errorCount and
    messageList field present.
 
   -  The repeating entity inside the messageList can be decorated with as
      many other fields as are useful, but at least have a message field and
      error field.
+
+     -  A kind field is optional, but if used will indicate the presence of
+        other fields.  By default, the kind field is assumed to be
+        "SimpleMessage", which requires only the aforementioned message and
+        error fields.
+
   -  The errorCount field is an integer representing the count of messageList
      entities that have ``error: true``
 
@@ -142,10 +150,11 @@ Output structure
 The output structure reuses the Kubernetes Status kind to represent the result
 of validations. The Status kind will be returned for both successful and failed
 validation to maintain a consistent of interface. If there are additional
-diagnostics that associate to a particular validation, the entry in the error
-list may carry fields other than "message".
+diagnostics that associate to a particular validation, the entries in the
+messageList should be of kind "ValidationMessage" (preferred), or
+"SimpleMessage" (assumed default base message kind).
 
-Failure message example::
+Failure message example using a ValidationMessage kind for the messageList::
 
   {
     "kind": "Status",
@@ -157,7 +166,18 @@ Failure message example::
     "details": {
       "errorCount": {{n}},
       "messageList": [
-         { "message" : "{{validation failure message}}", "error": true},
+         { "message" : "{{validation failure message}}",
+           "error": true,
+           "name": "{{identifying name of the validation}}",
+           "documents": [
+               { "schema": "{{schema and name of the document being validated}}",
+                 "name": "{{name of the document being validated}}"
+               },
+               ...
+           ]
+           "level": "Error",
+           "diagnostic": "{{information about what lead to the message}}",
+           "kind": "ValidationMessage" },
          ...
       ]
     },
@@ -179,6 +199,37 @@ Success message example::
     },
     "code": 200
   }
+
+ValidationMessage Message Type
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The ValidationMessage message type is used to provide more information about
+validation results than a SimpleMessage provides. These are the fields of a
+ValidationMessage:
+
+-  documents (optional): If applicable to configuration documents, specifies
+   the design documents by schema and name that were involved in the specific
+   validation. If the documents element is not provided, or is an empty list,
+   the assumption is that the validation is not traced to a document, and may
+   be a validaiton of environmental or process needs.
+
+   -  schema (required): The schema of the document.
+      E.g. drydock/NetworkLink/v1
+   -  name (required): The name of the document.
+      E.g. pxe-rack1
+
+-  error (required): true if the message indcates an error, false if the
+   message indicates a non-error.
+-  kind (required): ValidationMessage
+-  level (required): The severity of the validation result. This should align
+   with the error field value.  Valid values are "Error", "Warning", and
+   "Info".
+-  message (required): The more complete message indicating the result of the
+   validation.
+   E.g.: MTU 8972 for pxe-rack1 is invalid for standard (non-jumbo) frames
+-  name (required): The name of the validation being performed. This is a short
+   name that identifies the validation among a full set of validations. It is
+   preferred to use non-action words to identify the validation.
+   E.g. "MTU in bounds" is preferred instead of "Check MTU in bounds"
 
 Health Check API
 ----------------
@@ -229,7 +280,9 @@ Failure message example::
     "details": {
       "errorCount": {{n}},
       "messageList": [
-         { "message" : "{{Detailed Health Check failure information}}", "error": true},
+         { "message" : "{{Detailed Health Check failure information}}",
+           "error": true,
+           "kind": "SimpleMessage" },
          ...
       ]
     },
