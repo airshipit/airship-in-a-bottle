@@ -16,9 +16,6 @@ schema: deckhand/LayeringPolicy/v1
 metadata:
   schema: metadata/Control/v1
   name: layering-policy
-  layeringDefinition:
-    abstract: false
-    layer: site
 data:
   layerOrder:
     - site
