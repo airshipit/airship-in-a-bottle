@@ -19,6 +19,26 @@ data:
 schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
+  name: divingbell
+data:
+  chart_name: divingbell
+  release: divingbell
+  namespace: ucp
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  source:
+    type: git
+    location: ${DIVINGBELL_CHART_REPO}
+    subpath: ${DIVINGBELL_CHART_PATH}
+    reference: ${DIVINGBELL_CHART_BRANCH}
+  dependencies:
+    - helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
   name: ceph
 data:
   chart_name: ceph
@@ -650,6 +670,7 @@ data:
     - maas-postgresql
     - ucp-rabbitmq
     - ingress
+    - divingbell
 ---
 schema: armada/ChartGroup/v1
 metadata:

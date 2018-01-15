@@ -74,6 +74,9 @@ function init_env {
     export ARMADA_CHART_REPO=${ARMADA_CHART_REPO:-"https://github.com/att-comdev/armada"}
     export ARMADA_CHART_PATH=${ARMADA_CHART_PATH:-"charts/armada"}
     export ARMADA_CHART_BRANCH=${ARMADA_CHART_BRANCH:-"master"}
+    export DIVINGBELL_CHART_REPO=${DIVINGBELL_CHART_REPO:-"https://github.com/att-comdev/divingbell"}
+    export DIVINGBELL_CHART_PATH=${DIVINGBELL_CHART_PATH:-"divingbell"}
+    export DIVINGBELL_CHART_BRANCH=${DIVINGBELL_CHART_BRANCH:-"master"}
 
     #Kubernetes artifacts
     export KUBE_PROXY_IMAGE=${KUBE_PROXY_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
