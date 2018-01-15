@@ -615,6 +615,10 @@ data:
     labels:
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
+    pod:
+      replicas:
+        ingress: 2
+        error_page: 2
   source:
     type: git
     location: https://github.com/openstack/openstack-helm

@@ -66,6 +66,18 @@ data:
     - kubernetes-controller-manager
     - kubernetes-scheduler
 ---
+schema: armada/ChartGroup/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ingress-system
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  description: Ingress for the site
+  chart_group:
+    - ingress-kube-system
+---
 schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
@@ -809,4 +821,42 @@ data:
     location: /etc/genesis/armada/assets/charts
     subpath: rbac
   dependencies: []
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ingress-kube-system
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  chart_name: ingress
+  release: ingress
+  namespace: kube-system
+  timeout: 300
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    conf:
+      services:
+        udp:
+          53: kube-system/kube-dns:53
+    deployment:
+      mode: cluster
+      type: DaemonSet
+    network:
+      host_namespace: true
+    pod:
+      replicas:
+        ingress: 2
+        error_page: 2
+  source:
+    type: git
+    location: https://github.com/openstack/openstack-helm
+    subpath: ingress
+    reference: master
+  dependencies:
+    - helm-toolkit
 ...
