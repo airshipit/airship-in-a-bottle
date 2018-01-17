@@ -830,8 +830,8 @@ metadata:
     abstract: false
     layer: site
 data:
-  chart_name: ingress
-  release: ingress
+  chart_name: ingress-kube-system
+  release: ingress-kube-system
   namespace: kube-system
   timeout: 300
   install:
@@ -839,6 +839,9 @@ data:
   upgrade:
     no_hooks: false
   values:
+    labels:
+      node_selector_key: kube-ingress
+      node_selector_value: enabled
     conf:
       services:
         udp:

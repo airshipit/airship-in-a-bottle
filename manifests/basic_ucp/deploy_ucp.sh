@@ -76,34 +76,34 @@ function init_env {
     export ARMADA_CHART_BRANCH=${ARMADA_CHART_BRANCH:-"master"}
 
     #Kubernetes artifacts
-    export KUBE_PROXY_IMAGE=${KUBE_PROXY_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+    export KUBE_PROXY_IMAGE=${KUBE_PROXY_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
     export KUBE_ETCD_IMAGE=${KUBE_ETCD_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
     export KUBE_ETCDCTL_IMAGE=${KUBE_ETCDCTL_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
-    export KUBE_ANCHOR_IMAGE=${KUBE_ANCHOR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+    export KUBE_ANCHOR_IMAGE=${KUBE_ANCHOR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
     export KUBE_COREDNS_IMAGE=${KUBE_COREDNS_IMAGE:-"coredns/coredns:0.9.9"}
-    export KUBE_APISERVER_IMAGE=${KUBE_APISERVER_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
-    export KUBE_CTLRMGR_IMAGE=${KUBE_CTLRMGR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
-    export KUBE_SCHED_IMAGE=${KUBE_SCHED_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
-    export KUBECTL_IMAGE=${KUBECTL_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.0"}
+    export KUBE_APISERVER_IMAGE=${KUBE_APISERVER_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
+    export KUBE_CTLRMGR_IMAGE=${KUBE_CTLRMGR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
+    export KUBE_SCHED_IMAGE=${KUBE_SCHED_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
+    export KUBECTL_IMAGE=${KUBECTL_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
     export CALICO_CNI_IMAGE=${CALICO_CNI_IMAGE:-"quay.io/calico/cni:v1.11.0"}
     export CALICO_CTL_IMAGE=${CALICO_CTL_IMAGE:-"quay.io/calico/ctl:v1.6.1"}
     export CALICO_NODE_IMAGE=${CALICO_NODE_IMAGE:-"quay.io/calico/node:v2.6.1"}
     export CALICO_POLICYCTLR_IMAGE=${CALICO_POLICYCTLR_IMAGE:-"quay.io/calico/kube-controllers:v1.0.0"}
     export CALICO_ETCD_IMAGE=${CALICO_ETCD_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
     export CALICO_ETCDCTL_IMAGE=${CALICO_ETCDCTL_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
-    export KUBE_KUBELET_TAR=${KUBE_KUBELET_TAR:-"https://dl.k8s.io/v1.8.0/kubernetes-node-linux-amd64.tar.gz"}
+    export KUBE_KUBELET_TAR=${KUBE_KUBELET_TAR:-"https://dl.k8s.io/v1.8.6/kubernetes-node-linux-amd64.tar.gz"}
 
     # Images
     export TILLER_IMAGE=${TILLER_IMAGE:-"gcr.io/kubernetes-helm/tiller:v2.7.2"}
     export DRYDOCK_IMAGE=${DRYDOCK_IMAGE:-"quay.io/attcomdev/drydock:latest"}
     export ARMADA_IMAGE=${ARMADA_IMAGE:-"quay.io/attcomdev/armada:latest"}
-    export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:master"}
-    export DECKHAND_IMAGE=${DECKHAND_IMAGE:-"quay.io/attcomdev/deckhand:master"}
-    export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:master"}
-    export AIRFLOW_IMAGE=${AIRFLOW_IMAGE:-"quay.io/attcomdev/airflow:master"}
-    export MAAS_CACHE_IMAGE=${MAAS_CACHE_IMAGE:-"quay.io/attcomdev/maas-cache:master"}
-    export MAAS_REGION_IMAGE=${MAAS_REGION_IMAGE:-"quay.io/attcomdev/maas-region:master"}
-    export MAAS_RACK_IMAGE=${MAAS_RACK_IMAGE:-"quay.io/attcomdev/maas-rack:master"}
+    export PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:latest"}
+    export DECKHAND_IMAGE=${DECKHAND_IMAGE:-"quay.io/attcomdev/deckhand:latest"}
+    export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:latest"}
+    export AIRFLOW_IMAGE=${AIRFLOW_IMAGE:-"quay.io/attcomdev/airflow:latest"}
+    export MAAS_CACHE_IMAGE=${MAAS_CACHE_IMAGE:-"quay.io/attcomdev/maas-cache:latest"}
+    export MAAS_REGION_IMAGE=${MAAS_REGION_IMAGE:-"quay.io/attcomdev/maas-region:latest"}
+    export MAAS_RACK_IMAGE=${MAAS_RACK_IMAGE:-"quay.io/attcomdev/maas-rack:latest"}
 
     # Docker
     export DOCKER_REPO_URL=${DOCKER_REPO_URL:-"http://apt.dockerproject.org/repo"}

@@ -25,6 +25,7 @@ data:
       - ceph-rgw=enabled
       - ceph-mds=enabled
       - ceph-mgr=enabled
+      - kube-ingress=enabled
   images:
     armada: ${ARMADA_IMAGE}
     helm:
