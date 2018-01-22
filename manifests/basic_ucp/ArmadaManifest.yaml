@@ -13,6 +13,5 @@ data:
     - container-networking
     - dns
     - kubernetes
-    - kubernetes-rbac
     - ingress-system
 ...
