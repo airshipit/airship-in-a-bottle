@@ -218,17 +218,7 @@ function genesis {
     cat /etc/kubernetes/admin/kubeconfig.yaml | sed -e 's/\/etc\/kubernetes\/admin/./' > ~/.kube/config
 }
 
-function helm_init {
-    # Run helm init since promenade tears down temporary tiller
-    helm init
-}
-
 function ucp_deploy {
-    while [[ -z $(kubectl get pods -n kube-system | grep tiller | grep Running) ]]
-    do
-      echo 'Waiting for tiller to be ready.'
-      sleep 10
-    done
 
     docker run -t -v ~/.kube:/armada/.kube -v $(pwd):/target --net=host ${ARMADA_IMAGE} apply /target/${ARMADA_CONFIG}
 
@@ -237,5 +227,4 @@ function ucp_deploy {
 
 init_env
 genesis
-helm_init
 ucp_deploy
