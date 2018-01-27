@@ -864,15 +864,15 @@ data:
   values:
     images:
       tags:
-        tiller: gcr.io/kubernetes-helm/tiller:v2.7.2
+        tiller: ${TILLER_IMAGE}
     labels:
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
   source:
     type: git
-    location: https://github.com/att-comdev/armada
-    subpath: charts/tiller
-    reference: master
+    location: ${TILLER_CHART_REPO}
+    subpath: ${TILLER_CHART_PATH}
+    reference: ${TILLER_CHART_BRANCH}
   dependencies:
     - helm-toolkit
 ...
