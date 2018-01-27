@@ -1,4 +1,12 @@
 ---
+schema: 'deckhand/LayeringPolicy/v1'
+metadata:
+  schema: 'metadata/Control/v1'
+  name: layering-policy
+data:
+  layerOrder:
+    - site
+---
 schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
@@ -6,6 +14,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   description: Kubernetes proxy
   sequenced: true
@@ -19,6 +28,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   description: Container networking via Calico
   sequenced: true
@@ -33,6 +43,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   description: Cluster DNS
   chart_group:
@@ -45,6 +56,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   description: Kubernetes components
   chart_group:
@@ -61,6 +73,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   description: Ingress for the site
   chart_group:
@@ -70,6 +83,10 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: site
+  storagePolicy: cleartext
 data:
   chart_name: helm-toolkit
   release: helm-toolkit
