@@ -230,6 +230,8 @@ ValidationMessage:
    name that identifies the validation among a full set of validations. It is
    preferred to use non-action words to identify the validation.
    E.g. "MTU in bounds" is preferred instead of "Check MTU in bounds"
+-  diagnostic (optional): Provides further contextual information that may help
+   with determining the source of the validation or provide further details.
 
 Health Check API
 ----------------
