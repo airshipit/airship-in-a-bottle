@@ -826,10 +826,6 @@ data:
     labels:
       node_selector_key: kube-ingress
       node_selector_value: enabled
-    conf:
-      services:
-        udp:
-          53: kube-system/coredns:53
     deployment:
       mode: cluster
       type: DaemonSet
