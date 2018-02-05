@@ -89,6 +89,9 @@ data:
       jobs:
         node_selector_key: ucp-control-plane
         node_selector_value: enabled
+      provisioner:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
     endpoints:
       identity:
         namespace: ucp
