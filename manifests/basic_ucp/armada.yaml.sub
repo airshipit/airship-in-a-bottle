@@ -86,7 +86,7 @@ data:
           global:
             osd_pool_default_size: ${CEPH_OSD_POOL_SIZE}
     labels:
-      jobs:
+      job:
         node_selector_key: ucp-control-plane
         node_selector_value: enabled
       provisioner:
@@ -144,7 +144,7 @@ data:
             component: namespace-client-key-generator
   values:
     labels:
-      jobs:
+      job:
         node_selector_key: ucp-control-plane
         node_selector_value: enabled
     endpoints:
@@ -482,6 +482,9 @@ data:
       replicas:
         api: 1
     labels:
+      job:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
       node_selector_key: ucp-control-plane
       node_selector_value: enabled
   source:
