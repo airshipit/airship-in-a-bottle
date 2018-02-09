@@ -288,6 +288,11 @@ data:
     delete: []
     create: []
   values:
+    endpoints:
+      postgresql:
+        auth:
+          admin:
+            password: postgres
     development:
       enabled: false
     labels:
@@ -319,6 +324,11 @@ data:
           labels:
             application: 'maas'
   values:
+    endpoints:
+      maas_db:
+        auth:
+          admin:
+            password: postgres
     images:
       tags:
         db_sync: ${MAAS_REGION_IMAGE}
@@ -408,6 +418,10 @@ data:
         port:
           api:
             nodeport: ${DRYDOCK_NODE_PORT}
+      postgresql:
+        auth:
+          admin:
+            password: postgres
     replicas:
       drydock: 1
     conf:
@@ -442,6 +456,11 @@ data:
           labels:
             application: 'deckhand'
   values:
+    endpoints:
+      postgresql:
+        auth:
+          admin:
+            password: postgres
     images:
       tags:
         deckhand: ${DECKHAND_IMAGE}
@@ -519,6 +538,15 @@ data:
           labels:
             application: 'airflow'
   values:
+    endpoints:
+      postgresql_shipyard_db:
+        auth:
+          admin:
+            password: postgres
+      postgresql_airflow_db:
+        auth:
+          admin:
+            password: postgres
     prod_environment: ${SHIPYARD_PROD_DEPLOY}
     pod:
       mounts:
