@@ -188,8 +188,12 @@ data:
     no_hooks: false
   values:
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+      prometheus_mysql_exporter:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
     pod:
       replicas:
         server: 1
@@ -615,8 +619,12 @@ data:
       replicas:
         server: 1
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+      prometheus_mysql_exporter:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
   source:
     type: git
     location: https://git.openstack.org/openstack/openstack-helm
