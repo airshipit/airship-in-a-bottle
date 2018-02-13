@@ -153,7 +153,7 @@ function genesis {
     mkdir configs
     chmod 777 configs
 
-    cat joining-host-config.yaml.sub | envsubst > configs/joining-host-config.yaml
+    cat PKICatalog.yaml.sub | envsubst > configs/PKICatalog.yaml
     cat armada-resources.yaml.sub | envsubst > configs/armada-resources.yaml
     cat armada.yaml.sub | envsubst > ${ARMADA_CONFIG}
     cat Genesis.yaml.sub | envsubst > configs/Genesis.yaml

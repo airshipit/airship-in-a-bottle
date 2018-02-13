@@ -20,12 +20,15 @@ data:
       - 8.8.4.4
 
   kubernetes:
+    apiserver_port: 6443
+    haproxy_port: 6553
     pod_cidr: 10.97.0.0/16
     service_cidr: 10.96.0.0/16
     service_ip: 10.96.0.1
 
   etcd:
-    service_ip: 10.96.0.2
+    container_port: 2379
+    haproxy_port: 2378
 
   hosts_entries:
     - ip: 192.168.77.1

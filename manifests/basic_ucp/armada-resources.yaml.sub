@@ -60,6 +60,7 @@ metadata:
 data:
   description: Kubernetes components
   chart_group:
+    - haproxy
     - kubernetes-etcd
     - kubernetes-apiserver
     - kubernetes-controller-manager
@@ -109,25 +110,6 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
-  substitutions:
-    - src:
-        schema: deckhand/CertificateAuthority/v1
-        name: kubernetes
-        path: $
-      dest:
-        path: '$.values.secrets.tls.ca'
-    - src:
-        schema: deckhand/Certificate/v1
-        name: proxy
-        path: $
-      dest:
-        path: '$.values.secrets.tls.cert'
-    - src:
-        schema: deckhand/CertificateKey/v1
-        name: proxy
-        path: $
-      dest:
-        path: '$.values.secrets.tls.key'
 data:
   chart_name: proxy
   release: kubernetes-proxy
@@ -136,16 +118,11 @@ data:
   upgrade:
     no_hooks: true
   values:
-    secrets:
-      tls:
-        ca: placeholder
-        cert: placeholder
-        key: placeholder
     images:
       tags:
         proxy: ${KUBE_PROXY_IMAGE}
     network:
-      kubernetes_netloc: apiserver.kubernetes.promenade:6443
+      kubernetes_netloc: 127.0.0.1:6553
       pod_cidr: 10.97.0.0/16
   source:
     type: local
@@ -398,41 +375,73 @@ data:
     no_hooks: true
   values:
     coredns:
-      kubernetes_zones:
-        - cluster.local
-        - 10.96.0.0/16
-        - 10.97.0.0/16
       upstream_nameservers:
         - 8.8.8.8
         - 8.8.4.4
-      zones:
-        - name: promenade
-          services:
-            - bind_name: apiserver.kubernetes
-              service:
-                name: kubernetes-apiserver
-                namespace: kube-system
-            - bind_name: etcd.kubernetes
-              service:
-                name: kubernetes-etcd
-                namespace: kube-system
-            - bind_name: etcd.calico
-              service:
-                name: calico-etcd
-                namespace: kube-system
     images:
-      anchor: ${KUBE_ANCHOR_IMAGE}
-      coredns: ${KUBE_COREDNS_IMAGE}
-    tls:
-      ca: placeholder
-      cert: placeholder
-      key: placeholder
-    network:
-      kubernetes_netloc: apiserver.kubernetes.promenade:6443
+      tags:
+        coredns: ${KUBE_COREDNS_IMAGE}
+        test: ${KUBE_COREDNS_IMAGE}
   source:
     type: local
     location: /etc/genesis/armada/assets/charts
     subpath: coredns
+  dependencies:
+    - helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: haproxy
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  chart_name: haproxy
+  release: haproxy
+  namespace: kube-system
+  timeout: 600
+  wait:
+    timeout: 600
+  upgrade:
+    no_hooks: true
+  values:
+    conf:
+      anchor:
+        kubernetes_url: https://kubernetes.default:443
+        services:
+          default:
+            kubernetes:
+              server_opts: "check"
+              conf_parts:
+                frontend:
+                  - mode tcp
+                  - option tcpka
+                  - bind *:6553
+                backend:
+                  - mode tcp
+                  - option tcpka
+          kube-system:
+            kubernetes-etcd:
+              server_opts: "check"
+              conf_parts:
+                frontend:
+                  - mode tcp
+                  - option tcpka
+                  - bind *:2378
+                backend:
+                  - mode tcp
+                  - option tcpka
+
+    images:
+      tags:
+        anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+        haproxy: haproxy:1.8.3
+
+  source:
+    type: local
+    location: /etc/genesis/armada/assets/charts
+    subpath: haproxy
   dependencies:
     - helm-toolkit
 ---
@@ -497,7 +506,7 @@ data:
   values:
     apiserver:
       etcd:
-        endpoints: https://etcd.kubernetes.promenade:2379
+        endpoints: https://127.0.0.1:2378
     images:
       tags:
         anchor: ${KUBE_ANCHOR_IMAGE}
@@ -576,7 +585,7 @@ data:
         cert: placeholder
         key: placeholder
     network:
-      kubernetes_netloc: apiserver.kubernetes.promenade:6443
+      kubernetes_netloc: 127.0.0.1:6553
       pod_cidr: 10.97.0.0/16
       service_cidr: 10.96.0.0/16
 
@@ -629,7 +638,7 @@ data:
         key: placeholder
 
     network:
-      kubernetes_netloc: apiserver.kubernetes.promenade:6443
+      kubernetes_netloc: 127.0.0.1:6553
 
     images:
       tags:
