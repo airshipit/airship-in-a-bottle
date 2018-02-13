@@ -80,6 +80,9 @@ function init_env {
     export TILLER_CHART_REPO=${TILLER_CHART_REPO:-"https://github.com/att-comdev/armada"}
     export TILLER_CHART_PATH=${TILLER_CHART_PATH:-"charts/tiller"}
     export TILLER_CHART_BRANCH=${TILLER_CHART_BRANCH:-"master"}
+    export PROMENADE_CHART_REPO=${TILLER_CHART_REPO:-"https://github.com/att-comdev/promenade"}
+    export PROMENADE_CHART_PATH=${TILLER_CHART_PATH:-"charts/promenade"}
+    export PROMENADE_CHART_BRANCH=${TILLER_CHART_BRANCH:-"master"}
 
     #Kubernetes artifacts
     export KUBE_PROXY_IMAGE=${KUBE_PROXY_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
@@ -108,8 +111,8 @@ function init_env {
     export SHIPYARD_IMAGE=${SHIPYARD_IMAGE:-"quay.io/attcomdev/shipyard:latest"}
     export AIRFLOW_IMAGE=${AIRFLOW_IMAGE:-"quay.io/attcomdev/airflow:latest"}
     export MAAS_CACHE_IMAGE=${MAAS_CACHE_IMAGE:-"quay.io/attcomdev/maas-cache:latest"}
-    export MAAS_REGION_IMAGE=${MAAS_REGION_IMAGE:-"quay.io/attcomdev/maas-region:latest"}
-    export MAAS_RACK_IMAGE=${MAAS_RACK_IMAGE:-"quay.io/attcomdev/maas-rack:latest"}
+    export MAAS_REGION_IMAGE=${MAAS_REGION_IMAGE:-"sthussey/maas-region-controller:2.3_patchv4"}
+    export MAAS_RACK_IMAGE=${MAAS_RACK_IMAGE:-"sthussey/maas-rack-controller:2.3"}
 
     # Docker
     export DOCKER_REPO_URL=${DOCKER_REPO_URL:-"http://apt.dockerproject.org/repo"}

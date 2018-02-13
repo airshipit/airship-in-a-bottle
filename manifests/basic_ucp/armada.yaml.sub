@@ -689,6 +689,44 @@ data:
   dependencies:
     - helm-toolkit
 ---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: promenade
+  layeringDefinition:
+    abstract: false
+    layer: site
+  storagePolicy: cleartext
+data:
+  chart_name: promenade
+  release: promenade
+  namespace: ucp
+  timeout: 600
+  wait:
+    timeout: 600
+  values:
+    pod:
+      env:
+        promenade_api:
+          - name: PROMENADE_DEBUG
+            value: '1'
+    images:
+      tags:
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        promenade: ${PROMENADE_IMAGE}
+  upgrade:
+    no_hooks: true
+  source:
+    type: git
+    location: ${PROMENADE_CHART_REPO}
+    reference: ${PROMENADE_CHART_BRANCH}
+    subpath: ${PROMENADE_CHART_PATH}
+  dependencies:
+    - helm-toolkit
+---
 schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
@@ -728,6 +766,7 @@ data:
     - armada
     - ucp-keystone
     - ucp-barbican
+    - promenade
 ...
 ---
 schema: armada/Manifest/v1
