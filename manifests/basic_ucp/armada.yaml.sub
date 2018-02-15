@@ -716,6 +716,10 @@ data:
       armada:
         DEFAULT:
           debug: true
+          tiller_namespace: kube-system
+    manifests:
+      service_tiller_deploy: false
+      deployment_tiller: false
   source:
     type: git
     location: ${ARMADA_CHART_REPO}
