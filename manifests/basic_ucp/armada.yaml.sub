@@ -80,18 +80,6 @@ data:
             application: ceph
             component: osd-keyring-generator
   values:
-    conf:
-      ceph:
-        config:
-          global:
-            osd_pool_default_size: ${CEPH_OSD_POOL_SIZE}
-    labels:
-      job:
-        node_selector_key: ucp-control-plane
-        node_selector_value: enabled
-      provisioner:
-        node_selector_key: ucp-control-plane
-        node_selector_value: enabled
     endpoints:
       identity:
         namespace: ucp
@@ -99,13 +87,6 @@ data:
         namespace: ceph
       ceph_mon:
         namespace: ceph
-    ceph:
-      rgw_keystone_auth: true
-      storage:
-        osd_directory: ${CEPH_OSD_DIR}
-    network:
-      public: ${CEPH_PUBLIC_NET}
-      cluster: ${CEPH_CLUSTER_NET}
     deployment:
       storage_secrets: true
       ceph: true
@@ -115,6 +96,117 @@ data:
       rgw_keystone_user_and_endpoints: false
     bootstrap:
       enabled: true
+    conf:
+      rgw_ks:
+        enabled: true
+      ceph:
+        global:
+          fsid: 926602d0-11a7-11e8-9f47-080027ef795a
+          osd_pool_default_size: ${CEPH_OSD_POOL_SIZE}
+        osd:
+          osd_crush_chooseleaf_type: 0
+      pool:
+        crush:
+          tunables: null
+        target:
+          osd: 1
+          pg_per_osd: 100
+        default:
+          crush_rule: same_host
+        spec:
+          # RBD pool
+          - name: rbd
+            application: rbd
+            replication: 1
+            percent_total_data: 40
+          # CephFS pools
+          - name: cephfs_metadata
+            application: cephfs
+            replication: 1
+            percent_total_data: 5
+          - name: cephfs_data
+            application: cephfs
+            replication: 1
+            percent_total_data: 10
+          # RadosGW pools
+          - name: .rgw.root
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.control
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.data.root
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.gc
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.log
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.intent-log
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.meta
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.usage
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.users.keys
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.users.email
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.users.swift
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.users.uid
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.buckets.extra
+            application: rgw
+            replication: 1
+            percent_total_data: 0.1
+          - name: default.rgw.buckets.index
+            application: rgw
+            replication: 1
+            percent_total_data: 3
+          - name: default.rgw.buckets.data
+            application: rgw
+            replication: 1
+            percent_total_data: 34.8
+      storage:
+        osd:
+          - data:
+              type: directory
+              location: ${CEPH_OSD_DIR}/osd-one
+            journal:
+              type: directory
+              location: ${CEPH_OSD_DIR}/journal-one
+    labels:
+      job:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+      provisioner:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+    network:
+      public: ${CEPH_PUBLIC_NET}
+      cluster: ${CEPH_CLUSTER_NET}
   source:
     type: git
     location: ${CEPH_CHART_REPO}
