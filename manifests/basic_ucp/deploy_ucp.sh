@@ -86,7 +86,7 @@ function init_env {
     export KUBE_ETCD_IMAGE=${KUBE_ETCD_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
     export KUBE_ETCDCTL_IMAGE=${KUBE_ETCDCTL_IMAGE:-"quay.io/coreos/etcd:v3.0.17"}
     export KUBE_ANCHOR_IMAGE=${KUBE_ANCHOR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
-    export KUBE_COREDNS_IMAGE=${KUBE_COREDNS_IMAGE:-"coredns/coredns:0.9.9"}
+    export KUBE_COREDNS_IMAGE=${KUBE_COREDNS_IMAGE:-"coredns/coredns:1.0.5"}
     export KUBE_APISERVER_IMAGE=${KUBE_APISERVER_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
     export KUBE_CTLRMGR_IMAGE=${KUBE_CTLRMGR_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
     export KUBE_SCHED_IMAGE=${KUBE_SCHED_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
