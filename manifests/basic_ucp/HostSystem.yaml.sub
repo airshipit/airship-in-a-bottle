@@ -13,7 +13,7 @@ data:
       tar_path: kubernetes/node/bin/kubelet
       mode: 0555
   images:
-    haproxy: haproxy:1.8.3
+    haproxy: ${HAPROXY_IMAGE}
     helm:
       helm: lachlanevenson/k8s-helm:v2.7.2
     kubernetes:

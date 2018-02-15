@@ -347,25 +347,6 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
-  substitutions:
-    - src:
-        schema: deckhand/CertificateAuthority/v1
-        name: kubernetes
-        path: .
-      dest:
-        path: '.values.tls.ca'
-    - src:
-        schema: deckhand/Certificate/v1
-        name: coredns
-        path: .
-      dest:
-        path: '.values.tls.cert'
-    - src:
-        schema: deckhand/CertificateKey/v1
-        name: coredns
-        path: .
-      dest:
-        path: '.values.tls.key'
 data:
   chart_name: coredns
   release: coredns
@@ -374,10 +355,6 @@ data:
   upgrade:
     no_hooks: true
   values:
-    coredns:
-      upstream_nameservers:
-        - 8.8.8.8
-        - 8.8.4.4
     images:
       tags:
         coredns: ${KUBE_COREDNS_IMAGE}
@@ -843,6 +820,10 @@ data:
     pod:
       replicas:
         error_page: 2
+    conf:
+      services:
+        udp:
+          53: 'kube-system/coredns:53'
   source:
     type: git
     location: https://github.com/openstack/openstack-helm
