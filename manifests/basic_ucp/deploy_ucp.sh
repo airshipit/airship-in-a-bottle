@@ -80,9 +80,9 @@ function init_env {
     export TILLER_CHART_REPO=${TILLER_CHART_REPO:-"https://github.com/att-comdev/armada"}
     export TILLER_CHART_PATH=${TILLER_CHART_PATH:-"charts/tiller"}
     export TILLER_CHART_BRANCH=${TILLER_CHART_BRANCH:-"master"}
-    export PROMENADE_CHART_REPO=${TILLER_CHART_REPO:-"https://github.com/att-comdev/promenade"}
-    export PROMENADE_CHART_PATH=${TILLER_CHART_PATH:-"charts/promenade"}
-    export PROMENADE_CHART_BRANCH=${TILLER_CHART_BRANCH:-"master"}
+    export PROMENADE_CHART_REPO=${PROMENADE_CHART_REPO:-"https://github.com/att-comdev/promenade"}
+    export PROMENADE_CHART_PATH=${PROMENADE_CHART_PATH:-"charts/promenade"}
+    export PROMENADE_CHART_BRANCH=${PROMENADE_CHART_BRANCH:-"master"}
 
     #Kubernetes artifacts
     export KUBE_PROXY_IMAGE=${KUBE_PROXY_IMAGE:-"gcr.io/google_containers/hyperkube-amd64:v1.8.6"}
