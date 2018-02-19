@@ -150,6 +150,10 @@ function init_env {
 
     echo "Saving deployment environment to deploy-env.sh."
     env | xargs -n 1 -d '\n' echo "export" >> deploy-env.sh
+
+    echo "Installing intermediate certs for AT&T cLCP Artifactory."
+    curl -L --insecure -o /usr/local/share/ca-certificates/gd_bundle-g2.crt https://certs.godaddy.com/repository/gd_bundle-g2.crt
+    update-ca-certificates
 }
 
 function genesis {
