@@ -332,19 +332,18 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
-  pre:
-    delete:
-      - name: keystone-db-sync
-        type: job
-        labels:
-          - job-name: keystone-db-sync
-      - name: keystone-db-init
-        type: job
-        labels:
-          - job-name: keystone-db-init
-  post:
-    delete: []
-    create: []
+    pre:
+      delete:
+        - name: keystone-db-sync
+          type: job
+          labels:
+            job-name: keystone-db-sync
+        - name: keystone-db-init
+          type: job
+          labels:
+            job-name: keystone-db-init
+    post:
+      create: []
   values:
     conf:
       keystone:
@@ -378,12 +377,11 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
-  pre:
-    delete: []
-    create: []
-  post:
-    delete: []
-    create: []
+    pre:
+      delete: []
+      create: []
+    post:
+      create: []
   values:
     endpoints:
       postgresql:
@@ -593,11 +591,10 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
-  pre:
-    delete: []
-  post:
-    delete: []
-    create: []
+    pre:
+      delete: []
+    post:
+      create: []
   values:
     pod:
       replicas:
@@ -740,11 +737,10 @@ data:
     no_hooks: false
   upgrade:
     no_hooks: false
-  pre:
-    delete: []
-  post:
-    delete: []
-    create: []
+    pre:
+      delete: []
+    post:
+      create: []
   values:
     pod:
       replicas:
