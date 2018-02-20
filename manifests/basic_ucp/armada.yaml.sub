@@ -3,6 +3,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: helm-toolkit
   release: helm-toolkit
@@ -20,6 +23,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: divingbell
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: divingbell
   release: divingbell
@@ -40,6 +46,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ceph
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ceph
   release: ceph
@@ -219,6 +228,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-ceph-config
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ucp-ceph-config
   release: ucp-ceph-config
@@ -270,6 +282,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-mariadb
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ucp-mariadb
   release: ucp-mariadb
@@ -300,6 +315,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-memcached
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ucp-memcached
   release: ucp-memcached
@@ -324,6 +342,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-keystone
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ucp-keystone
   release: keystone
@@ -369,6 +390,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: maas-postgresql
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: maas-postgresql
   release: maas-postgresql
@@ -406,6 +430,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: maas
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: maas
   release: maas
@@ -483,6 +510,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: drydock
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: drydock
   release: drydock
@@ -538,6 +568,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: deckhand
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: deckhand
   release: deckhand
@@ -583,6 +616,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-barbican
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ucp-barbican
   release: barbican
@@ -617,6 +653,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: shipyard
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: shipyard
   release: shipyard
@@ -689,6 +728,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: armada
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: armada
   release: armada
@@ -729,6 +771,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-rabbitmq
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ucp-rabbitmq
   release: rabbitmq
@@ -763,6 +808,9 @@ schema: armada/Chart/v1
 metadata:
   schema: metadata/Document/v1
   name: ingress
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   chart_name: ingress
   release: ingress
@@ -830,6 +878,9 @@ schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
   name: ceph
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   description: 'Storage Backend'
   sequenced: true
@@ -841,6 +892,9 @@ schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-infra
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   description: 'UCP Infrastructure'
   chart_group:
@@ -855,6 +909,9 @@ schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
   name: ucp-services
+  layeringDefinition:
+    abstract: false
+    layer: site
 data:
   description: 'UCP Services'
   chart_group:
