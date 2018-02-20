@@ -810,8 +810,12 @@ data:
     no_hooks: false
   values:
     labels:
-      node_selector_key: kube-ingress
-      node_selector_value: enabled
+      server:
+        node_selector_key: kube-ingress
+        node_selector_value: enabled
+      error_server:
+        node_selector_key: kube-ingress
+        node_selector_value: enabled
     deployment:
       mode: cluster
       type: DaemonSet
