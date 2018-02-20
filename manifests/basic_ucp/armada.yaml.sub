@@ -310,8 +310,9 @@ data:
     no_hooks: false
   values:
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
   source:
     type: git
     location: https://git.openstack.org/openstack/openstack-helm
@@ -352,8 +353,12 @@ data:
         override:
     replicas: 2
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      api:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+      job:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
   source:
     type: git
     location: https://git.openstack.org/openstack/openstack-helm
@@ -388,8 +393,9 @@ data:
     development:
       enabled: false
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
   source:
     type: git
     location: https://git.openstack.org/openstack/openstack-helm
@@ -600,8 +606,9 @@ data:
       job:
         node_selector_key: ucp-control-plane
         node_selector_value: enabled
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      api:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
   source:
     type: git
     location: https://git.openstack.org/openstack/openstack-helm
