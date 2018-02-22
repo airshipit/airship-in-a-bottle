@@ -822,8 +822,12 @@ data:
     no_hooks: false
   values:
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+      error_server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
     pod:
       replicas:
         ingress: 2
