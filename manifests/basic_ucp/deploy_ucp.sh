@@ -123,6 +123,16 @@ function init_env {
     export ARMADA_CONFIG=${ARMADA_CONFIG:-"armada.yaml"}
     export UP_SCRIPT_FILE=${UP_SCRIPT_FILE:-"genesis.sh"}
 
+    # detect the proper Ceph config for this kernel
+    kern_minor=$(uname -a | cut -d ' ' -f 3 | cut -d '.' -f 2)
+    if [[ $kern_minor -lt 5 ]]
+    then
+        CEPH_CRUSH_TUNABLES='hammer'
+    else
+        CEPH_CRUSH_TUNABLES='null'
+    fi
+    export CEPH_CRUSH_TUNABLES
+
     # Validate environment
     if [[ $GENESIS_NODE_IP == "NA" || $MASTER_NODE_IP == "NA" ]]
     then

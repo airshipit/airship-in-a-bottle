@@ -116,7 +116,7 @@ data:
           osd_crush_chooseleaf_type: 0
       pool:
         crush:
-          tunables: null
+          tunables: ${CEPH_CRUSH_TUNABLES}
         target:
           osd: 1
           pg_per_osd: 100
