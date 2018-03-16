@@ -1,0 +1,112 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: kubernetes-controller-manager
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.kubernetes.controller-manager
+      dest:
+        path: .source
+
+    # Images
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .images.kubernetes.controller-manager
+      dest:
+        path: .values.images.tags
+
+    # IP addresses
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .kubernetes.pod_cidr
+      dest:
+        path: .values.network.pod_cidr
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .values.kubernetes.service_cidr
+      dest:
+        path: .values.network.service_cidr
+
+    # CA
+    -
+      src:
+        schema: deckhand/CertificateAuthority/v1
+        name: kubernetes
+        path: .
+      dest:
+        path: .values.secrets.tls.ca
+
+    # Certificates
+    -
+      src:
+        schema: deckhand/Certificate/v1
+        name: controller-manager
+        path: .
+      dest:
+        path: .values.secrets.tls.cert
+    -
+      src:
+        schema: deckhand/CertificateKey/v1
+        name: controller-manager
+        path: .
+      dest:
+        path: .values.secrets.tls.key
+
+    # Private key for Kubernetes service account token signing
+    -
+      src:
+        schema: deckhand/PrivateKey/v1
+        name: service-account
+        path: .
+      dest:
+        path: .values.secrets.service_account.private_key
+
+data:
+  chart_name: controller-manager
+  release: kubernetes-controller-manager
+  namespace: kube-system
+  timeout: 600
+  wait:
+    timeout: 600
+  upgrade:
+    no_hooks: true
+  values:
+    network:
+      kubernetes_netloc: 127.0.0.1:6553
+  dependencies:
+    - kubernetes-controller-manager-htk
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: kubernetes-controller-manager-htk
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.kubernetes.controller-manager-htk
+      dest:
+        path: .source
+data:
+  chart_name: kubernetes-controller-manager-htk
+  release: kubernetes-controller-manager-htk
+  namespace: kubernetes-controller-manager-htk
+  timeout: 100
+  values: {}
+  dependencies: []
+...

@@ -1,0 +1,235 @@
+---
+schema: pegleg/EndpointCatalogue/v1
+metadata:
+    schema: metadata/Document/v1
+    name: ucp_endpoints
+    layeringDefinition:
+        abstract: false
+        layer: site
+    storagePolicy: cleartext
+data:
+  ucp:
+    identity:
+      namespace: ucp
+      name: keystone
+      hosts:
+        default: keystone-api
+        public: keystone
+      host_fqdn_override:
+        default: null
+      path:
+        default: /v3
+      scheme:
+        default: http
+      port:
+        admin:
+          default: 35357
+        api:
+          default: 80
+    armada:
+      name: armada
+      hosts:
+        default: armada-api
+        public: armada
+      port:
+        api:
+          default: 8000
+      path:
+        default: /api/v1.0
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+    deckhand:
+      name: deckhand
+      hosts:
+        default: deckhand-int
+        public: deckhand-api
+      port:
+        api:
+          default: 9000
+      path:
+        default: /api/v1.0
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+    postgresql:
+      name: postgresql
+      hosts:
+        default: postgresql
+      path: /DB_NAME
+      scheme: postgresql+psycopg2
+      port:
+        postgresql:
+          default: 5432
+      host_fqdn_override:
+        default: null
+    oslo_db:
+      hosts:
+        default: mariadb
+        discovery: mariadb-discovery
+      host_fqdn_override:
+        default: null
+      path: /DB_NAME
+      scheme: mysql+pymysql
+      port:
+        mysql:
+          default: 3306
+        wsrep:
+          default: 4567
+    key_manager:
+      name: barbican
+      hosts:
+        default: barbican-api
+        public: barbican
+      host_fqdn_override:
+        default: null
+      path:
+        default: /v1
+      scheme:
+        default: http
+      port:
+        api:
+          default: 9311
+          public: 80
+    oslo_messaging:
+      namespace: null
+      hosts:
+        default: rabbitmq
+      host_fqdn_override:
+        default: null
+      path: /openstack
+      scheme: rabbit
+      port:
+        amqp:
+          default: 5672
+    oslo_cache:
+      hosts:
+        default: memcached
+      host_fqdn_override:
+        default: null
+      port:
+        memcache:
+          default: 11211
+    physicalprovisioner:
+      name: drydock
+      hosts:
+        default: drydock-api
+      port:
+        api:
+          default: 9000
+          nodeport: 31900
+      path:
+        default: /api/v1.0
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+    maas_region_ui:
+      name: maas-region-ui
+      hosts:
+        default: maas-region-ui
+        public: maas
+      path:
+        default: /MAAS
+      scheme:
+        default: "http"
+      port:
+        region_ui:
+          default: 80
+          public: 80
+      host_fqdn_override:
+        default: null
+    kubernetesprovisioner:
+      name: promenade
+      hosts:
+        default: promenade-api
+      port:
+        api:
+          default: 80
+      path:
+        default: /api/v1.0
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+    shipyard:
+      name: shipyard
+      hosts:
+        default: shipyard-int
+        public: shipyard-api
+      port:
+        api:
+          default: 9000
+          public: 80
+      path:
+        default: /api/v1.0
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+    airflow_web:
+      name: airflow-web
+      hosts:
+        default: airflow-web-int
+        public: airflow-web
+      port:
+        airflow_web:
+          default: 8080
+      path:
+       default: /
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+    airflow_flower:
+      name: airflow-flower
+      hosts:
+        default: airflow-flower
+      port:
+        airflow_flower:
+          default: 5555
+      path:
+       default: /
+      scheme:
+        default: http
+      host_fqdn_override:
+        default: null
+  ceph:
+    object_store:
+      name: swift
+      namespace: ceph
+      hosts:
+        default: ceph-rgw
+      host_fqdn_override:
+        default: null
+      path:
+        default: /swift/v1
+      scheme:
+        default: http
+      port:
+        api:
+          default: 8088
+    ceph_mon:
+      namespace: ceph
+      hosts:
+        default: ceph-mon
+        discovery: ceph-mon-discovery
+      host_fqdn_override:
+        default: null
+      port:
+        mon:
+          default: 6789
+    ceph_mgr:
+      namespace: ceph
+      hosts:
+        default: ceph-mgr
+      host_fqdn_override:
+        default: null
+      port:
+        mgr:
+          default: 7000
+      scheme:
+        default: http
+...

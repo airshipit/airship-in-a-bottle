@@ -1,0 +1,118 @@
+---
+schema: deckhand/DataSchema/v1
+metadata:
+  schema: metadata/Control/v1
+  name: promenade/KubernetesNetwork/v1
+  labels:
+    application: promenade
+data:
+  $schema: http://json-schema.org/schema#
+  definitions:
+    cidr:
+      type: string
+      pattern: '^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\/([0-9]|[1-2][0-9]|3[0-2])$'
+    domain_name:
+      type: string
+      pattern: '^([a-z][a-z0-9-]+\.)+[a-z]+\.?$'
+    hostname:
+      type: string
+      pattern: '^([a-z][a-z0-9-]+)(\.+[a-z]+\.)?$'
+    hostname_or_ip_address:
+      type: string
+      pattern: '^(([a-z][a-z0-9-]+)(\.+[a-z]+\.)?|(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5])))$'
+    ip_address:
+      type: string
+      pattern: '^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$'
+    url:
+      type: string
+      # XXX add regex
+
+  type: object
+  properties:
+    dns:
+      type: object
+      properties:
+        bootstrap_validation_checks:
+          type: array
+          items:
+            $ref: '#/definitions/domain_name'
+        cluster_domain:
+          $ref: '#/definitions/domain_name'
+        service_ip:
+          $ref: '#/definitions/ip_address'
+        upstream_servers:
+          type: array
+          items:
+            $ref: '#/definitions/ip_address'
+      required:
+        - cluster_domain
+        - service_ip
+      additionalProperties: false
+
+    kubernetes:
+      type: object
+      properties:
+        pod_cidr:
+          $ref: '#/definitions/cidr'
+        service_ip:
+          $ref: '#/definitions/ip_address'
+        service_cidr:
+          $ref: '#/definitions/cidr'
+        apiserver_port:
+          type: number
+          minimum: 0
+        haproxy_port:
+          type: number
+          minimum: 0
+      required:
+        - pod_cidr
+        - service_cidr
+        - service_ip
+        - apiserver_port
+        - haproxy_port
+      additionalProperties: false
+    etcd:
+      type: object
+      properties:
+        service_ip:
+          $ref: '#/definitions/ip_address'
+        container_port:
+          type: number
+          minimum: 0
+        haproxy_port:
+          type: number
+          minimum: 0
+      required:
+        - service_ip
+        - container_port
+        - haproxy_port
+      additionalProperties: false
+    hosts_entries:
+      type: array
+      items:
+        type: object
+        properties:
+          ip:
+            $ref: '#/definitions/ip_address'
+          names:
+            type: array
+            items:
+              $ref: '#/definitions/hostname'
+
+    proxy:
+      type: object
+      properties:
+        additional_no_proxy:
+          type: array
+          items:
+            $ref: '#/definitions/hostname_or_ip_address'
+        url:
+          $ref: '#/definitions/url'
+      required:
+        - url
+      additionalFields: false
+
+  required:
+    - dns
+    - kubernetes
+  additionalProperties: false

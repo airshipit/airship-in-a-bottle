@@ -1,0 +1,37 @@
+---
+schema: 'deckhand/DataSchema/v1'
+metadata:
+  schema: metadata/Control/v1
+  name: drydock/HardwareProfile/v1
+  labels:
+    application: drydock
+data:
+  $schema: 'http://json-schema.org/schema#'
+  id: 'http://att.com/att-comdev/drydock/hardwareProfile.yaml'
+  type: 'object'
+  properties:
+    vendor:
+      type: 'string'
+    generation:
+      type: 'string'
+    hw_version:
+      type: 'string'
+    bios_version:
+      type: 'string'
+    boot_mode:
+      type: 'string'
+      enum:
+        - 'bios'
+        - 'uefi'
+    bootstrap_protocol:
+      type: 'string'
+      enum:
+        - 'pxe'
+        - 'usb'
+        - 'hdd'
+    pxe_interface:
+      type: 'number'
+    device_aliases:
+      type: 'object'
+      additionalProperties: true
+  additionalProperties: false

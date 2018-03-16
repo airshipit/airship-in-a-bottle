@@ -1,0 +1,90 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: kubernetes-calico
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.kubernetes.calico.calico
+      dest:
+        path: .source
+
+    # Image versions
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .images.calico.calico
+      dest:
+        path: .values.images
+
+    # IP addresses
+    -
+      src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .calico.etcd.service_ip
+      dest:
+        path: .values.etcd.service.ip
+    -
+      src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .kubernetes.pod_cidr
+      dest:
+        path: .values.calico.pod_ip_cidr
+
+    # Other site-specific configuration
+    -
+      src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .calico.ip_autodetection_method
+      dest:
+        path: .values.calico.ip_autodetection_method
+
+    # Certificates
+    -
+      src:
+        schema: deckhand/CertificateAuthority/v1
+        name: calico-etcd
+        path: .
+      dest:
+        path: .values.etcd.tls.ca
+    -
+      src:
+        schema: deckhand/Certificate/v1
+        name: calico-node
+        path: .
+      dest:
+        path: .values.etcd.tls.cert
+    -
+      src:
+        schema: deckhand/CertificateKey/v1
+        name: calico-node
+        path: .
+      dest:
+        path: .values.etcd.tls.key
+data:
+  chart_name: calico
+  release: kubernetes-calico
+  namespace: kube-system
+  timeout: 600
+  wait:
+    timeout: 600
+  upgrade:
+    no_hooks: true
+  values:
+    calico:
+      ctl:
+        install_on_host: true
+    etcd:
+      service:
+        port: 6666
+  dependencies: []
