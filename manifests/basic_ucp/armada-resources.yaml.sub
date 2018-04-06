@@ -338,7 +338,8 @@ data:
     type: local
     location: /etc/genesis/armada/assets/charts
     subpath: calico
-  dependencies: []
+  dependencies:
+    - helm-toolkit
 ---
 schema: armada/Chart/v1
 metadata:
