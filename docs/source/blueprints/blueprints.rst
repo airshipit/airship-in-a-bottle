@@ -24,4 +24,5 @@ Designs for features of the UCP.
 .. toctree::
    :maxdepth: 2
 
+   deployment-grouping-baremetal
    node-teardown
