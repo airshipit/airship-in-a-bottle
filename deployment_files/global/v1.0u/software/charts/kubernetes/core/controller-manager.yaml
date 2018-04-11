@@ -34,7 +34,7 @@ metadata:
     - src:
         schema: pegleg/CommonAddresses/v1
         name: common-addresses
-        path: .values.kubernetes.service_cidr
+        path: .kubernetes.service_cidr
       dest:
         path: .values.network.service_cidr
 
