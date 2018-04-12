@@ -26,7 +26,7 @@ data:
           type: git
           location: https://github.com/openstack/openstack-helm
           subpath: helm-toolkit
-          reference: 16c6d31155a9831bf040ddf934b6626247d43583
+          reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
         calico:
           type: git
           location: https://github.com/att-comdev/promenade
@@ -41,7 +41,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       controller-manager:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -51,7 +51,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       coredns:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -61,7 +61,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       haproxy:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -71,7 +71,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       etcd:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -81,17 +81,17 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       ingress:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: ingress
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       ingress-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       proxy:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -101,7 +101,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       scheduler:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -111,7 +111,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
     ucp:
       armada:
         type: git
@@ -122,27 +122,27 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       barbican:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: barbican
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       barbican-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       ceph:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: ceph
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       ceph-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       deckhand:
         type: git
         location: https://github.com/att-comdev/deckhand
@@ -152,7 +152,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       divingbell:
         type: git
         location: https://github.com/att-comdev/divingbell
@@ -162,7 +162,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       drydock:
         type: git
         location: https://github.com/att-comdev/drydock
@@ -172,27 +172,27 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       ingress:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: ingress
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       ingress-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       postgresql:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: postgresql
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       postgresql-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       promenade:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -202,17 +202,17 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       keystone:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: keystone
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       keystone-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       maas:
         type: git
         location: https://github.com/att-comdev/maas
@@ -222,37 +222,37 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       mariadb:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: mariadb
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       mariadb-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       memcached:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: memcached
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       memcached-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       rabbitmq:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: rabbitmq
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       rabbitmq-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       shipyard:
         type: git
         location: https://github.com/att-comdev/shipyard
@@ -262,7 +262,7 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
       tiller:
         type: git
         location: https://github.com/att-comdev/armada
@@ -272,28 +272,28 @@ data:
         type: git
         location: https://github.com/openstack/openstack-helm
         subpath: helm-toolkit
-        reference: 16c6d31155a9831bf040ddf934b6626247d43583
+        reference: 757378fb7f3872961303fd4e4dfb74b7cdfaf194
   files:
     kubelet: https://dl.k8s.io/v1.8.6/kubernetes-node-linux-amd64.tar.gz
   images:
     ucp:
       armada:
         api: artifacts-aic.atlantafoundry.com/att-comdev/armada:2f1997c8b1acfc25b59275d10db0e3539e8b15b8
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         helm: lachlanevenson/k8s-helm:v2.7.2
         tiller: gcr.io/kubernetes-helm/tiller:v2.7.2
       promenade:
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         promenade: artifacts-aic.atlantafoundry.com/att-comdev/promenade:ccd372a97490971d4a5b2281424be7595c55c1b0
         ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
       deckhand:
         deckhand: artifacts-aic.atlantafoundry.com/att-comdev/deckhand:99e3064eda9da0227780b57ee30baeb264b3040d
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         db_init: docker.io/postgres:9.5
         db_sync: docker.io/postgres:9.5
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
@@ -301,7 +301,7 @@ data:
         ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
       barbican:
         bootstrap: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         scripted_test: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         db_init: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         barbican_db_sync: docker.io/kolla/ubuntu-source-barbican-api:3.0.3
@@ -312,7 +312,7 @@ data:
         barbican_api: docker.io/kolla/ubuntu-source-barbican-api:3.0.3
       drydock:
         drydock: artifacts-aic.atlantafoundry.com/att-comdev/drydock:be667ab3c01663693a18c679d283ce572023d376
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
@@ -321,7 +321,7 @@ data:
       shipyard:
         airflow: artifacts-aic.atlantafoundry.com/att-comdev/airflow:ac4dac972dfaee6b2c1b9878af4ca781193f9725
         shipyard: artifacts-aic.atlantafoundry.com/att-comdev/shipyard:ac4dac972dfaee6b2c1b9878af4ca781193f9725
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         shipyard_db_init: docker.io/postgres:9.5
         shipyard_db_sync: artifacts-aic.atlantafoundry.com/att-comdev/shipyard:ac4dac972dfaee6b2c1b9878af4ca781193f9725
         airflow_db_init: docker.io/postgres:9.5
@@ -337,7 +337,7 @@ data:
         bootstrap: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
         export_api_key: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
         maas_cache: artifacts-aic.atlantafoundry.com/att-comdev/sstream-cache@sha256:70aa6cc9cdf0d07ed933c99f232ecc82cb89048ffdb030811e44a537bdfad67e
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       keystone:
         keystone_bootstrap: docker.io/kolla/ubuntu-source-keystone:3.0.3
         test: docker.io/kolla/ubuntu-source-rally:4.0.0
@@ -349,28 +349,28 @@ data:
         keystone_credential_setup: docker.io/kolla/ubuntu-source-keystone:3.0.3
         keystone_credential_rotate: docker.io/kolla/ubuntu-source-keystone:3.0.3
         keystone_api: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       tiller:
         tiller: gcr.io/kubernetes-helm/tiller:v2.7.2
       mariadb:
         mariadb: docker.io/mariadb:10.1.23
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       postgresql:
         postgresql: docker.io/postgres:9.5
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       memcached:
         memcached: docker.io/memcached:1.5.5
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       rabbitmq:
         rabbitmq: docker.io/rabbitmq:3.7
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
     ceph:
       ceph:
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ceph_bootstrap: docker.io/ceph/daemon:tag-build-master-luminous-ubuntu-16.04
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
         ceph_daemon: docker.io/ceph/daemon:tag-build-master-luminous-ubuntu-16.04
         ceph_config_helper: docker.io/port/ceph-config-helper:v1.7.5
         ceph_rbd_provisioner: quay.io/external_storage/rbd-provisioner:v0.1.1
@@ -379,11 +379,11 @@ data:
       apiserver:
         anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
         apiserver: gcr.io/google_containers/hyperkube-amd64:v1.8.6
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       controller-manager:
         anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
         controller_manager: gcr.io/google_containers/hyperkube-amd64:v1.8.6
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.2.1
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       coredns:
         coredns: coredns/coredns:1.0.5
       haproxy:

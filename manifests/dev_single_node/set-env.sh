@@ -37,7 +37,7 @@ export NODE_NET_IFACE=ens3
 # export UCP_INTEGRATION_REFSPEC=""
 # export PEGLEG_REPO="https://github.com/att-comdev/pegleg.git"
 # export PEGLEG_REFSPEC=""
-# export SHIPYARD_REPO="https://github.com/att-comdev/shipyard.git""
+# export SHIPYARD_REPO="https://github.com/att-comdev/shipyard.git"
 # export SHIPYARD_REFSPEC=""
 
 # Images
