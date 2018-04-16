@@ -141,14 +141,6 @@ data:
 EOF
 }
 
-function install_intermediate_certs() {
-    set +x
-    echo "Installing intermediate certs for AT&T cLCP Artifactory."
-    set -x
-    curl -L --insecure -o /usr/local/share/ca-certificates/gd_bundle-g2.crt https://certs.godaddy.com/repository/gd_bundle-g2.crt
-    update-ca-certificates
-}
-
 function install_dependencies() {
     apt -qq update
     # Install docker
@@ -295,7 +287,6 @@ check_preconditions || error "checking for preconditions"
 setup_workspace || error "setting up workspace directories"
 setup_repos || error "setting up Git repos"
 configure_dev_configurables || error "adding dev-configurables values"
-install_intermediate_certs || error "installing intermediate certificates"
 install_dependencies || error "installing dependencies"
 run_pegleg_collect || error "running pegleg collect"
 generate_certs || error "setting up certs with Promenade"
