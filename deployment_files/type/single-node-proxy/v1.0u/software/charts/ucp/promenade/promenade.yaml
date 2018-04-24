@@ -1,0 +1,37 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-promenade
+  replacement: true
+  layeringDefinition:
+    abstract: false
+    layer: type
+    parentSelector:
+      name: ucp-promenade
+    actions:
+      - method: merge
+        path: .
+  storagePolicy: cleartext
+  substitutions:
+    # HTTP Proxy env
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .proxy.http
+      dest:
+        path: .values.pod.env.promenade_api.http_proxy
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .proxy.https
+      dest:
+        path: .values.pod.env.promenade_api.https_proxy
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .proxy.no_proxy
+      dest:
+        path: .values.pod.env.promenade_api.no_proxy
+data: {}
+...

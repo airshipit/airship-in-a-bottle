@@ -1,0 +1,29 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-maas
+  replacement: true
+  layeringDefinition:
+    abstract: false
+    layer: type
+    parentSelector:
+      name: ucp-maas
+    actions:
+      - method: merge
+        path: .
+  storagePolicy: cleartext
+  substitutions:
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .proxy.https
+    - dest:
+        path: .values.conf.maas.proxy.proxy_server
+data:
+  values:
+    conf:
+      maas:
+        proxy:
+          proxy_enabled: 'true'
+...
