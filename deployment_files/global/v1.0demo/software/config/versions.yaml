@@ -3,6 +3,8 @@ schema: pegleg/SoftwareVersions/v1
 metadata:
   schema: metadata/Document/v1
   name: software-versions
+  labels:
+    name: software-versions
   layeringDefinition:
     abstract: false
     layer: global
@@ -559,3 +561,4 @@ data:
     unnamed:
       # nfs-common for the nfs provisioner - dev only.
       - nfs-common
+      - ceph-common

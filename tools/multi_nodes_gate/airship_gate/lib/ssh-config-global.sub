@@ -1,0 +1,6 @@
+IdentityFile ${SSH_CONFIG_DIR}/id_rsa
+LogLevel QUIET
+StrictHostKeyChecking no
+User root
+UserKnownHostsFile /dev/null
+

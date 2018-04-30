@@ -1,0 +1,33 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-drydock
+  replacement: true
+  layeringDefinition:
+    abstract: false
+    layer: site
+    parentSelector:
+      name: ucp-drydock
+    actions:
+      - method: merge
+        path: .
+  storagePolicy: cleartext
+  substitutions:
+    - src:
+        schema: deckhand/CertificateKey/v1
+        name: airship_drydock_kvm_ssh_key
+        path: .
+      dest:
+        path: .values.conf.ssh.private_key
+data:
+  values:
+    manifests:
+      secret_ssh_key: true
+    conf:
+      drydock:
+        plugins:
+          oob_driver:
+            - 'drydock_provisioner.drivers.oob.pyghmi_driver.driver.PyghmiDriver'
+            - 'drydock_provisioner.drivers.oob.libvirt_driver.driver.LibvirtDriver'
+...

@@ -1,0 +1,14 @@
+#cloud-config
+
+disable_root: false
+
+hostname: ${NAME}
+manage_etc_hosts: false
+
+ssh_authorized_keys:
+  - ${SSH_PUBLIC_KEY}
+
+chpasswd:
+  list: |
+    root:password
+  expire: false

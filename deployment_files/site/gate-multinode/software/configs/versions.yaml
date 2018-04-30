@@ -1,0 +1,47 @@
+---
+schema: pegleg/SoftwareVersions/v1
+metadata:
+  schema: metadata/Document/v1
+  name: software-versions
+  replacement: true
+  layeringDefinition:
+    abstract: false
+    layer: site
+    parentSelector:
+      name: software-versions
+    actions:
+      - method: merge
+        path: .
+  storagePolicy: cleartext
+data:
+  # TODO(sh8121att) - Update all of these when PS are merged
+  charts:
+    ucp:
+      shipyard:
+        location: https://git.openstack.org/openstack/airship-shipyard
+        reference: master
+      shipyard-htk:
+        location: https://git.openstack.org/openstack/openstack-helm-infra
+        reference: master
+      drydock:
+        location: https://git.openstack.org/openstack/airship-drydock
+        reference: e35712a57318cb58b7e8c7f55181031d73e89aa5
+      maas:
+        location: https://git.openstack.org/openstack/airship-maas
+        reference: refs/changes/65/577565/9
+  images:
+    ucp:
+      drydock:
+        drydock: docker.io/sthussey/drydock:fixesv1
+        drydock_db_sync: docker.io/sthussey/drydock:fixesv1
+      shipyard:
+        airflow: quay.io/airshipit/airflow:master
+        shipyard: quay.io/airshipit/shipyard:master
+        shipyard_db_sync: quay.io/airshipit/shipyard:master
+        airflow_db_sync: quay.io/airshipit/airflow:master
+      maas:
+        maas_rack: docker.io/sthussey/maas-rack-controller:lvfixv2
+      deckhand:
+        deckhand: quay.io/airshipit/deckhand:84ab5c5096826a6382d224271c75adee8d10e742
+        db_sync: quay.io/airshipit/deckhand:84ab5c5096826a6382d224271c75adee8d10e742
+...

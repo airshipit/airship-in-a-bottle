@@ -3,6 +3,8 @@ schema: pegleg/SoftwareVersions/v1
 metadata:
   schema: metadata/Document/v1
   name: software-versions
+  labels:
+    name: software-versions
   layeringDefinition:
     abstract: false
     layer: global
@@ -148,11 +150,13 @@ data:
         location: https://git.openstack.org/openstack/openstack-helm
         subpath: helm-toolkit
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+      # TODO Update to openstack-helm and split to match split projects
       ceph:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
         subpath: ceph
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+      # TODO Update to openstack-helm-infra
       ceph-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
@@ -437,3 +441,4 @@ data:
     unnamed:
       # nfs-common for the nfs provisioner - dev only.
       - nfs-common
+      - ceph-common

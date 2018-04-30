@@ -1,0 +1,47 @@
+---
+schema: 'drydock/HostProfile/v1'
+metadata:
+  name: defaults
+  schema: 'metadata/Document/v1'
+  layeringDefinition:
+    abstract: false
+    layer: site
+data:
+  hardware_profile: 'GenericVM'
+  primary_network: 'gp'
+  oob:
+    type: 'libvirt'
+    libvirt_uri: 'qemu+ssh://virtmgr@172.24.1.1/system'
+  storage:
+    physical_devices:
+      vda:
+        labels:
+          bootdrive: 'true'
+        partitions:
+          - name: 'root'
+            size: '20g'
+            bootable: true
+            filesystem:
+              mountpoint: '/'
+              fstype: 'ext4'
+              mount_options: 'defaults'
+          - name: 'boot'
+            size: '1g'
+            filesystem:
+              mountpoint: '/boot'
+              fstype: 'ext4'
+              mount_options: 'defaults'
+  interfaces:
+    ens3:
+      device_link: 'gp'
+      slaves:
+        - 'ens3'
+      networks:
+        - 'gp'
+  platform:
+    image: 'xenial'
+    kernel: 'hwe-16.04'
+  metadata:
+    tags:
+      - 'foo'
+...

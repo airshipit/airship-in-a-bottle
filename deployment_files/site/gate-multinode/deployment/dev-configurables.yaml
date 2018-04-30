@@ -1,0 +1,13 @@
+---
+schema: dev/Configurables/v1
+metadata:
+  schema: metadata/Document/v1
+  name: dev-configurables
+  layeringDefinition:
+    abstract: false
+    layer: site
+  storagePolicy: cleartext
+# Data section currently hardcoded, needs to be injected by gate scripts later
+data:
+  hostcidr: 172.24.1.0/24
+...

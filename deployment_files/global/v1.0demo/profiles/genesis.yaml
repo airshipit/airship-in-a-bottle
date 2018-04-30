@@ -78,6 +78,11 @@ data:
       - openvswitch=enabled
       - promenade-genesis=enabled
       - ucp-control-plane=enabled
+      - ceph-mon=enabled
+      - ceph-mds=enabled
+      - ceph-osd=enabled
+      - ceph-rgw=enabled
+      - ceph-mgr=enabled
   files:
     - path: /var/lib/anchor/calico-etcd-bootstrap
       content: "# placeholder for triggering calico etcd bootstrapping\n# this file will be deleted"
