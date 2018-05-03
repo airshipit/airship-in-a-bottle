@@ -74,13 +74,14 @@ should implement each of the following makefile targets:
    least) test of the image's functionality.
 -  ``run_images`` performs the inidividual run_{component_name} targets for
    projects that produce more than one image.
+-  ``tests`` to invoke linting tests (e.g. PEP-8) and unit tests for the
+   components in the project
 
-Other makefile targets may exist. A ``test`` endpoint is encouraged. For
-projects that are Python based, the makefile targets typically reference tox
-commands, and those projects will include a tox.ini defining the tox targets.
-Note that tox.ini files will reside inside the source directories for modules
-within the project, but a top-level tox.ini may exist at the root of the
-repository that includes the necessary targets to build documentation.
+For projects that are Python based, the makefile targets typically reference
+tox commands, and those projects will include a tox.ini defining the tox
+targets. Note that tox.ini files will reside inside the source directories for
+modules within the project, but a top-level tox.ini may exist at the root of
+the repository that includes the necessary targets to build documentation.
 
 Documentation
 ~~~~~~~~~~~~~
