@@ -16,8 +16,7 @@ data:
     - kubernetes-etcd
     - kubernetes-core
     - ingress-kube-system
-    - ucp-ceph
-    - ucp-ceph-config
+    - ucp-storage-provisioner
     - ucp-core
     - ucp-keystone
 # TODO(bryan-strassner)
