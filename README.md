@@ -1,11 +1,20 @@
-# UCP Integration
+# Airship in a Bottle
 
-UCP, or Undercloud Platform, is a broad integration of several components
+Airship is a new name for the project, formerly known as UCP.  References to
+'UCP' or 'Undercloud Platform' will be corrected in time.
+
+Airship is a broad integration of several components
 enabling an automated, resilient Kubernetes-based infrastructure for hosting
-Helm-deployed containerized workloads
+Helm-deployed containerized workloads.
 
-Find documentation for Undercloud Platform Integration on
-[readthedocs](http://ucpintegration.readthedocs.org).
+To get started, run the following in a fresh VM:
+```
+sudo -i
+mkdir -p /root/deploy && cd "$_"
+git clone https://github.com/openstack/airship-in-a-bottle
+cd /root/deploy/airship-in-a-bottle/manifests/dev_single_node
+./airship-in-a-bottle.sh
+```
 
 ## Components
 
