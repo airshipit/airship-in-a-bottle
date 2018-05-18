@@ -21,7 +21,7 @@ data:
           type: git
           location: https://github.com/att-comdev/promenade
           subpath: charts/etcd
-          reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+          reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
         etcd-htk:
           type: git
           location: https://github.com/openstack/openstack-helm
@@ -29,14 +29,19 @@ data:
           reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
         calico:
           type: git
-          location: https://github.com/att-comdev/promenade
-          subpath: charts/calico
-          reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+          location: https://github.com/openstack/openstack-helm-infra
+          subpath: calico
+          reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
+        calico-htk:
+          type: git
+          location: https://github.com/openstack/openstack-helm-infra
+          subpath: helm-toolkit
+          reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
       apiserver:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/apiserver
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       apiserver-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -46,7 +51,7 @@ data:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/controller_manager
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       controller-manager-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -56,7 +61,7 @@ data:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/coredns
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       coredns-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -66,7 +71,7 @@ data:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/haproxy
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       haproxy-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -76,7 +81,7 @@ data:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/etcd
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       etcd-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -96,7 +101,7 @@ data:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/proxy
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       proxy-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -106,7 +111,7 @@ data:
         type: git
         location: https://github.com/att-comdev/promenade
         subpath: charts/scheduler
-        reference: 34e2992389b9ce2755ad62e27105a01e9767d6ea
+        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
       scheduler-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -288,7 +293,7 @@ data:
         subpath: helm-toolkit
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
   files:
-    kubelet: https://dl.k8s.io/v1.8.6/kubernetes-node-linux-amd64.tar.gz
+    kubelet: https://dl.k8s.io/v1.10.2/kubernetes-node-linux-amd64.tar.gz
   images:
     ucp:
       armada:
@@ -396,37 +401,38 @@ data:
         image_repo_sync: docker.io/docker:17.07.0
     kubernetes:
       apiserver:
-        anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
-        apiserver: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+        anchor: gcr.io/google_containers/hyperkube-amd64:v1.10.2
+        apiserver: gcr.io/google_containers/hyperkube-amd64:v1.10.2
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       controller-manager:
-        anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
-        controller_manager: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+        anchor: gcr.io/google_containers/hyperkube-amd64:v1.10.2
+        controller_manager: gcr.io/google_containers/hyperkube-amd64:v1.10.2
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       coredns:
         coredns: coredns/coredns:1.0.5
       haproxy:
         haproxy: haproxy:1.8.3
-        anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+        anchor: gcr.io/google_containers/hyperkube-amd64:v1.10.2
       etcd:
         etcd: quay.io/coreos/etcd:v3.2.14
         etcdctl: quay.io/coreos/etcd:v3.2.14
-      kubectl: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+      kubectl: gcr.io/google_containers/hyperkube-amd64:v1.10.2
       pause: gcr.io/google_containers/pause-amd64:3.0
       scheduler:
-        anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
-        scheduler: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+        anchor: gcr.io/google_containers/hyperkube-amd64:v1.10.2
+        scheduler: gcr.io/google_containers/hyperkube-amd64:v1.10.2
       proxy:
-        proxy: gcr.io/google_containers/hyperkube-amd64:v1.8.6
+        proxy: gcr.io/google_containers/hyperkube-amd64:v1.10.2
     calico:
       etcd:
         etcd: quay.io/coreos/etcd:v3.2.14
         etcdctl: quay.io/coreos/etcd:v3.2.14
       calico:
         cni: quay.io/calico/cni:v1.11.2
-        ctl: quay.io/calico/ctl:v1.6.3
+        ctl: quay.io/calico/ctl:v1.6.2
+        kube_policy_controller: quay.io/calico/kube-policy-controller:v0.7.0
         node: quay.io/calico/node:v2.6.5
-        policy_controller: quay.io/calico/kube-controllers:v1.0.2
+        settings: quay.io/calico/ctl:v1.6.2
   packages:
     repositories:
       - name: docker
