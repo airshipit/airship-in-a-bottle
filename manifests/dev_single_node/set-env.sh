@@ -48,4 +48,6 @@ export NODE_NET_IFACE=ens3
 # export WORKSPACE="/root/deploy"
 
 # The site to deploy
-#export TARGET_SITE="dev"
+export TARGET_SITE="dev"
+# If running behind a proxy
+# export TARGET_SITE="dev-proxy"

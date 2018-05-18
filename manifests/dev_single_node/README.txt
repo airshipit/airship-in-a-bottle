@@ -50,6 +50,12 @@ export UCP_INTEGRATION_REFSPEC="refs/changes/03/404203/32"
 export PEGLEG_IMAGE="artifacts-aic.atlantafoundry.com/att-comdev/pegleg:f019b4ff594db7d13a2ac444c001f867b3a67c50"
 
 9) source set-env.sh
+
+NOTE: If running this behind a corporate proxy, you will need to update the
+      file deployment_files/site/dev-proxy/networks/common-addresses.yaml to
+      specify your proxy server and appropriate no_proxy list. Also change set-env.sh
+      to use TARGET_SITE of 'dev-proxy'.
+
 10) ./deploy-ucp.sh
 
 If you want to stop the deployment before it starts running genesis and inspect
@@ -59,7 +65,7 @@ trigger the genesis steps.
 Next Steps
 ----------
 All of the documents used for a subsequent deploy_site action are now placed
-into the /root/deploy/site direectory for ease of use - instructions are
+into the /root/deploy/site directory for ease of use - instructions are
 provided by the script at the end of a successful genesis process.
 
 In the same directory as the deploy-ucp.sh script, there is a file creds.sh
