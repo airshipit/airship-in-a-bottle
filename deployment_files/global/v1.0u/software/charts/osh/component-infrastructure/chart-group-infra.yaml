@@ -1,0 +1,18 @@
+---
+schema: armada/ChartGroup/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-component-infrastructure
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+data:
+  description: "OpenStack Component Infrastructure"
+  sequenced: False
+  chart_group:
+    - openstack-mariadb
+    - rabbitmq
+    - memcached
+    - libvirt
+    - openvswitch

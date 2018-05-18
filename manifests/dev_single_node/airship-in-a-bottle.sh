@@ -22,7 +22,9 @@
 #                                                                             #
 ###############################################################################
 
+echo ""
 echo "Welcome to Airship in a Bottle"
+echo ""
 echo " /--------------------\\"
 echo "|                      \\"
 echo "|        |---|          \\----"
@@ -32,13 +34,27 @@ echo "|          |                  /"
 echo "|     \____|____/       /----"
 echo "|                      /"
 echo " \--------------------/"
+echo ""
+echo ""
+echo "A prototype example of deploying the Airship suite on a single VM."
+echo ""
 sleep 1
 echo ""
-echo "The minimum recommended size of the Ubuntu 16.04 VM is 4 vCPUs, 16GB of RAM with 64GB disk space."
+echo "This example will run through:"
+echo " - Setup"
+echo " - Genesis of Airship (Kubernetes)"
+echo " - Basic deployment of Openstack (including Nova, Neutron, and Horizon using Openstack Helm)"
+echo " - VM creation automation using Heat"
+echo ""
+echo "The expected runtime of this script is greater than 1 hour"
+echo ""
+sleep 1
+echo ""
+echo "The minimum recommended size of the Ubuntu 16.04 VM is 4 vCPUs, 20GB of RAM with 64GB disk space."
 CPU_COUNT=$(grep -c processor /proc/cpuinfo)
 RAM_TOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 source /etc/os-release
-if [[ $CPU_COUNT -lt 4 || $RAM_TOTAL -lt 16777216 || $NAME != "Ubuntu" || $VERSION_ID != "16.04" ]]; then
+if [[ $CPU_COUNT -lt 4 || $RAM_TOTAL -lt 20000000 || $NAME != "Ubuntu" || $VERSION_ID != "16.04" ]]; then
   echo "Error: minimum VM recommendations are not met. Exiting."
   exit 1
 fi
@@ -65,7 +81,7 @@ fi
 
 # Shells out to get the hostname to avoid some config conflicts
 set -x
-SHORT_HOSTNAME=$(hostname -s)
+export SHORT_HOSTNAME=$(hostname -s)
 set +x
 
 # Updates the /etc/hosts file

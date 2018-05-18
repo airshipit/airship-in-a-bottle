@@ -55,7 +55,7 @@ metadata:
         name: common-addresses
         path: .calico.ip_autodetection_method
       dest:
-        path: .values.conf.node.ip_autodetection_method
+        path: .values.conf.node.IP_AUTODETECTION_METHOD
 
     # Certificates
     -

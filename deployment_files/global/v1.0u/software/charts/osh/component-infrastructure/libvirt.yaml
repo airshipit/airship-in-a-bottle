@@ -1,0 +1,63 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: libvirt
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.libvirt
+      dest:
+        path: .source
+data:
+  chart_name: libvirt
+  release: openstack-libvirt
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-openstack-libvirt
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    labels:
+      agent:
+        libvirt:
+          node_selector_key: openstack-compute-node
+          node_selector_value: enabled
+    conf:
+      ceph:
+        enabled: false
+  dependencies:
+    - openstack-libvirt-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-libvirt-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.libvirt-htk
+      dest:
+        path: .source
+data:
+  chart_name: openstack-libvirt-helm-toolkit
+  release: openstack-libvirt-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

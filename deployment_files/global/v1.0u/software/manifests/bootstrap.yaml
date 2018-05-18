@@ -8,7 +8,7 @@ metadata:
     layer: global
   storagePolicy: cleartext
 data:
-  release_prefix: aic
+  release_prefix: airship
   chart_groups:
     - kubernetes-proxy
     - kubernetes-container-networking

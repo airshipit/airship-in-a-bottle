@@ -1,0 +1,62 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: rabbitmq
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.rabbitmq
+      dest:
+        path: .source
+data:
+  chart_name: rabbitmq
+  release: rabbitmq
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-rabbitmq
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    labels:
+      server:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+    pod:
+      replicas:
+        server: 1
+  dependencies:
+    - openstack-rabbitmq-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-rabbitmq-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.rabbitmq-htk
+      dest:
+        path: .source
+data:
+  chart_name: openstack-rabbitmq-helm-toolkit
+  release: openstack-rabbitmq-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

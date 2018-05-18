@@ -1,0 +1,17 @@
+---
+schema: armada/ChartGroup/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-component-shared
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+data:
+  description: "OpenStack Shared and Common components"
+  sequenced: False
+  chart_group:
+    - keystone
+    - glance
+    - heat
+    - horizon

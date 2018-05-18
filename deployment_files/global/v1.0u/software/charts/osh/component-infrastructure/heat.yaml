@@ -1,0 +1,97 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: heat
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.heat
+      dest:
+        path: .source
+data:
+  chart_name: heat
+  release: heat
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-heat
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: heat
+            component: db-init
+        - type: job
+          labels:
+            application: heat
+            component: db-sync
+        - type: job
+          labels:
+            application: heat
+            component: ks-user
+        - type: job
+          labels:
+            application: heat
+            component: ks-service
+        - type: job
+          labels:
+            application: heat
+            component: ks-endpoints
+        - type: cronjob
+          labels:
+            application: heat
+            component: engine-cleaner
+  values:
+    labels:
+      api:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      cfn:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      cloudwatch:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      engine:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      job:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+  dependencies:
+    - openstack-heat-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-heat-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.heat-htk
+      dest:
+        path: .source
+data:
+  chart_name: openstack-heat-helm-toolkit
+  release: openstack-heat-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

@@ -1,0 +1,137 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: nova
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.nova
+      dest:
+        path: .source
+data:
+  chart_name: nova
+  release: nova
+  namespace: openstack
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: nova
+            component: db-init
+        - type: job
+          labels:
+            application: nova
+            component: db-sync
+        - type: job
+          labels:
+            application: nova
+            component: ks-user
+        - type: job
+          labels:
+            application: nova
+            component: ks-service
+        - type: job
+          labels:
+            application: nova
+            component: ks-endpoints
+        - type: job
+          labels:
+            application: placement
+            component: ks-user
+        - type: job
+          labels:
+            application: placement
+            component: ks-service
+        - type: job
+          labels:
+            application: placement
+            component: ks-endpoints
+        - type: job
+          labels:
+            application: nova
+            component: cell-setup
+        - type: cronjob
+          labels:
+            application: nova
+            component: cell-setup
+  values:
+    labels:
+      agent:
+        compute:
+          node_selector_key: openstack-compute-node
+          node_selector_value: enabled
+        compute_ironic:
+          node_selector_key: openstack-compute-node
+          node_selector_value: enabled
+      api_metadata:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      conductor:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      consoleauth:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      job:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      novncproxy:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      osapi:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      placement:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      scheduler:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      spiceproxy:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      test:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+    conf:
+      ceph:
+        enabled: false
+      nova:
+        libvirt:
+          virt_type: qemu
+  dependencies:
+    - openstack-nova-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-nova-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.nova-htk
+      dest:
+        path: .source
+data:
+  chart_name: openstack-nova-helm-toolkit
+  release: openstack-nova-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

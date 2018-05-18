@@ -1,0 +1,122 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: neutron
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.neutron
+      dest:
+        path: .source
+data:
+  chart_name: neutron
+  release: neutron
+  namespace: openstack
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: neutron
+            component: db-init
+        - type: job
+          labels:
+            application: neutron
+            component: db-sync
+        - type: job
+          labels:
+            application: neutron
+            component: ks-user
+        - type: job
+          labels:
+            application: neutron
+            component: ks-service
+        - type: job
+          labels:
+            application: neutron
+            component: ks-endpoints
+  values:
+    labels:
+      agent:
+        dhcp:
+          node_selector_key: openstack-control-plane
+          node_selector_value: enabled
+        l3:
+          node_selector_key: openstack-control-plane
+          node_selector_value: enabled
+        metadata:
+          node_selector_key: openstack-control-plane
+          node_selector_value: enabled
+      job:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      lb:
+        node_selector_key: linuxbridge
+        node_selector_value: enabled
+      ovs:
+        node_selector_key: openvswitch
+        node_selector_value: enabled
+      server:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      test:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+    network:
+      interface:
+        tunnel: docker0
+    conf:
+      neutron:
+        DEFAULT:
+          l3_ha: False
+          min_l3_agents_per_router: 1
+          max_l3_agents_per_router: 1
+          l3_ha_network_type: vxlan
+          dhcp_agents_per_network: 1
+      plugins:
+        ml2_conf:
+          ml2_type_flat:
+            flat_networks: public
+        openvswitch_agent:
+          agent:
+            tunnel_types: vxlan
+          ovs:
+            bridge_mappings: public:br-ex
+        linuxbridge_agent:
+          linux_bridge:
+            bridge_mappings: public:br-ex
+  dependencies:
+    - openstack-neutron-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-neutron-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.neutron-htk
+      dest:
+        path: .source
+data:
+  chart_name: openstack-neutron-helm-toolkit
+  release: openstack-neutron-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []
