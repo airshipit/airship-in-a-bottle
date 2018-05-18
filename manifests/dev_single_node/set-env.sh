@@ -33,15 +33,15 @@ export HOSTCIDR=10.0.0.0/24
 export NODE_NET_IFACE=ens3
 
 # Repositories
-# export UCP_INTEGRATION_REPO="https://github.com/att-comdev/ucp-integration"
+# export UCP_INTEGRATION_REPO="https://github.com/openstack/airship-in-a-bottle"
 # export UCP_INTEGRATION_REFSPEC=""
-# export PEGLEG_REPO="https://github.com/att-comdev/pegleg.git"
+# export PEGLEG_REPO="https://github.com/openstack/airship-pegleg.git"
 # export PEGLEG_REFSPEC=""
-# export SHIPYARD_REPO="https://github.com/att-comdev/shipyard.git"
+# export SHIPYARD_REPO="https://github.com/openstack/airship-shipyard.git"
 # export SHIPYARD_REFSPEC=""
 
 # Images
-# export PEGLEG_IMAGE="artifacts-aic.atlantafoundry.com/att-comdev/pegleg:latest"
+# export PEGLEG_IMAGE="artifacts-aic.atlantafoundry.com/openstack/airship-pegleg:latest"
 # export PROMENADE_IMAGE="quay.io/attcomdev/promenade:latest"
 
 # The directory that will contain the copies of designs and repos from this script

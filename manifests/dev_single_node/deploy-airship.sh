@@ -16,7 +16,7 @@
 
 ###############################################################################
 #                                                                             #
-# Set up and deploy a UCP environment for development/testing purposes.       #
+# Set up and deploy an Airship environment for development/testing purposes.  #
 # Many of the defaults and sources used here are NOT production ready, and    #
 # this should not be used as a copy/paste source for any production use.      #
 #                                                                             #
@@ -25,7 +25,7 @@
 set -x
 
 # IMPORTANT:
-# If the directory for ucp-integration is already cloned into $WORKSPACE,
+# If the directory for airship-in-a-bottle is already cloned into $WORKSPACE,
 # it will not be re-cloned. This can be used to set up different tests, like
 # changing the versions and contents of the design before running this script
 
@@ -47,19 +47,19 @@ NODE_NET_IFACE=${NODE_NET_IFACE:-""}
 
 
 # Repositories
-UCP_INTEGRATION_REPO=${UCP_INTEGRATION_REPO:-"https://github.com/att-comdev/ucp-integration"}
-UCP_INTEGRATION_REFSPEC=${UCP_INTEGRATION_REFSPEC:-""}
-PEGLEG_REPO=${PEGLEG_REPO:-"https://github.com/att-comdev/pegleg.git"}
+AIRSHIP_IN_A_BOTTLE_REPO=${AIRSHIP_IN_A_BOTTLE_REPO:-"https://github.com/openstack/airship-in-a-bottle"}
+AIRSHIP_IN_A_BOTTLE_REFSPEC=${AIRSHIP_IN_A_BOTTLE_REFSPEC:-""}
+PEGLEG_REPO=${PEGLEG_REPO:-"https://github.com/openstack/airship-pegleg.git"}
 PEGLEG_REFSPEC=${PEGLEG_REFSPEC:-""}
-SHIPYARD_REPO=${SHIPYARD_REPO:-"https://github.com/att-comdev/shipyard.git"}
+SHIPYARD_REPO=${SHIPYARD_REPO:-"https://github.com/openstack/airship-shipyard.git"}
 SHIPYARD_REFSPEC=${SHIPYARD_REFSPEC:-""}
 
 # Images
-PEGLEG_IMAGE=${PEGLEG_IMAGE:-"artifacts-aic.atlantafoundry.com/att-comdev/pegleg:latest"}
+PEGLEG_IMAGE=${PEGLEG_IMAGE:-"artifacts-aic.artifacts-aic.atlantafoundry.com/att-comdev/pegleg:latest"}
 PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:latest"}
 
 # Command shortcuts
-PEGLEG=${WORKSPACE}/pegleg/tools/pegleg.sh
+PEGLEG=${WORKSPACE}/airship-pegleg/tools/pegleg.sh
 
 function check_preconditions() {
   set +x
@@ -125,14 +125,14 @@ function setup_repos() {
   # Clone and pull the various git repos
   # Get pegleg for the script only. Image is separately referenced.
   get_repo pegleg ${PEGLEG_REPO} ${PEGLEG_REFSPEC}
-  # Get ucp-integration for the design
-  get_repo ucp-integration ${UCP_INTEGRATION_REPO} ${UCP_INTEGRATION_REFSPEC}
+  # Get airship-in-a-bottle for the design
+  get_repo airship-in-a-bottle ${AIRSHIP_IN_A_BOTTLE_REPO} ${AIRSHIP_IN_A_BOTTLE_REFSPEC}
   # Get Shipyard for use after genesis
   get_repo shipyard ${SHIPYARD_REPO} ${SHIPYARD_REFSPEC}
 }
 
 function configure_dev_configurables() {
-  cat << EOF >> ${WORKSPACE}/ucp-integration/deployment_files/site/${TARGET_SITE}/deployment/dev-configurables.yaml
+  cat << EOF >> ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/deployment/dev-configurables.yaml
 data:
   hostname: ${HOSTNAME}
   hostip: ${HOSTIP}
@@ -149,7 +149,7 @@ function install_dependencies() {
 
 function run_pegleg_collect() {
   # Runs pegleg collect to get the documents combined
-  IMAGE=${PEGLEG_IMAGE} ${PEGLEG} site -p /workspace/ucp-integration/deployment_files collect ${TARGET_SITE} -s /workspace/collected
+  IMAGE=${PEGLEG_IMAGE} ${PEGLEG} site -p /workspace/airship-in-a-bottle/deployment_files collect ${TARGET_SITE} -s /workspace/collected
 }
 
 function generate_certs() {
@@ -177,12 +177,12 @@ function generate_certs() {
                   $(ls ${WORKSPACE}/genesis)
 
   # Copy the generated certs back into the deployment_files structure
-  cp ${WORKSPACE}/genesis/certificates.yaml ${WORKSPACE}/ucp-integration/deployment_files/site/${TARGET_SITE}/secrets
+  cp ${WORKSPACE}/genesis/certificates.yaml ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets
 }
 
 function lint_design() {
   # After the certificates are in the deployment files run a pegleg lint
-  IMAGE=${PEGLEG_IMAGE} ${PEGLEG} lint -p /workspace/ucp-integration/deployment_files
+  IMAGE=${PEGLEG_IMAGE} ${PEGLEG} lint -p /workspace/airship-in-a-bottle/deployment_files
 }
 
 function generate_genesis() {
@@ -223,8 +223,8 @@ function genesis_complete() {
   set +x
   echo "Genesis complete. "
   echo "The .yaml files in ${WORKSPACE} contain the site design that may be suitable for use with Shipyard. "
-  echo "The Shipyard Keystone password may be found in ${WORKSPACE}/ucp-integration/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml"
-  cat ${WORKSPACE}/ucp-integration/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml
+  echo "The Shipyard Keystone password may be found in ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml"
+  cat ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml
   echo " "
   set -x
 }
@@ -233,10 +233,10 @@ function setup_deploy_site() {
   # creates a directory /${WORKSPACE}/site with all the things necessary to run
   # deploy_site
   mkdir -p ${WORKSPACE}/site
-  cp ${WORKSPACE}/ucp-integration/manifests/dev_single_node/creds.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/airship-in-a-bottle/manifests/dev_single_node/creds.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/genesis/*.yaml ${WORKSPACE}/site
-  cp ${WORKSPACE}/shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
-  cp ${WORKSPACE}/shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/airship-shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/airship-shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
   set +x
   echo " "
   echo "${WORKSPACE}/site is now set up with creds.sh which can be sourced to set up credentials for use in running Shipyard"
@@ -290,7 +290,8 @@ configure_dev_configurables || error "adding dev-configurables values"
 install_dependencies || error "installing dependencies"
 run_pegleg_collect || error "running pegleg collect"
 generate_certs || error "setting up certs with Promenade"
-lint_design || error "linting the design"
+# Temporarially disabled until lint_design works with a single node.
+# lint_design || error "linting the design"
 generate_genesis || error "generating genesis"
 run_genesis || error "running genesis"
 validate_genesis || error "validating genesis"
