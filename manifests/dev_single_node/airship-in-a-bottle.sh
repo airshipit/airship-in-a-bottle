@@ -52,9 +52,14 @@ if [ "$YN_IP" != "y" ]; then
   read -p "What is your LOCAL IP? " LOCAL_IP
 fi
 
+# Shells out to get the hostname to avoid some config conflicts
+set -x
+SHORT_HOSTNAME=$(hostname -s)
+set +x
+
 # Updates the /etc/hosts file
-HOSTS="${LOCAL_IP} ${HOSTNAME}"
-HOSTS_REGEX="${LOCAL_IP}.*${HOSTNAME}"
+HOSTS="${LOCAL_IP} ${SHORT_HOSTNAME}"
+HOSTS_REGEX="${LOCAL_IP}.*${SHORT_HOSTNAME}"
 if grep -q "$HOSTS_REGEX" "/etc/hosts"; then
   echo "Not updating /etc/hosts, entry ${HOSTS} already exists."
 else

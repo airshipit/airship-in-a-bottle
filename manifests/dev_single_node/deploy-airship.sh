@@ -37,7 +37,7 @@ TARGET_SITE=${TARGET_SITE:-"dev"}
 # The hostname for the genesis node
 
 # The host name for the single-node deployment. e.g.: 'genesis'
-HOSTNAME=${HOSTNAME:-""}
+SHORT_HOSTNAME=${SHORT_HOSTNAME:-""}
 # The host ip for this single-node deployment. e.g.: '10.0.0.9'
 HOSTIP=${HOSTIP:-""}
 # The cidr for the network for the host. e.g.: '10.0.0.0/24'
@@ -72,8 +72,8 @@ function check_preconditions() {
     echo "The HOSTIP variable must be set. E.g. 10.0.0.9"
     fail=true
   fi
-  if [ -z ${HOSTNAME} ] ; then
-    echo "The HOSTNAME variable must be set. E.g. testvm1"
+  if [ -z ${SHORT_HOSTNAME} ] ; then
+    echo "The SHORT_HOSTNAME variable must be set. E.g. testvm1"
     fail=true
   fi
   if [ -z ${HOSTCIDR} ] ; then
@@ -84,9 +84,9 @@ function check_preconditions() {
     echo "The NODE_NET_IFACE variable must be set. E.g. ens3"
     fail=true
   fi
-  if [[ -z $(grep $HOSTNAME /etc/hosts | grep $HOSTIP) ]]
+  if [[ -z $(grep $SHORT_HOSTNAME /etc/hosts | grep $HOSTIP) ]]
   then
-    echo "No /etc/hosts entry found for $HOSTNAME. Please add one."
+    echo "No /etc/hosts entry found for $SHORT_HOSTNAME. Please add one."
     fail=true
   fi
   if [ $fail = true ] ; then
@@ -134,7 +134,7 @@ function setup_repos() {
 function configure_dev_configurables() {
   cat << EOF >> ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/deployment/dev-configurables.yaml
 data:
-  hostname: ${HOSTNAME}
+  hostname: ${SHORT_HOSTNAME}
   hostip: ${HOSTIP}
   hostcidr: ${HOSTCIDR}
   interface: ${NODE_NET_IFACE}
