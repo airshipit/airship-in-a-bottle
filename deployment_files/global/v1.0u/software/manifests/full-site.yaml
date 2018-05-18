@@ -24,8 +24,4 @@ data:
 # might be missing configuration, might be a symptom of running in a VM
 # same change in bootstrap manifest.
 #    - ucp-divingbell
-    - ucp-armada
-    - ucp-deckhand
-    - ucp-drydock
-    - ucp-promenade
-    - ucp-shipyard
+    - ucp-services
