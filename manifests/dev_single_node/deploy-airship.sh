@@ -55,8 +55,8 @@ SHIPYARD_REPO=${SHIPYARD_REPO:-"https://github.com/openstack/airship-shipyard.gi
 SHIPYARD_REFSPEC=${SHIPYARD_REFSPEC:-""}
 
 # Images
-PEGLEG_IMAGE=${PEGLEG_IMAGE:-"artifacts-aic.atlantafoundry.com/att-comdev/pegleg:latest"}
-PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/attcomdev/promenade:latest"}
+PEGLEG_IMAGE=${PEGLEG_IMAGE:-"artifacts-aic.atlantafoundry.com/att-comdev/pegleg:ef47933903047339bd63fcfa265dfe4296e8a322"}
+PROMENADE_IMAGE=${PROMENADE_IMAGE:-"docker.io/sthussey/promenade:replace"}
 
 # Command shortcuts
 PEGLEG=${WORKSPACE}/airship-pegleg/tools/pegleg.sh

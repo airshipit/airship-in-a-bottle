@@ -4,7 +4,7 @@ data:
   site_type: single-node-proxy
 metadata:
   layeringDefinition: {abstract: false, layer: site}
-  name: dev
+  name: dev-proxy
   schema: metadata/Document/v1
   storagePolicy: cleartext
 schema: pegleg/SiteDefinition/v1

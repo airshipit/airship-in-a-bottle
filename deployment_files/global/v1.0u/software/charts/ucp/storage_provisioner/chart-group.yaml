@@ -2,13 +2,17 @@
 schema: armada/ChartGroup/v1
 metadata:
   schema: metadata/Document/v1
-  name: ucp-ceph
+  name: ucp-storage-provisioner
+  labels:
+    name: ucp-storage-provisioner
+    group: ucp
+    service: k8_storage_provisioning
   layeringDefinition:
     abstract: false
     layer: global
   storagePolicy: cleartext
 data:
-  description: Ceph Storage
+  description: Kubernetes Storage Provisioner
   sequenced: true
   chart_group:
-    - ucp-ceph
+    - nfs_provisioner

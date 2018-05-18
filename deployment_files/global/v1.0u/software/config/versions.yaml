@@ -113,6 +113,16 @@ data:
         subpath: helm-toolkit
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
     ucp:
+      nfs_provisioner:
+        type: git
+        location: https://github.com/openstack/openstack-helm-infra
+        subpath: nfs-provisioner
+        reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
+      nfs_htk:
+        type: git
+        location: https://github.com/openstack/openstack-helm-infra
+        subpath: helm-toolkit
+        reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
       armada:
         type: git
         location: https://github.com/att-comdev/armada
@@ -185,14 +195,18 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       postgresql:
         type: git
-        location: https://github.com/openstack/openstack-helm
+        location: https://git.openstack.org/openstack/openstack-helm
         subpath: postgresql
-        reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+        reference: refs/changes/80/569480/1
+        # Liveness probe is too aggressive right now, using ref above instead
+        # location: https://github.com/openstack/openstack-helm
+        # subpath: postgresql
+        # reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       postgresql-htk:
         type: git
-        location: https://github.com/openstack/openstack-helm
+        location: https://github.com/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+        reference: 9f921f23fb2df702981a0b3d33062ff607350f75
       promenade:
         type: git
         location: https://github.com/att-comdev/promenade
@@ -217,7 +231,7 @@ data:
         type: git
         location: https://github.com/att-comdev/maas
         subpath: charts/maas
-        reference: 9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
+        reference: 791e49c5193a3c69f23052acb17673fc3e59d0e2
       maas-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -287,7 +301,7 @@ data:
         tiller: gcr.io/kubernetes-helm/tiller:v2.7.2
       promenade:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
-        promenade: artifacts-aic.atlantafoundry.com/att-comdev/promenade:ccd372a97490971d4a5b2281424be7595c55c1b0
+        promenade: docker.io/sthussey/promenade:replace
         ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
@@ -331,11 +345,11 @@ data:
         ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
       maas:
         db_init: docker.io/postgres:9.5
-        db_sync: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
-        maas_rack: artifacts-aic.atlantafoundry.com/att-comdev/maas-rack-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
-        maas_region: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
-        bootstrap: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
-        export_api_key: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:9ea2358c7f7c2086d58c756696dfbcf3d15d3afa
+        db_sync: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:791e49c5193a3c69f23052acb17673fc3e59d0e2
+        maas_rack: artifacts-aic.atlantafoundry.com/att-comdev/maas-rack-controller:791e49c5193a3c69f23052acb17673fc3e59d0e2
+        maas_region: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:791e49c5193a3c69f23052acb17673fc3e59d0e2
+        bootstrap: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:791e49c5193a3c69f23052acb17673fc3e59d0e2
+        export_api_key: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:791e49c5193a3c69f23052acb17673fc3e59d0e2
         maas_cache: artifacts-aic.atlantafoundry.com/att-comdev/sstream-cache@sha256:70aa6cc9cdf0d07ed933c99f232ecc82cb89048ffdb030811e44a537bdfad67e
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
       keystone:
@@ -375,6 +389,11 @@ data:
         ceph_config_helper: docker.io/port/ceph-config-helper:v1.7.5
         ceph_rbd_provisioner: quay.io/external_storage/rbd-provisioner:v0.1.1
         ceph_cephfs_provisioner: quay.io/external_storage/cephfs-provisioner:v0.1.1
+    storage:
+      nfs_provisioner:
+        nfs_provisioner: quay.io/kubernetes_incubator/nfs-provisioner:v1.0.8
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
+        image_repo_sync: docker.io/docker:17.07.0
     kubernetes:
       apiserver:
         anchor: gcr.io/google_containers/hyperkube-amd64:v1.8.6
@@ -450,4 +469,5 @@ data:
       docker: docker-engine=1.13.1-0~ubuntu-xenial
       socat: socat=1.7.3.1-1
     unnamed:
-      - ceph-common=10.2.9-0ubuntu0.16.04.1
+      # nfs-common for the nfs provisioner - dev only.
+      - nfs-common

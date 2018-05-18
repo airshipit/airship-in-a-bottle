@@ -12,6 +12,6 @@ data:
   chart_group:
     - ucp-ingress
     - ucp-mariadb
-    - ucp-postgresql
     - ucp-rabbitmq
+    - ucp-postgresql
 ...
