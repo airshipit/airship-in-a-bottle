@@ -265,6 +265,16 @@ function setup_deploy_site() {
   set -x
 }
 
+function execute_deploy_site() {
+  set -x
+  echo cd ${WORKSPACE}/site
+  echo source creds.sh
+  echo ./run_shipyard.sh create configdocs design --filename=/home/shipyard/host/deployment_files.yaml
+  echo ./run_shipyard.sh create configdocs secrets --filename=/home/shipyard/host/certificates.yaml --append
+  echo ./run_shipyard.sh commit configdocs
+  echo ./run_shipyard.sh create action deploy_site
+}
+
 
 function clean() {
   # Perform any cleanup of temporary or unused artifacts
@@ -297,3 +307,5 @@ run_genesis || error "running genesis"
 validate_genesis || error "validating genesis"
 genesis_complete || error "printing out some info about next steps"
 setup_deploy_site || error "preparing the /site directory for deploy_site"
+# Disable execute_deploy_site to stop at the Airship components
+execute_deploy_site || error "executing deploy_site from the /site directory"
