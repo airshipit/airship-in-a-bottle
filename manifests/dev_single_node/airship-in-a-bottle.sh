@@ -34,21 +34,32 @@ echo "|                      /"
 echo " \--------------------/"
 sleep 1
 echo ""
-echo "The minimum recommended size of the VM is 4 vCPUs, 16GB of RAM with 64GB disk space."
+echo "The minimum recommended size of the Ubuntu 16.04 VM is 4 vCPUs, 16GB of RAM with 64GB disk space."
+CPU_COUNT=$(grep -c processor /proc/cpuinfo)
+RAM_TOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+source /etc/os-release
+if [[ $CPU_COUNT -lt 4 || $RAM_TOTAL -lt 16777216 || $NAME != "Ubuntu" || $VERSION_ID != "16.04" ]]; then
+  echo "Error: minimum VM recommendations are not met. Exiting."
+  exit 1
+fi
+if [[ $(id -u) -ne 0 ]]; then
+  echo "Please execute this script as root!"
+  exit 1
+fi
 sleep 1
 echo "Let's collect some information about your VM to get started."
 sleep 1
 
 # IP and Hostname setup
 HOST_IFACE=$(ip route | grep "^default" | head -1 | awk '{ print $5 }')
-read -p "Is your HOST IFACE $HOST_IFACE? (y/n) " YN_HI
-if [ "$YN_HI" != "y" ]; then
+read -p "Is your HOST IFACE $HOST_IFACE? (Y/n) " YN_HI
+if [[ ! "$YN_HI" =~ ^([yY]|"")$ ]]; then
   read -p "What is your HOST IFACE? " HOST_IFACE
 fi
 
 LOCAL_IP=$(ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}")
-read -p "Is your LOCAL IP $LOCAL_IP? (y/n) " YN_IP
-if [ "$YN_IP" != "y" ]; then
+read -p "Is your LOCAL IP $LOCAL_IP? (Y/n) " YN_IP
+if [[ ! "$YN_IP" =~ ^([yY]|"")$ ]]; then
   read -p "What is your LOCAL IP? " LOCAL_IP
 fi
 
@@ -59,7 +70,7 @@ if grep -q "$HOSTS_REGEX" "/etc/hosts"; then
   echo "Not updating /etc/hosts, entry ${HOSTS} already exists."
 else
   echo "Updating /etc/hosts with: ${HOSTS}"
-  cat << EOF | sudo tee -a /etc/hosts
+  cat << EOF | tee -a /etc/hosts
 $HOSTS
 EOF
 fi
