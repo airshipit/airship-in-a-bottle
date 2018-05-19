@@ -24,7 +24,7 @@
 # frequently changed
 
 # The hostname for the genesis node
-export HOSTNAME=testvm1
+export SHORT_HOSTNAME=testvm1
 # The IP address of the genesis node
 export HOSTIP=10.0.0.9
 # The CIDR of the network for the genesis node
