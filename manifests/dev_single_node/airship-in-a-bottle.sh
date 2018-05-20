@@ -63,9 +63,10 @@ if [[ ! "$YN_IP" =~ ^([yY]|"")$ ]]; then
   read -p "What is your LOCAL IP? " LOCAL_IP
 fi
 
-# Shells out to get the hostname to avoid some config conflicts
+# Shells out to get the hostname for the single-node deployment to avoid some
+# config conflicts
 set -x
-SHORT_HOSTNAME=$(hostname -s)
+export SHORT_HOSTNAME=$(hostname -s)
 set +x
 
 # Updates the /etc/hosts file
