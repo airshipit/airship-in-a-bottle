@@ -146,7 +146,7 @@ EOF
 function install_dependencies() {
     apt -qq update
     # Install docker
-    apt -y install --no-install-recommends docker.io jq
+    apt -y install --no-install-recommends docker.io jq nmap
 }
 
 function run_pegleg_collect() {
@@ -292,6 +292,16 @@ function execute_deploy_site() {
   bash execute_shipyard_action.sh 'deploy_site'
 }
 
+function execute_create_heat_stack() {
+  set +x
+  echo " "
+  echo "Performing basic sanity checks by creating heat stacks"
+  echo " "
+  set -x
+  # Switch to directory where the script is located
+  cd ${WORKSPACE}/airship-in-a-bottle/manifests/dev_single_node
+  bash test_create_heat_stack.sh
+}
 
 function clean() {
   # Perform any cleanup of temporary or unused artifacts
@@ -326,3 +336,4 @@ genesis_complete || error "printing out some info about next steps"
 setup_deploy_site || error "preparing the /site directory for deploy_site"
 # Disable execute_deploy_site to stop at the Airship components
 execute_deploy_site || error "executing deploy_site from the /site directory"
+execute_create_heat_stack || error "creating heat stack"
