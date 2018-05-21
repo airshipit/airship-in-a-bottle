@@ -22,6 +22,19 @@
 #                                                                             #
 ###############################################################################
 
+usage ()
+{
+  echo "Usage: $(basename $0) {-y|-h}" 1>&2
+  echo "       -y                     don't ask questions, trust autodetection" 1>&2
+  echo "       -h                     this help" 1>&2
+}
+# See how we were called.
+case "$1" in
+  ""     ) ;;
+  "-y"   ) ASSUME_YES=1;;
+  "-h"|* ) usage; exit 1;;
+esac
+
 echo ""
 echo "Welcome to Airship in a Bottle"
 echo ""
@@ -68,15 +81,18 @@ sleep 1
 
 # IP and Hostname setup
 HOST_IFACE=$(ip route | grep "^default" | head -1 | awk '{ print $5 }')
-read -p "Is your HOST IFACE $HOST_IFACE? (Y/n) " YN_HI
-if [[ ! "$YN_HI" =~ ^([yY]|"")$ ]]; then
-  read -p "What is your HOST IFACE? " HOST_IFACE
-fi
-
 LOCAL_IP=$(ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}")
-read -p "Is your LOCAL IP $LOCAL_IP? (Y/n) " YN_IP
-if [[ ! "$YN_IP" =~ ^([yY]|"")$ ]]; then
-  read -p "What is your LOCAL IP? " LOCAL_IP
+
+if [[ $ASSUME_YES -ne 1 ]]; then
+  read -p "Is your HOST IFACE $HOST_IFACE? (Y/n) " YN_HI
+  if [[ ! "$YN_HI" =~ ^([yY]|"")$ ]]; then
+    read -p "What is your HOST IFACE? " HOST_IFACE
+  fi
+
+  read -p "Is your LOCAL IP $LOCAL_IP? (Y/n) " YN_IP
+  if [[ ! "$YN_IP" =~ ^([yY]|"")$ ]]; then
+    read -p "What is your LOCAL IP? " LOCAL_IP
+  fi
 fi
 
 # Shells out to get the hostname for the single-node deployment to avoid some
