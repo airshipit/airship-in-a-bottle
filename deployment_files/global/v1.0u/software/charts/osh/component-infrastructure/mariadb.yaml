@@ -1,0 +1,65 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-mariadb
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.mariadb
+      dest:
+        path: .source
+data:
+  chart_name: mariadb
+  release: openstack-mariadb
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-openstack-mariadb
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    volume:
+      enabled: false
+    labels:
+      server:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      prometheus_mysql_exporter:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+  dependencies:
+    - openstack-mariadb-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-mariadb-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.mariadb-htk
+      dest:
+        path: .source
+
+data:
+  chart_name: openstack-mariadb-helm-toolkit
+  release: openstack-mariadb-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

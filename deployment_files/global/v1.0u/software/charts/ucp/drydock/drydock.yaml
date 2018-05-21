@@ -160,6 +160,9 @@ data:
           maas_api_url: http://MAAS_IP:MAAS_PORT/MAAS/api/2.0/
         plugins:
           ingester: drydock_provisioner.ingester.plugins.deckhand.DeckhandIngester
+          oob_driver:
+            - 'drydock_provisioner.drivers.oob.pyghmi_driver.driver.PyghmiDriver'
+            - 'drydock_provisioner.drivers.oob.manual_driver.driver.ManualDriver'
   dependencies:
     - drydock-htk
 ...

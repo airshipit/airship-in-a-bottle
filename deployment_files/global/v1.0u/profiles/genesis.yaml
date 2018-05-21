@@ -67,16 +67,15 @@ data:
   labels:
     dynamic:
       - calico-etcd=enabled
-      - ceph-mds=enabled
-      - ceph-mon=enabled
-      - ceph-osd=enabled
-      - ceph-rgw=enabled
-      - ceph-mgr=enabled
+      - coredns=enabled
       - kube-ingress=enabled
       - kubernetes-apiserver=enabled
       - kubernetes-controller-manager=enabled
       - kubernetes-etcd=enabled
       - kubernetes-scheduler=enabled
+      - openstack-compute-node=enabled
+      - openstack-control-plane=enabled
+      - openvswitch=enabled
       - promenade-genesis=enabled
       - ucp-control-plane=enabled
   files:

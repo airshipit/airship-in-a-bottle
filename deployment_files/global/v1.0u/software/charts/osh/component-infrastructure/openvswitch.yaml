@@ -1,0 +1,60 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openvswitch
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.openvswitch
+      dest:
+        path: .source
+data:
+  chart_name: openvswitch
+  release: openvswitch
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-openvswitch
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    labels:
+      ovs:
+        node_selector_key: openvswitch
+        node_selector_value: enabled
+  dependencies:
+    - openstack-openvswitch-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-openvswitch-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.openvswitch-htk
+      dest:
+        path: .source
+
+data:
+  chart_name: openstack-openvswitch-helm-toolkit
+  release: openstack-openvswitch-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

@@ -44,6 +44,8 @@ HOSTIP=${HOSTIP:-""}
 HOSTCIDR=${HOSTCIDR:-""}
 # The interface on the host/genesis node. e.g.: 'ens3'
 NODE_NET_IFACE=${NODE_NET_IFACE:-""}
+# Allowance for Genesis/Armada to settle in seconds:
+POST_GENESIS_DELAY=${POST_GENESIS_DELAY:-60}
 
 
 # Repositories
@@ -100,7 +102,7 @@ function setup_workspace() {
   # Setup workspace directories
   mkdir -p ${WORKSPACE}/collected
   mkdir -p ${WORKSPACE}/genesis
-  # Open permissions for output from promenade
+  # Open permissions for output from Promenade
   chmod -R 777 ${WORKSPACE}/genesis
 }
 
@@ -144,7 +146,7 @@ EOF
 function install_dependencies() {
     apt -qq update
     # Install docker
-    apt -y install docker.io jq
+    apt -y install --no-install-recommends docker.io jq
 }
 
 function run_pegleg_collect() {
@@ -153,7 +155,7 @@ function run_pegleg_collect() {
 }
 
 function generate_certs() {
-  # Runs the generation of certs by promenade and builds bootstrap scripts
+  # Runs the generation of certs by Promenade and builds bootstrap scripts
   # Note: In the really real world, CAs and certs would be provided as part of
   #   the supplied design. In this dev/test environment, self signed is fine.
   # Moves the generated certificates from /genesis to the design, so that a
@@ -219,8 +221,13 @@ function genesis_complete() {
   cp -r /etc/kubernetes/admin/pki ~/.kube/pki
   cat /etc/kubernetes/admin/kubeconfig.yaml | sed -e 's/\/etc\/kubernetes\/admin/./' > ~/.kube/config
 
-  # signals that genesis completed
   set +x
+  echo "-----------"
+  echo "Waiting ${POST_GENESIS_DELAY} seconds for Genesis process to settle. This is a good time to grab a coffee :)"
+  echo "-----------"
+  sleep ${POST_GENESIS_DELAY}
+
+  # signals that genesis completed
   echo "Genesis complete. "
   echo "The .yaml files in ${WORKSPACE} contain the site design that may be suitable for use with Shipyard. "
   echo "The Shipyard Keystone password may be found in ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml"
@@ -237,16 +244,16 @@ function setup_deploy_site() {
   cp ${WORKSPACE}/genesis/*.yaml ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/airship-shipyard/tools/execute_shipyard_action.sh ${WORKSPACE}/site
   set +x
   echo " "
   echo "${WORKSPACE}/site is now set up with creds.sh which can be sourced to set up credentials for use in running Shipyard"
-  echo "${WORKSPACE}/site contains .yaml files that represent the single-node site deployment. (deployment_files.yaml, certificats.yaml)"
+  echo "${WORKSPACE}/site contains .yaml files that represent the single-node site deployment. (deployment_files.yaml, certificates.yaml)"
   echo " "
-  echo "NOTE 2018-03-23: due to a bug in pegleg's document gathering, deployment_files.yaml may need to be updated to remove the duplicate SiteDefinition at the tail end of the file."
   echo "NOTE: If you changed the Shipyard keystone password (see above printouts), the creds.sh file needs to be updated to match before use."
   echo " "
   echo "----------------------------------------------------------------------------------"
-  echo "The following commands will execute shipyard to setup and run a deploy_site action"
+  echo "The following commands will execute Shipyard to setup and run a deploy_site action"
   echo "----------------------------------------------------------------------------------"
   echo "cd ${WORKSPACE}/site"
   echo "source creds.sh"
@@ -258,7 +265,7 @@ function setup_deploy_site() {
   echo "-----------"
   echo "Other Notes"
   echo "-----------"
-  echo "If you need to run armada directly to deploy charts (fix something broken?), the following maybe of use:"
+  echo "If you need to run Armada directly to deploy charts (fix something broken?), the following may be of use:"
   echo "export ARMADA_IMAGE=artifacts-aic.atlantafoundry.com/att-comdev/armada"
   echo "docker run -t -v ~/.kube:/armada/.kube -v ${WORKSPACE}/site:/target --net=host '${ARMADA_IMAGE}' apply /target/your-yaml.yaml"
   echo " "
@@ -266,13 +273,23 @@ function setup_deploy_site() {
 }
 
 function execute_deploy_site() {
+  set +x
+  echo " "
+  echo "This is an automated deployment using Shipyard, running commands noted previously"
+  echo "Please stand by while Shipyard deploys the site"
+  echo " "
   set -x
-  echo cd ${WORKSPACE}/site
-  echo source creds.sh
-  echo ./run_shipyard.sh create configdocs design --filename=/home/shipyard/host/deployment_files.yaml
-  echo ./run_shipyard.sh create configdocs secrets --filename=/home/shipyard/host/certificates.yaml --append
-  echo ./run_shipyard.sh commit configdocs
-  echo ./run_shipyard.sh create action deploy_site
+  #Automate the steps of deploying a site.
+  cd ${WORKSPACE}/site
+  source creds.sh
+  ./run_shipyard.sh create configdocs design --filename=/home/shipyard/host/deployment_files.yaml
+  ./run_shipyard.sh create configdocs secrets --filename=/home/shipyard/host/certificates.yaml --append
+  ./run_shipyard.sh commit configdocs
+  # set variables used in execute_shipyard_action.sh
+  export max_shipyard_count=${max_shipyard_count:-60}
+  export shipyard_query_time=${shipyard_query_time:-90}
+  # monitor the execution of deploy_site
+  bash execute_shipyard_action.sh 'deploy_site'
 }
 
 

@@ -1,0 +1,14 @@
+---
+schema: armada/ChartGroup/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-ingress-controller
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+data:
+  description: "OpenStack Ingress Controller"
+  sequenced: False
+  chart_group:
+    - openstack-ingress-controller

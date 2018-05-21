@@ -1,0 +1,92 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: glance
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.glance
+      dest:
+        path: .source
+data:
+  chart_name: glance
+  release: glance
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-glance
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: glance
+            component: db-init
+        - type: job
+          labels:
+            application: glance
+            component: db-sync
+        - type: job
+          labels:
+            application: glance
+            component: ks-user
+        - type: job
+          labels:
+            application: glance
+            component: ks-service
+        - type: job
+          labels:
+            application: glance
+            component: ks-endpoints
+        - type: job
+          labels:
+            application: glance
+            component: storage-init
+  values:
+    labels:
+      api:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      job:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      registry:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+    storage: pvc
+  dependencies:
+    - openstack-glance-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-glance-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.glance-htk
+      dest:
+        path: .source
+data:
+  chart_name: openstack-glance-helm-toolkit
+  release: openstack-glance-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

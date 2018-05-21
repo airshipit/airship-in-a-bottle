@@ -9,13 +9,13 @@ metadata:
   storagePolicy: cleartext
 data:
   description: UCP Services
-  sequenced: false
+  sequenced: true
   chart_group:
+    - ucp-maas
     - ucp-tiller
     - ucp-armada
     - ucp-barbican
     - ucp-deckhand
-    - ucp-drydock
-    - ucp-maas
     - ucp-promenade
     - ucp-shipyard
+    - ucp-drydock

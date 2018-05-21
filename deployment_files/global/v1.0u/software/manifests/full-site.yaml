@@ -8,7 +8,7 @@ metadata:
     layer: global
   storagePolicy: cleartext
 data:
-  release_prefix: aic
+  release_prefix: airship
   chart_groups:
     - kubernetes-proxy
     - kubernetes-container-networking
@@ -25,3 +25,7 @@ data:
 # same change in bootstrap manifest.
 #    - ucp-divingbell
     - ucp-services
+    - openstack-ingress-controller
+    - openstack-component-infrastructure
+    - openstack-component-shared
+    - openstack-compute-kit

@@ -1,0 +1,97 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: keystone
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.keystone
+      dest:
+        path: .source
+data:
+  chart_name: keystone
+  release: openstack-keystone
+  namespace: openstack
+  wait:
+    timeout: 1800
+    labels:
+      release_group: airship-openstack-keystone
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: keystone
+            component: bootstrap
+        - type: job
+          labels:
+            application: keystone
+            component: credential-setup
+        - type: job
+          labels:
+            application: keystone
+            component: db-init
+        - type: job
+          labels:
+            application: keystone
+            component: db-sync
+        - type: job
+          labels:
+            application: keystone
+            component: fernet-setup
+        - type: job
+          labels:
+            application: keystone
+            component: domain-manage
+        - type: cronjob
+          labels:
+            application: keystone
+            component: credential-rotate
+        - type: cronjob
+          labels:
+            application: keystone
+            component: fernet-rotate
+  values:
+    labels:
+      api:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+      job:
+        node_selector_key: openstack-control-plane
+        node_selector_value: enabled
+  dependencies:
+    - openstack-keystone-helm-toolkit
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: openstack-keystone-helm-toolkit
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.openstack.keystone-htk
+      dest:
+        path: .source
+
+data:
+  chart_name: openstack-keystone-helm-toolkit
+  release: openstack-keystone-helm-toolkit
+  namespace: helm-toolkit
+  values: {}
+  dependencies: []

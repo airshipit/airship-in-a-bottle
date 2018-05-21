@@ -32,8 +32,10 @@ sudo docker run -t --rm --net=host
 -e OS_USER_DOMAIN_NAME=${OS_USER_DOMAIN_NAME:-default}
 -e OS_PASSWORD=${OS_PASSWORD:-password}
 -e OS_PROJECT_DOMAIN_NAME=${OS_PROJECT_DOMAIN_NAME:-default}
--e OS_PROJECT_NAME=${OS_PROJECT_NAME:-service}
+-e OS_PROJECT_NAME=${OS_PROJECT_NAME:-admin}
 -e OS_REGION_NAME=${OS_REGION_NAME:-RegionOne}
 -e OS_IDENTITY_API_VERSION=${OS_IDENTITY_API_VERSION:-3}
+-w /host/$(pwd)
+-v /:/host:rshared
 EndOfCommand
 )
