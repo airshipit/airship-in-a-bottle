@@ -420,56 +420,56 @@ data:
     ucp:
       armada:
         api: artifacts-aic.atlantafoundry.com/att-comdev/armada:2b714888c490a9f7c5a11383eb18b7226d1b1dc8
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_user: docker.io/openstackhelm/heat:ocata
         helm: lachlanevenson/k8s-helm:v2.7.2
         tiller: gcr.io/kubernetes-helm/tiller:v2.7.2
       promenade:
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         promenade: docker.io/sthussey/promenade:replace
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        ks_user: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
       deckhand:
         deckhand: artifacts-aic.atlantafoundry.com/att-comdev/deckhand:7385d077395dde975200a071f7ea503a9522e32c
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         db_init: docker.io/postgres:9.5
         db_sync: artifacts-aic.atlantafoundry.com/att-comdev/deckhand:7385d077395dde975200a071f7ea503a9522e32c
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_user: docker.io/openstackhelm/heat:ocata
       barbican:
-        bootstrap: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
-        scripted_test: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        db_init: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        barbican_db_sync: docker.io/kolla/ubuntu-source-barbican-api:3.0.3
-        db_drop: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        barbican_api: docker.io/kolla/ubuntu-source-barbican-api:3.0.3
+        bootstrap: docker.io/openstackhelm/heat:ocata
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
+        scripted_test: docker.io/openstackhelm/heat:ocata
+        db_init: docker.io/openstackhelm/heat:ocata
+        barbican_db_sync: docker.io/openstackhelm/barbican:ocata
+        db_drop: docker.io/openstackhelm/heat:ocata
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_user: docker.io/openstackhelm/heat:ocata
+        barbican_api: docker.io/openstackhelm/barbican:ocata
       drydock:
         drydock: artifacts-aic.atlantafoundry.com/att-comdev/drydock:506e06623a5f1c11c0d34f2089851cc8381f06ae
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
+        ks_user: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
         drydock_db_init: docker.io/postgres:9.5
         drydock_db_sync: artifacts-aic.atlantafoundry.com/att-comdev/drydock:506e06623a5f1c11c0d34f2089851cc8381f06ae
       shipyard:
         airflow: artifacts-aic.atlantafoundry.com/att-comdev/airflow:afc2ea501deda27083b951f14791c5ed6141d8ae
         shipyard: artifacts-aic.atlantafoundry.com/att-comdev/shipyard:afc2ea501deda27083b951f14791c5ed6141d8ae
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         shipyard_db_init: docker.io/postgres:9.5
         shipyard_db_sync: artifacts-aic.atlantafoundry.com/att-comdev/shipyard:afc2ea501deda27083b951f14791c5ed6141d8ae
         airflow_db_init: docker.io/postgres:9.5
         airflow_db_sync: artifacts-aic.atlantafoundry.com/att-comdev/airflow:afc2ea501deda27083b951f14791c5ed6141d8ae
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        ks_user: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
       maas:
         db_init: docker.io/postgres:9.5
         db_sync: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:3e4849e132353f22378fa7d10838f3e0c2f0eef2
@@ -478,40 +478,40 @@ data:
         bootstrap: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:3e4849e132353f22378fa7d10838f3e0c2f0eef2
         export_api_key: artifacts-aic.atlantafoundry.com/att-comdev/maas-region-controller:3e4849e132353f22378fa7d10838f3e0c2f0eef2
         maas_cache: artifacts-aic.atlantafoundry.com/att-comdev/sstream-cache@sha256:70aa6cc9cdf0d07ed933c99f232ecc82cb89048ffdb030811e44a537bdfad67e
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       keystone:
-        keystone_bootstrap: docker.io/kolla/ubuntu-source-keystone:3.0.3
+        keystone_bootstrap: docker.io/openstackhelm/heat:ocata
         test: docker.io/kolla/ubuntu-source-rally:4.0.0
-        db_init: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        keystone_db_sync: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        db_drop: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        keystone_fernet_setup: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        keystone_fernet_rotate: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        keystone_credential_setup: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        keystone_credential_rotate: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        keystone_api: docker.io/kolla/ubuntu-source-keystone:3.0.3
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        db_init: docker.io/openstackhelm/heat:ocata
+        keystone_db_sync: docker.io/openstackhelm/keystone:ocata
+        db_drop: docker.io/openstackhelm/heat:ocata
+        keystone_fernet_setup: docker.io/openstackhelm/keystone:ocata
+        keystone_fernet_rotate: docker.io/openstackhelm/keystone:ocata
+        keystone_credential_setup: docker.io/openstackhelm/keystone:ocata
+        keystone_credential_rotate: docker.io/openstackhelm/keystone:ocata
+        keystone_api: docker.io/openstackhelm/keystone:ocata
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       tiller:
         tiller: gcr.io/kubernetes-helm/tiller:v2.7.2
       mariadb:
         mariadb: docker.io/mariadb:10.1.23
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       postgresql:
         postgresql: docker.io/postgres:9.5
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       memcached:
         memcached: docker.io/memcached:1.5.5
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       rabbitmq:
         rabbitmq: docker.io/rabbitmq:3.7
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
     ceph:
       ceph:
-        ks_endpoints: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_service: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
-        ks_user: docker.io/kolla/ubuntu-source-heat-engine:3.0.3
+        ks_endpoints: docker.io/openstackhelm/heat:ocata
+        ks_service: docker.io/openstackhelm/heat:ocata
+        ks_user: docker.io/openstackhelm/heat:ocata
         ceph_bootstrap: docker.io/ceph/daemon:tag-build-master-luminous-ubuntu-16.04
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.0
+        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         ceph_daemon: docker.io/ceph/daemon:tag-build-master-luminous-ubuntu-16.04
         ceph_config_helper: docker.io/port/ceph-config-helper:v1.7.5
         ceph_rbd_provisioner: quay.io/external_storage/rbd-provisioner:v0.1.1
