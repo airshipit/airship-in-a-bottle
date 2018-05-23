@@ -29,12 +29,28 @@ set -x
 # it will not be re-cloned. This can be used to set up different tests, like
 # changing the versions and contents of the design before running this script
 
+# The last step to run through in this script. Valid Values are "collect",
+# "genesis", "deploy", and "demo". By default this will run through to the end
+# of the genesis steps
+LAST_STEP_NAME=${1:-"genesis"}
+
+if [[ ${LAST_STEP_NAME} == "collect" ]]; then
+  STEP_BREAKPOINT=10
+elif [[ ${LAST_STEP_NAME} == "genesis" ]]; then
+  STEP_BREAKPOINT=20
+elif [[ ${LAST_STEP_NAME} == "deploy" ]]; then
+  STEP_BREAKPOINT=30
+elif [[ ${LAST_STEP_NAME} == "demo" ]]; then
+  STEP_BREAKPOINT=40
+else
+  STEP_BREAKPOINT=20
+fi
+
 # The directory that will contain the copies of designs and repos from this script
-WORKSPACE=${WORKSPACE:-"/root/deploy"}
-export WORKSPACE
+export WORKSPACE=${WORKSPACE:-"/root/deploy"}
+
 # The site to deploy
 TARGET_SITE=${TARGET_SITE:-"dev"}
-# The hostname for the genesis node
 
 # The host name for the single-node deployment. e.g.: 'genesis'
 SHORT_HOSTNAME=${SHORT_HOSTNAME:-""}
@@ -215,7 +231,7 @@ function validate_genesis() {
 
 function genesis_complete() {
   # Setup kubeconfig
-  if [ ! -d "~/.kube" ] ; then
+  if [ ! -d "$HOME/.kube" ] ; then
     mkdir ~/.kube
   fi
   cp -r /etc/kubernetes/admin/pki ~/.kube/pki
@@ -240,7 +256,9 @@ function setup_deploy_site() {
   # creates a directory /${WORKSPACE}/site with all the things necessary to run
   # deploy_site
   mkdir -p ${WORKSPACE}/site
-  cp ${WORKSPACE}/airship-in-a-bottle/manifests/dev_single_node/creds.sh ${WORKSPACE}/site
+  # TODO: (bryan-strassner) make creds.sh contain the Shipyard-Keystone
+  #     password sourced from the target design used.
+  cp ${WORKSPACE}/airship-in-a-bottle/manifests/common/creds.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/genesis/*.yaml ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
@@ -293,6 +311,8 @@ function execute_deploy_site() {
 }
 
 function execute_create_heat_stack() {
+  # TODO: (bryan-strassner) prevent this running unless we're running from a
+  #     compatible site defintion that includes OpenStack
   set +x
   echo " "
   echo "Performing basic sanity checks by creating heat stacks"
@@ -320,20 +340,37 @@ function error() {
 
 trap clean EXIT
 
+
+# Common steps for all breakpoints specified
 check_preconditions || error "checking for preconditions"
 setup_workspace || error "setting up workspace directories"
 setup_repos || error "setting up Git repos"
 configure_dev_configurables || error "adding dev-configurables values"
 install_dependencies || error "installing dependencies"
-run_pegleg_collect || error "running pegleg collect"
-generate_certs || error "setting up certs with Promenade"
-# Temporarially disabled until lint_design works with a single node.
-# lint_design || error "linting the design"
-generate_genesis || error "generating genesis"
-run_genesis || error "running genesis"
-validate_genesis || error "validating genesis"
-genesis_complete || error "printing out some info about next steps"
-setup_deploy_site || error "preparing the /site directory for deploy_site"
-# Disable execute_deploy_site to stop at the Airship components
-execute_deploy_site || error "executing deploy_site from the /site directory"
-execute_create_heat_stack || error "creating heat stack"
+
+# collect
+if [[ ${STEP_BREAKPOINT} -ge 10 ]]; then
+  run_pegleg_collect || error "running pegleg collect"
+fi
+
+# genesis
+if [[ ${STEP_BREAKPOINT} -ge 20 ]]; then
+  generate_certs || error "setting up certs with Promenade"
+  # Temporarially disabled until lint_design works with a single node.
+  # lint_design || error "linting the design"
+  generate_genesis || error "generating genesis"
+  run_genesis || error "running genesis"
+  validate_genesis || error "validating genesis"
+  genesis_complete || error "printing out some info about next steps"
+  setup_deploy_site || error "preparing the /site directory for deploy_site"
+fi
+
+# deploy
+if [[ ${STEP_BREAKPOINT} -ge 30 ]]; then
+  execute_deploy_site || error "executing deploy_site from the /site directory"
+fi
+
+# demo
+if [[ ${STEP_BREAKPOINT} -ge 40 ]]; then
+  execute_create_heat_stack || error "creating heat stack"
+fi

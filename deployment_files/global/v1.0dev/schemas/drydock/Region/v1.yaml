@@ -1,0 +1,31 @@
+---
+schema: 'deckhand/DataSchema/v1'
+metadata:
+  schema: metadata/Control/v1
+  name: drydock/Region/v1
+  labels:
+    application: drydock
+data:
+  $schema: 'http://json-schema.org/schema#'
+  id: 'http://att.com/att-comdev/drydock/region.yaml'
+  type: 'object'
+  properties:
+    tag_definitions:
+      type: 'array'
+      items:
+        type: 'object'
+        properties:
+          tag:
+            type: 'string'
+          definition_type:
+            type: 'string'
+            enum:
+              - 'lshw_xpath'
+          definition:
+            type: 'string'
+        additionalProperties: false
+    authorized_keys:
+      type: 'array'
+      items:
+        type: 'string'
+  additionalProperties: false

@@ -12,85 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dev_single_node
-===============
+dev_single_node, an Airship Demonstration
+=========================================
 
-Sets up and deploys an instance of UCP using the images pinned in the versions
-file of the targeted deployment_files based site definitions.
-versions file: deployment_files/global/v1.0u/software/config/versions.yaml
+Use the airship-in-a-bottle.sh script to automatically deploy a demonstration
+version of Airship. It will attempt to detect the required environment settings
+and deploy an instance of Airship, including running a demo instance of
+OpenStack (using OpenStack Helm), and creating a simple Virtual Machine.
 
-Running deploy-ucp will download and build into the /root/deploy directory.
+This demonstration uses the images pinned in the versions file of the targeted
+deployment_files based site definitions:
+deployment_files/global/v1.0demo/software/config/versions.yaml
 
-Process
--------
-1) Set up as large a VM as you can reasonably set up. 8 core/16GB is
-   recommended
-2) become root. All the commands are run as root.
-3) update etc/hosts with IP/Hostname of your VM. e.g. 10.0.0.15 testvm1
-4) go to /root and clone ucp integration. Pull the latest patchset if needed
-   (a) if you instead clone ucp integration into /root/deploy (the workspace
-       used by the deploy script), ucp-integration will not be re-cloned during
-       deployment. This allows you to modify the deployment_files directory
-       contents that will be used by the deployment - which would enable
-       deployment of charts and/or images with versions other than those that
-       are specified by the committed contents. (i.e. you can configure the
-       deployment contents this way)
-5) cd into ucp-integration/manifests/dev_single_node
-6) Update the set-env.sh with the hostname and ip on the appropriate lines.
-7) set the UCP integration repo and refspec to the gerrithub & patchset of the
-   deployment you want to use. (if you used 4.a, this is not necessary)
+By default, files will be downloadloaded and built into the /root/deploy
+directory of the virtual machine being used to install this demo.
 
-E.g.:
-
-export UCP_INTEGRATION_REPO="https://review.gerrithub.io/att-comdev/ucp-integration"
-export UCP_INTEGRATION_REFSPEC="refs/changes/03/404203/32"
-
-8) set the pegleg image, since :latest is not right as of 3/21/2018
-
-export PEGLEG_IMAGE="artifacts-aic.atlantafoundry.com/att-comdev/pegleg:f019b4ff594db7d13a2ac444c001f867b3a67c50"
-
-9) source set-env.sh
-
-NOTE: If running this behind a corporate proxy, you will need to update the
-      file deployment_files/site/dev-proxy/networks/common-addresses.yaml to
-      specify your proxy server and appropriate no_proxy list. Also change set-env.sh
-      to use TARGET_SITE of 'dev-proxy'.
-
-10) ./deploy-ucp.sh
-
-If you want to stop the deployment before it starts running genesis and inspect
-the produced files, comment the last few lines of the deploy-ucp.sh to not
-trigger the genesis steps.
-
-Next Steps
-----------
-All of the documents used for a subsequent deploy_site action are now placed
-into the /root/deploy/site directory for ease of use - instructions are
-provided by the script at the end of a successful genesis process.
-
-In the same directory as the deploy-ucp.sh script, there is a file creds.sh
-that can be sourced to set environment variables that will enable keystone
-authoriation to use for running shipyard.
-
-Example:
-
-. creds.sh
-
-
-The files produced into the /root/deploy/genesis directory contain two yaml
-files: certificates.yaml and deployment_files.yaml. These files can be used as
-input to shipyard using the script found at /root/deploy/shipyard/tools/run_shipyard.sh
-
-Example: (assuming creds.sh is sourced as above)
-
-cd /root/deploy/shipyard/tools
-cp /root/deploy/genesis/*.yaml /root/deploy/shipyard/tools
-# Note that /home/shipyard/host is where the host's pwd is mounted in the shipyard container.
-./run_shipyard.sh create configdocs design --filename=/home/shipyard/host/deployment_files.yaml
-./run_shipyard.sh create configdocs secrets --filename=/home/shipyard/host/certificates.yaml --append
-
-Please note: The deployment_files.yaml document may have the SiteDefinition
-document defined twice in it due to a bug in how the documents are gathered by
-Pegleg. Simply deleting the second copy of the SiteDefinition (at the very end
-of the deployment_files.yaml) will allow the documents to be loaded without a
-"conflict" response.
+Note that this process will result in the contents of the VM to be modified
+outside of that directory, and the VM should be intended to be discarded after
+demo use.
