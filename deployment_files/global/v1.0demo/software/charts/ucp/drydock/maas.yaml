@@ -156,15 +156,45 @@ data:
   chart_name: maas
   release: maas
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      application: maas
+      component: region
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
     pre:
       delete:
-        - type: 'job'
+        - type: job
           labels:
-            application: 'maas'
+            application: maas
+            component: region
+        - type: job
+          labels:
+            application: maas
+            component: db-sync
+        - type: job
+          labels:
+            application: maas
+            component: db-init
+        - type: job
+          labels:
+            application: maas
+            component: bootstrap-admin-user
+        - type: job
+          labels:
+            application: maas
+            component: rack
+        - type: job
+          labels:
+            application: maas
+            component: export-api-key
+        - type: job
+          labels:
+            application: maas
+            component: import-resources
   values:
     labels:
       rack:
@@ -217,7 +247,8 @@ data:
   chart_name: maas-htk
   release: maas-htk
   namespace: maas-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...

@@ -76,11 +76,19 @@ data:
   chart_name: controller-manager
   release: kubernetes-controller-manager
   namespace: kube-system
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      application: kubernetes
+      component: kubernetes-controller-manager-anchor
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: kubernetes
+            component: kubernetes-controller-manager-anchor
   values:
     network:
       kubernetes_netloc: 127.0.0.1:6553
@@ -106,7 +114,8 @@ data:
   chart_name: kubernetes-controller-manager-htk
   release: kubernetes-controller-manager-htk
   namespace: kubernetes-controller-manager-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...

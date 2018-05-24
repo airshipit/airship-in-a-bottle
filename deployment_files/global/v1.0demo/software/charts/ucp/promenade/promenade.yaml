@@ -75,10 +75,21 @@ data:
   chart_name: promenade
   release: ucp-promenade
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      application: promenade
+      component: api
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: promenade
+            component: api
   values:
     conf:
       paste:
@@ -112,7 +123,8 @@ data:
   chart_name: promenade-htk
   release: promenade-htk
   namespace: promenade-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...

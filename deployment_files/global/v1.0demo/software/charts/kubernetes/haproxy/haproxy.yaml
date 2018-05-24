@@ -28,11 +28,19 @@ data:
   chart_name: haproxy
   release: haproxy
   namespace: kube-system
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      application: kubernetes
+      component: haproxy-anchor
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: kubernetes
+            component: haproxy-anchor
   values:
     conf:
       anchor:
@@ -84,7 +92,8 @@ data:
   chart_name: haproxy-htk
   release: haproxy-htk
   namespace: haproxy-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...

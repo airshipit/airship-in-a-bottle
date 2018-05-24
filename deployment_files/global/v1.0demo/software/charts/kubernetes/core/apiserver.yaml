@@ -101,11 +101,19 @@ data:
   chart_name: apiserver
   release: kubernetes-apiserver
   namespace: kube-system
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      application: kubernetes
+      component: kubernetes-apiserver-anchor
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: kubernetes
+            component: kubernetes-apiserver-anchor
   values:
     apiserver:
       etcd:
@@ -132,7 +140,8 @@ data:
   chart_name: kubernetes-apiserver-htk
   release: kubernetes-apiserver-htk
   namespace: kubernetes-apiserver-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...

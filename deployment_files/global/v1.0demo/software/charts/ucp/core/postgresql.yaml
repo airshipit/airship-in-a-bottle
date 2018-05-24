@@ -50,12 +50,20 @@ data:
   chart_name: ucp-postgresql
   release: ucp-postgresql
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      application: postgresql
+      component: server
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
     pre:
-      delete: []
+      delete:
+        - type: job
+          labels:
+            application: postgresq
       create: []
     post:
       create: []
@@ -89,7 +97,8 @@ data:
   chart_name: postgres-htk
   release: postgres-htk
   namespace: postgres-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...

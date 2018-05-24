@@ -19,11 +19,19 @@ data:
   chart_name: divingbell
   release: divingbell
   namespace: ucp
-  timeout: 300
+  wait:
+    timeout: 300
+    labels:
+      application: divingbell
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: divingbell
   values:
     conf:
       sysctl:
@@ -81,6 +89,7 @@ data:
   chart_name: ucp-divingbell-htk
   release: ucp-divingbell-htk
   namespace: ucp-divingbell-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []

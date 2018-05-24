@@ -79,11 +79,16 @@ data:
   chart_name: etcd
   release: kubernetes-calico-etcd
   namespace: kube-system
-  timeout: 600
   wait:
     timeout: 600
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            application: kubernetes
+            component: calico-etcd
   values:
     labels:
       anchor:
@@ -129,7 +134,8 @@ data:
   chart_name: kubernetes-calico-etcd-htk
   release: kubernetes-calico-etcd-htk
   namespace: kubernetes-calico-etcd-htk
-  timeout: 100
+  wait:
+    timeout: 100
   values: {}
   dependencies: []
 ...
