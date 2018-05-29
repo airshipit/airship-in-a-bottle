@@ -1,0 +1,259 @@
+---
+schema: 'deckhand/DataSchema/v1'
+metadata:
+  schema: metadata/Control/v1
+  name: pegleg/AccountCatalogue/v1
+data:
+  $schema: 'http://json-schema.org/schema#'
+  type: object
+  properties:
+    ucp:
+      type: object
+      properties:
+        postgres:
+          type: object
+          properties:
+            admin:
+              type: object
+              properties:
+                username:
+                  type: string
+        oslo_db:
+          type: object
+          properties:
+            admin:
+              type: object
+              properties:
+                username:
+                  type: string
+        oslo_messaging:
+          type: object
+          properties:
+            admin:
+              type: object
+              properties:
+                username:
+                  type: string
+        keystone:
+          type: object
+          properties:
+            admin:
+              type: object
+              properties:
+                region_name:
+                  type: string
+                username:
+                  type: string
+                project_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                project_domain_name:
+                  type: string
+            oslo_messaging:
+              type: object
+              properties:
+                username:
+                  type: string
+            oslo_db:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+        promenade:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                region_name:
+                  type: string
+                role:
+                  type: string
+                project_name:
+                  type: string
+                project_domain_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                username:
+                  type: string
+        drydock:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                region_name:
+                  type: string
+                role:
+                  type: string
+                project_name:
+                  type: string
+                project_domain_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                username:
+                  type: string
+            postgres:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+        shipyard:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                region_name:
+                  type: string
+                role:
+                  type: string
+                project_name:
+                  type: string
+                project_domain_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                username:
+                  type: string
+            postgres:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+        airflow:
+          type: object
+          properties:
+            postgres:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+            oslo_messaging:
+              type: object
+              properties:
+                username:
+                  type: string
+        maas:
+          type: object
+          properties:
+            admin:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+            postgres:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+        barbican:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                region_name:
+                  type: string
+                role:
+                  type: string
+                project_name:
+                  type: string
+                project_domain_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                username:
+                  type: string
+            oslo_db:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+            oslo_messaging:
+              type: object
+              properties:
+                username:
+                  type: string
+        armada:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                project_domain_name:
+                  type: string
+                project_name:
+                  type: string
+                region_name:
+                  type: string
+                role:
+                  type: string
+                user_domain_name:
+                  type: string
+                username:
+                  type: string
+        deckhand:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                region_name:
+                  type: string
+                role:
+                  type: string
+                project_name:
+                  type: string
+                project_domain_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                username:
+                  type: string
+            postgres:
+              type: object
+              properties:
+                username:
+                  type: string
+                database:
+                  type: string
+    ceph:
+      type: object
+      properties:
+        swift:
+          type: object
+          properties:
+            keystone:
+              type: object
+              properties:
+                role:
+                  type: string
+                region_name:
+                  type: string
+                username:
+                  type: string
+                project_name:
+                  type: string
+                user_domain_name:
+                  type: string
+                project_domain_name:
+                  type: string
+...

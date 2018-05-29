@@ -1,0 +1,86 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-divingbell
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.ucp.divingbell
+      dest:
+        path: .source
+data:
+  chart_name: divingbell
+  release: divingbell
+  namespace: ucp
+  timeout: 300
+  install:
+    no_hooks: false
+  upgrade:
+    no_hooks: false
+  values:
+    conf:
+      sysctl:
+        net.nf_conntrack_max: '1048576'
+        kernel.panic: '60'
+        net.ipv4.conf.default.arp_accept: '1'
+        net.core.netdev_max_backlog: '261144'
+        net.ipv4.tcp_keepalive_intvl: '3'
+        net.ipv4.tcp_keepalive_time: '30'
+        net.ipv4.tcp_keepalive_probes: '8'
+        net.ipv4.conf.all.arp_accept: '1'
+        net.ipv4.tcp_retries2: '5'
+        net.ipv4.neigh.default.gc_thresh1: '4096'
+        net.ipv4.neigh.default.gc_thresh2: '8192'
+        net.ipv4.neigh.default.gc_thresh3: '16384'
+        net.bridge.bridge-nf-call-iptables: '1'
+        net.bridge.bridge-nf-call-arptables: '1'
+        net.bridge.bridge-nf-call-ip6tables: '1'
+        net.ipv4.conf.default.rp_filter: '0'
+        net.netfilter.nf_conntrack_acct: '1'
+      overrides:
+        divingbell_mounts:
+          labels:
+          - label:
+              key: hosttype
+              values:
+              - "nd-global"
+              - "nv-global"
+            conf:
+              mounts:
+                mnt1:
+                  mnt_tgt: /run/hugepages/kvm
+                  device: hugetlbfs-kvm
+                  type: hugetlbfs
+                  options: 'mode=775'
+  dependencies:
+    - ucp-divingbell-htk
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-divingbell-htk
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.ucp.divingbell-htk
+      dest:
+        path: .source
+data:
+  chart_name: ucp-divingbell-htk
+  release: ucp-divingbell-htk
+  namespace: ucp-divingbell-htk
+  timeout: 100
+  values: {}
+  dependencies: []

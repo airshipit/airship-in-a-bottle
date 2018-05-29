@@ -1,10 +1,10 @@
 ---
 data:
-  revision: v1.0dev
-  site_type: single-node-proxy
+  revision: v1.0demo
+  site_type: single-node
 metadata:
   layeringDefinition: {abstract: false, layer: site}
-  name: dev-proxy
+  name: demo
   schema: metadata/Document/v1
   storagePolicy: cleartext
 schema: pegleg/SiteDefinition/v1

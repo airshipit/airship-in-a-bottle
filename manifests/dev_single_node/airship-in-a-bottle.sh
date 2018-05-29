@@ -16,7 +16,7 @@
 
 ###############################################################################
 #                                                                             #
-# Set up and deploy a Airship environment for development/testing purposes.   #
+# Set up and deploy a Airship environment for demonstration purposes.         #
 # Many of the defaults and sources used here are NOT production ready, and    #
 # this should not be used as a copy/paste source for any production use.      #
 #                                                                             #
@@ -63,7 +63,7 @@ echo "The expected runtime of this script is greater than 1 hour"
 echo ""
 sleep 1
 echo ""
-echo "The minimum recommended size of the Ubuntu 16.04 VM is 4 vCPUs, 20GB of RAM with 64GB disk space."
+echo "The minimum recommended size of the Ubuntu 16.04 VM is 4 vCPUs, 20GB of RAM with 32GB disk space."
 CPU_COUNT=$(grep -c processor /proc/cpuinfo)
 RAM_TOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
 source /etc/os-release
@@ -125,10 +125,10 @@ export HOSTCIDR=$CIDR
 # The network interface on the genesis node
 export NODE_NET_IFACE=$HOST_IFACE
 
-export TARGET_SITE="dev"
+export TARGET_SITE="demo"
 set +x
 
 echo ""
 echo "Starting Airship deployment..."
 sleep 1
-./deploy-airship.sh
+../common/deploy-airship.sh demo

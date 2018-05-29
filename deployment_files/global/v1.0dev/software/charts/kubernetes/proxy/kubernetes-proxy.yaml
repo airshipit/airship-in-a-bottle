@@ -1,0 +1,63 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: kubernetes-proxy
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.kubernetes.proxy
+      dest:
+        path: .source
+
+    # Images
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .images.kubernetes.proxy
+      dest:
+        path: .values.images.tags
+data:
+  chart_name: proxy
+  release: kubernetes-proxy
+  namespace: kube-system
+  timeout: 600
+  wait:
+    timeout: 600
+  upgrade:
+    no_hooks: true
+  values:
+    network:
+      kubernetes_netloc: 127.0.0.1:6553
+  dependencies:
+    - kubernetes-proxy-htk
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: kubernetes-proxy-htk
+  layeringDefinition:
+    abstract: false
+    layer: global
+  storagePolicy: cleartext
+  substitutions:
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .charts.kubernetes.proxy-htk
+      dest:
+        path: .source
+data:
+  chart_name: kubernetes-proxy-htk
+  release: kubernetes-proxy-htk
+  namespace: kubernetes-proxy-htk
+  timeout: 100
+  values: {}
+  dependencies: []
+...

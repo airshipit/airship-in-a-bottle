@@ -8,7 +8,8 @@ enabling an automated, resilient Kubernetes-based infrastructure for hosting
 Helm-deployed containerized workloads.
 
 To get started, run the following in a fresh Ubuntu 16.04 VM
-(4vCPU/20GB RAM/64GB disk). This will deploy Airship and OSH:
+(minimum 4vCPU/20GB RAM/32GB disk). This will deploy Airship and Openstack Helm
+(OSH):
 ```
 sudo -i
 mkdir -p /root/deploy && cd "$_"
