@@ -49,6 +49,7 @@ Conventions and Standards
    conventions
    ucp-basic-deployment
    blueprints/blueprints
+   dev-getting-started
 
 
 .. _Helm: https://helm.sh/
