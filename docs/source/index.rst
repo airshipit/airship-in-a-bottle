@@ -19,19 +19,24 @@
   The Undercloud Platform is part of the containerized Local Control Plane
   (cLCP). More details may be found by using the `Treasuremap`_
 
-Undercloud Platform Integration
-===============================
+.. note::
 
-The Undercloud Platform (UCP) is a collection of components that coordinate to
-form a means of configuring and deploying and maintaining a `Kubernetes`_
-environment using a declarative set of `yaml`_ documents.
+  These documents will be reworked to reflect the changes associated with
+  becoming an OpenStack hosted project: Airship. Expect major changes to occur
+  with time. See more at `airshipit.org`_
+
+Airship
+=======
+
+Airship is a collection of components that coordinate to form a means of
+configuring, deploying and maintaining a `Kubernetes`_ environment using a
+declarative set of `yaml`_ documents.
 
 Approach
 --------
-As the UCP revolves around the setup and use of Kubernetes and `Helm`_,
-practices take cues from these projects. Since the sibling work of UCP is the
-`Openstack Helm`_ project (now an `Openstack`_ projet) cues are also
-taken from the Openstack approach.
+Airship revolves around the setup and use of Kubernetes and `Helm`_ and takes
+cues from these projects. The first use case of Airship is the deployment
+of `OpenStack Helm`_ which also influences Airship's direction.
 
 Building this Documentation
 ---------------------------
@@ -47,11 +52,11 @@ Conventions and Standards
    :maxdepth: 3
 
    conventions
-   ucp-basic-deployment
    blueprints/blueprints
    dev-getting-started
 
 
+.. _airshipit.org: https://airshipit.org
 .. _Helm: https://helm.sh/
 .. _Kubernetes: https://kubernetes.io/
 .. _Openstack: https://www.openstack.org/
