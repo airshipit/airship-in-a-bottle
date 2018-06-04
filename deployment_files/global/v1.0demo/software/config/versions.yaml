@@ -19,9 +19,9 @@ data:
       calico:
         etcd:
           type: git
-          location: https://github.com/att-comdev/promenade
+          location: https://github.com/openstack/airship-promenade
           subpath: charts/etcd
-          reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+          reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
         etcd-htk:
           type: git
           location: https://github.com/openstack/openstack-helm
@@ -39,9 +39,9 @@ data:
           reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
       apiserver:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/apiserver
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       apiserver-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -49,9 +49,9 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       controller-manager:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/controller_manager
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       controller-manager-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -59,9 +59,9 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       coredns:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/coredns
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       coredns-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -69,9 +69,9 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       haproxy:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/haproxy
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       haproxy-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -79,9 +79,9 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       etcd:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/etcd
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       etcd-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -99,9 +99,9 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       proxy:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/proxy
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       proxy-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
@@ -109,9 +109,9 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       scheduler:
         type: git
-        location: https://github.com/att-comdev/promenade
+        location: https://github.com/openstack/airship-promenade
         subpath: charts/scheduler
-        reference: ccdaceabf30c8cd42661a95e05f72a630b5310a0
+        reference: 6e87b82f514cc4160b09cf394646410a9d9fe2a7
       scheduler-htk:
         type: git
         location: https://github.com/openstack/openstack-helm
