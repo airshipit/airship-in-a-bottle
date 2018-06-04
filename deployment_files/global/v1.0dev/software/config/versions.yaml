@@ -180,7 +180,7 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       drydock:
         type: git
-        location: https://github.com/att-comdev/drydock
+        location: https://git.openstack.org/openstack/airship-drydock
         subpath: charts/drydock
         reference: 506e06623a5f1c11c0d34f2089851cc8381f06ae
       drydock-htk:
