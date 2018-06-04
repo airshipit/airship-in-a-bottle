@@ -15,8 +15,6 @@ data:
       properties:
         deployment_strategy:
           type: 'string'
-          enum:
-            - 'all-at-once'
         deploy_interval:
           type: 'integer'
         deploy_timeout:
@@ -65,8 +63,16 @@ data:
     armada:
       type: 'object'
       properties:
+        get_releases_timeout:
+          type: 'integer'
+        get_status_timeout:
+          type: 'integer'
         manifest:
           type: 'string'
+        post_apply_timeout:
+          type: 'integer'
+        validate_design_timeout:
+          type: 'integer'
       additionalProperties: false
       required:
         - manifest

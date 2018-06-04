@@ -9,7 +9,6 @@ metadata:
   storagePolicy: cleartext
 data:
   physical_provisioner:
-    deployment_strategy: all-at-once
     deploy_interval: 30
     deploy_timeout: 3600
     destroy_interval: 30
