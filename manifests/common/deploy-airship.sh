@@ -285,7 +285,7 @@ function setup_deploy_site() {
   echo "-----------"
   echo "If you need to run Armada directly to deploy charts (fix something broken?), the following may be of use:"
   echo "export ARMADA_IMAGE=artifacts-aic.atlantafoundry.com/att-comdev/armada"
-  echo "docker run -t -v ~/.kube:/armada/.kube -v ${WORKSPACE}/site:/target --net=host '${ARMADA_IMAGE}' apply /target/your-yaml.yaml"
+  echo "docker run -t -v ~/.kube:/armada/.kube -v ${WORKSPACE}/site:/target --net=host \${ARMADA_IMAGE} apply /target/your-yaml.yaml"
   echo " "
   set -x
 }
