@@ -13,7 +13,7 @@ To get started, run the following in a fresh Ubuntu 16.04 VM
 ```
 sudo -i
 mkdir -p /root/deploy && cd "$_"
-git clone https://github.com/openstack/airship-in-a-bottle
+git clone https://git.openstack.org/openstack/airship-in-a-bottle
 cd /root/deploy/airship-in-a-bottle/manifests/dev_single_node
 ./airship-in-a-bottle.sh
 ```

@@ -36,7 +36,7 @@ Approach
 --------
 Airship revolves around the setup and use of Kubernetes and `Helm`_ and takes
 cues from these projects. The first use case of Airship is the deployment
-of `OpenStack Helm`_ which also influences Airship's direction.
+of `OpenStack-Helm`_ which also influences Airship's direction.
 
 Building this Documentation
 ---------------------------
@@ -60,6 +60,6 @@ Conventions and Standards
 .. _Helm: https://helm.sh/
 .. _Kubernetes: https://kubernetes.io/
 .. _Openstack: https://www.openstack.org/
-.. _Openstack Helm: https://github.com/openstack/openstack-helm
+.. _Openstack-Helm: https://docs.openstack.org/openstack-helm/latest/
 .. _Treasuremap: https://github.com/att-comdev/treasuremap
 .. _yaml: http://yaml.org/
