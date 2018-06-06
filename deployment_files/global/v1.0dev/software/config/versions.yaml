@@ -130,7 +130,7 @@ data:
         reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
       armada:
         type: git
-        location: https://github.com/att-comdev/armada
+        location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/armada
         reference: 2b714888c490a9f7c5a11383eb18b7226d1b1dc8
       armada-htk:
@@ -284,7 +284,7 @@ data:
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
       tiller:
         type: git
-        location: https://github.com/att-comdev/armada
+        location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/tiller
         reference: 35b426db32a7440d862c88e7ac3eef3a453acfc9
       tiller-htk:
