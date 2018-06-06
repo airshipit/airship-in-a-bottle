@@ -37,7 +37,7 @@ update_site workflow (and perhaps other workflows in the future) invokes
 Drydock to verify the site, prepare the site, prepare the nodes, and deploy the
 nodes. Each of these steps is described in the `Drydock Orchestrator Readme`_
 
-.. _Drydock Orchestrator Readme: https://github.com/att-comdev/drydock/tree/master/drydock_provisioner/orchestrator
+.. _Drydock Orchestrator Readme: https://git.openstack.org/cgit/openstack/airship-drydock/plain/drydock_provisioner/orchestrator/readme.md
 
 The prepare nodes and deploy nodes steps each involve intensive and potentially
 time consuming operations on the target nodes, orchestrated by Drydock and
