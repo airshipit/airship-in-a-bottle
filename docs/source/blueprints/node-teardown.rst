@@ -187,7 +187,7 @@ Query Paramters:
 
 Example command being used for drain (reference only)
 `kubectl drain --force --timeout 3600s --grace-period 1800 --ignore-daemonsets --delete-local-data n1`
-https://github.com/att-comdev/promenade/blob/master/promenade/templates/roles/common/usr/local/bin/promenade-teardown
+https://git.openstack.org/cgit/openstack/airship-promenade/tree/promenade/templates/roles/common/usr/local/bin/promenade-teardown
 
 Responses
 ~~~~~~~~~
