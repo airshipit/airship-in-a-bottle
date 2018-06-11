@@ -24,7 +24,7 @@ This demonstration uses the images pinned in the versions file of the targeted
 deployment_files based site definitions:
 deployment_files/global/v1.0demo/software/config/versions.yaml
 
-By default, files will be downloadloaded and built into the /root/deploy
+By default, files will be downloaded into and built in the /root/deploy
 directory of the virtual machine being used to install this demo.
 
 Note that this process will result in the contents of the VM to be modified

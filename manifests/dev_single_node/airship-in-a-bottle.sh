@@ -80,14 +80,19 @@ echo "Let's collect some information about your VM to get started."
 sleep 1
 
 # IP and Hostname setup
+get_local_ip ()
+{
+  ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}"
+}
 HOST_IFACE=$(ip route | grep "^default" | head -1 | awk '{ print $5 }')
-LOCAL_IP=$(ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}")
+LOCAL_IP=$(get_local_ip)
 
 if [[ $ASSUME_YES -ne 1 ]]; then
   read -p "Is your HOST IFACE $HOST_IFACE? (Y/n) " YN_HI
   if [[ ! "$YN_HI" =~ ^([yY]|"")$ ]]; then
     read -p "What is your HOST IFACE? " HOST_IFACE
   fi
+  LOCAL_IP=$(get_local_ip)
 
   read -p "Is your LOCAL IP $LOCAL_IP? (Y/n) " YN_IP
   if [[ ! "$YN_IP" =~ ^([yY]|"")$ ]]; then
