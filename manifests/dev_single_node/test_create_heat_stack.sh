@@ -79,5 +79,6 @@ function wait_for_ssh_port {
 }
 wait_for_ssh_port $FLOATING_IP
 
+install -m 0700 -d ~/.ssh
 ssh-keyscan "${FLOATING_IP}" >> ~/.ssh/known_hosts
 printf "The test VM is accessible via SSH:  ssh -i id_rsa cirros@${FLOATING_IP}\n"
