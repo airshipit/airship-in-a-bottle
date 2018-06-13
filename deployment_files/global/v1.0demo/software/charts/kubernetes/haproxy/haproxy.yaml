@@ -33,16 +33,14 @@ data:
   wait:
     timeout: 600
     labels:
-      application: kubernetes
-      component: haproxy-anchor
+      release_group: airship-haproxy
   upgrade:
     no_hooks: false
     pre:
       delete:
         - type: job
           labels:
-            application: kubernetes
-            component: haproxy-anchor
+            release_group: airship-haproxy
   values:
     conf:
       anchor:
@@ -94,8 +92,6 @@ data:
   chart_name: haproxy-htk
   release: haproxy-htk
   namespace: haproxy-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

@@ -58,16 +58,14 @@ data:
   wait:
     timeout: 600
     labels:
-      application: kubernetes
-      component: kubernetes-scheduler-anchor
+      release_group: airship-kubernetes-scheduler
   upgrade:
     no_hooks: false
     pre:
       delete:
         - type: job
           labels:
-            application: kubernetes
-            component: kubernetes-scheduler-anchor
+            release_group: airship-kubernetes-scheduler
   values:
     network:
       kubernetes_netloc: 127.0.0.1:6553
@@ -93,8 +91,6 @@ data:
   chart_name: kubernetes-scheduler-htk
   release: kubernetes-scheduler-htk
   namespace: kubernetes-scheduler-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

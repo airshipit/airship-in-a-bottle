@@ -81,16 +81,14 @@ data:
   wait:
     timeout: 600
     labels:
-      application: kubernetes
-      component: kubernetes-controller-manager-anchor
+      release_group: airship-kubernetes-controller-manager
   upgrade:
     no_hooks: false
     pre:
       delete:
         - type: job
           labels:
-            application: kubernetes
-            component: kubernetes-controller-manager-anchor
+            release_group: airship-kubernetes-controller-manager
   values:
     network:
       kubernetes_netloc: 127.0.0.1:6553
@@ -116,8 +114,6 @@ data:
   chart_name: kubernetes-controller-manager-htk
   release: kubernetes-controller-manager-htk
   namespace: kubernetes-controller-manager-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

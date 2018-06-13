@@ -50,12 +50,19 @@ data:
   chart_name: ucp-postgresql
   release: ucp-postgresql
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      release_group: airship-ucp-postgresql
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
     pre:
-      delete: []
+      delete:
+        - type: job
+          labels:
+            release_group: airship-ucp-postgresql
       create: []
     post:
       create: []
@@ -89,7 +96,6 @@ data:
   chart_name: postgres-htk
   release: postgres-htk
   namespace: postgres-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

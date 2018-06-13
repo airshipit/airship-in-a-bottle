@@ -138,8 +138,7 @@ data:
   wait:
     timeout: 600
     labels:
-      application: drydock
-      component: api
+      release_group: airship-drydock
   install:
     no_hooks: false
   upgrade:
@@ -148,28 +147,7 @@ data:
       delete:
         - type: job
           labels:
-            application: drydock
-            component: api
-        - type: job
-          labels:
-            application: drydock
-            component: db-sync
-        - type: job
-          labels:
-            application: drydock
-            component: db-init
-        - type: job
-          labels:
-            application: drydock
-            component: ks-endpoints
-        - type: job
-          labels:
-            application: drydock
-            component: ks-service
-        - type: job
-          labels:
-            application: drydock
-            component: ks-user
+            release_group: airship-drydock
   values:
     replicas:
       drydock: 1
@@ -212,8 +190,6 @@ data:
   chart_name: drydock-htk
   release: drydock-htk
   namespace: drydock-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

@@ -55,11 +55,17 @@ data:
   namespace: kube-system
   protected:
     continue_processing: false
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      release_group: airship-kubernetes-scheduler
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-kubernetes-scheduler
   values:
     network:
       kubernetes_netloc: 127.0.0.1:6553
@@ -85,7 +91,6 @@ data:
   chart_name: kubernetes-scheduler-htk
   release: kubernetes-scheduler-htk
   namespace: kubernetes-scheduler-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

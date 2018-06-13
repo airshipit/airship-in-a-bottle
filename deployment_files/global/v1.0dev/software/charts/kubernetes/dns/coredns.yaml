@@ -67,11 +67,17 @@ data:
   chart_name: coredns
   release: coredns
   namespace: kube-system
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      release_group: airship-coredns
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-coredns
   values:
     conf:
       coredns:
@@ -114,7 +120,6 @@ data:
   chart_name: coredns-htk
   release: coredns-htk
   namespace: coredns-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

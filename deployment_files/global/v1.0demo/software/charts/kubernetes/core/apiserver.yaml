@@ -106,16 +106,14 @@ data:
   wait:
     timeout: 600
     labels:
-      application: kubernetes
-      component: kubernetes-apiserver-anchor
+      release_group: airship-kubernetes-apiserver
   upgrade:
     no_hooks: false
     pre:
       delete:
         - type: job
           labels:
-            application: kubernetes
-            component: kubernetes-apiserver-anchor
+            release_group: airship-kubernetes-apiserver
   values:
     apiserver:
       etcd:
@@ -142,8 +140,6 @@ data:
   chart_name: kubernetes-apiserver-htk
   release: kubernetes-apiserver-htk
   namespace: kubernetes-apiserver-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

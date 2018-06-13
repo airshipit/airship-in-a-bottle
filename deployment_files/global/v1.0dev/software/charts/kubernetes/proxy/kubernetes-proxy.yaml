@@ -27,11 +27,17 @@ data:
   chart_name: proxy
   release: kubernetes-proxy
   namespace: kube-system
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      release_group: airship-kubernetes-proxy
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-kubernetes-proxy
   values:
     network:
       kubernetes_netloc: 127.0.0.1:6553
@@ -57,7 +63,6 @@ data:
   chart_name: kubernetes-proxy-htk
   release: kubernetes-proxy-htk
   namespace: kubernetes-proxy-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

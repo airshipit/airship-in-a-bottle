@@ -53,8 +53,7 @@ data:
   wait:
     timeout: 600
     labels:
-      application: postgresql
-      component: server
+      release_group: airship-ucp-postgresql
   install:
     no_hooks: false
   upgrade:
@@ -63,7 +62,7 @@ data:
       delete:
         - type: job
           labels:
-            application: postgresq
+            release_group: airship-ucp-postgresql
       create: []
     post:
       create: []
@@ -97,8 +96,6 @@ data:
   chart_name: postgres-htk
   release: postgres-htk
   namespace: postgres-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

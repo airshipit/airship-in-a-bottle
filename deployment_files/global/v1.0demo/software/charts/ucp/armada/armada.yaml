@@ -69,11 +69,19 @@ data:
   chart_name: armada
   release: ucp-armada
   namespace: ucp
-  timeout: 100
+  wait:
+    timeout: 100
+    labels:
+      release_group: airship-ucp-armada
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-ucp-armada
   values:
     replicas:
       api: 1
@@ -106,7 +114,6 @@ data:
   chart_name: armada-htk
   release: armada-htk
   namespace: armada-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

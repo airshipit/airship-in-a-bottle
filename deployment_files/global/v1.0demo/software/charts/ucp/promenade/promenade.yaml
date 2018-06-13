@@ -78,8 +78,7 @@ data:
   wait:
     timeout: 600
     labels:
-      application: promenade
-      component: api
+      release_group: airship-ucp-promenade
   install:
     no_hooks: false
   upgrade:
@@ -88,8 +87,7 @@ data:
       delete:
         - type: job
           labels:
-            application: promenade
-            component: api
+            release_group: airship-ucp-promenade
   values:
     conf:
       paste:
@@ -123,8 +121,6 @@ data:
   chart_name: promenade-htk
   release: promenade-htk
   namespace: promenade-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

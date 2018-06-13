@@ -121,8 +121,7 @@ data:
   wait:
     timeout: 600
     labels:
-      application: deckhand
-      component: api
+      release_group: airship-ucp-deckhand
   install:
     no_hooks: false
   upgrade:
@@ -131,28 +130,7 @@ data:
       delete:
         - type: job
           labels:
-            application: deckhand
-            component: api
-        - type: job
-          labels:
-            application: deckhand
-            component: ks-service
-        - type: job
-          labels:
-            application: deckhand
-            component: ks-endpoints
-        - type: job
-          labels:
-            application: deckhand
-            component: ks-user
-        - type: job
-          labels:
-            application: deckhand
-            component: db-init
-        - type: job
-          labels:
-            application: deckhand
-            component: db-sync
+            release_group: airship-ucp-deckhand
       create: []
     post:
       create: []
@@ -191,8 +169,6 @@ data:
   chart_name: deckhand-htk
   release: deckhand-htk
   namespace: deckhand-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

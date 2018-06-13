@@ -85,11 +85,17 @@ data:
   namespace: kube-system
   protected:
     continue_processing: false
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      release_group: airship-kubernetes-calico
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-kubernetes-calico
   values:
     conf:
       cni_network_config:
@@ -155,6 +161,5 @@ data:
   chart_name: calico-htk
   release: calico-htk
   namespace: calico-htk
-  timeout: 100
   values: {}
   dependencies: []

@@ -75,10 +75,19 @@ data:
   chart_name: promenade
   release: ucp-promenade
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      release_group: airship-ucp-promenade
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-ucp-promenade
   values:
     conf:
       paste:
@@ -112,7 +121,6 @@ data:
   chart_name: promenade-htk
   release: promenade-htk
   namespace: promenade-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

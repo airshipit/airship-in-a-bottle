@@ -51,10 +51,19 @@ data:
   chart_name: ucp-mariadb
   release: ucp-mariadb
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      release_group: airship-ucp-mariadb
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-ucp-mariadb
   values:
     labels:
       server:
@@ -89,7 +98,6 @@ data:
   chart_name: mariadb-htk
   release: mariadb-htk
   namespace: mariadb-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

@@ -156,15 +156,19 @@ data:
   chart_name: maas
   release: maas
   namespace: ucp
+  wait:
+    timeout: 600
+    labels:
+      release_group: airship-maas
   install:
     no_hooks: false
   upgrade:
     no_hooks: false
     pre:
       delete:
-        - type: 'job'
+        - type: job
           labels:
-            application: 'maas'
+            release_group: airship-maas
   values:
     labels:
       rack:
@@ -217,7 +221,6 @@ data:
   chart_name: maas-htk
   release: maas-htk
   namespace: maas-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

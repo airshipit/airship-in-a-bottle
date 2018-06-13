@@ -29,13 +29,19 @@ data:
   namespace: kube-system
   protected:
     continue_processing: false
-  timeout: 900
   wait:
     timeout: 900
+    labels:
+      release_group: airship-nfs-provisioner
   install:
     no_hooks: false
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-nfs-provisioner
   values:
     labels:
       nfs:

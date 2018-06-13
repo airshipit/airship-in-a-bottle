@@ -78,11 +78,17 @@ data:
   namespace: kube-system
   protected:
     continue_processing: false
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      release_group: airship-kubernetes-controller-manager
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-kubernetes-controller-manager
   values:
     network:
       kubernetes_netloc: 127.0.0.1:6553
@@ -108,7 +114,6 @@ data:
   chart_name: kubernetes-controller-manager-htk
   release: kubernetes-controller-manager-htk
   namespace: kubernetes-controller-manager-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

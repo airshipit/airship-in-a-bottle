@@ -83,14 +83,15 @@ data:
     continue_processing: false
   wait:
     timeout: 600
+    labels:
+      release_group: airship-kubernetes-calico-etcd
   upgrade:
     no_hooks: false
     pre:
       delete:
         - type: job
           labels:
-            application: kubernetes
-            component: calico-etcd
+            release_group: airship-kubernetes-calico-etcd
   values:
     labels:
       anchor:
@@ -136,8 +137,6 @@ data:
   chart_name: kubernetes-calico-etcd-htk
   release: kubernetes-calico-etcd-htk
   namespace: kubernetes-calico-etcd-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

@@ -73,11 +73,17 @@ data:
   namespace: kube-system
   protected:
     continue_processing: false
-  timeout: 600
   wait:
     timeout: 600
+    labels:
+      release_group: airship-kubernetes-etcd
   upgrade:
-    no_hooks: true
+    no_hooks: false
+    pre:
+      delete:
+        - type: job
+          labels:
+            release_group: airship-kubernetes-etcd
   values:
     anchor:
       etcdctl_endpoint: kubernetes-etcd.kube-system.svc.cluster.local
@@ -121,7 +127,6 @@ data:
   chart_name: kubernetes-etcd-htk
   release: kubernetes-etcd-htk
   namespace: kubernetes-etcd-htk
-  timeout: 100
   values: {}
   dependencies: []
 ...

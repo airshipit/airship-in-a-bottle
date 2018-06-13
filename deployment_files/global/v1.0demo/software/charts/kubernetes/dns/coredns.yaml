@@ -69,14 +69,15 @@ data:
   namespace: kube-system
   wait:
     timeout: 600
+    labels:
+      release_group: airship-coredns
   upgrade:
     no_hooks: false
     pre:
       delete:
         - type: job
           labels:
-            application: kubernetes
-            component: coredns
+            release_group: airship-coredns
   values:
     conf:
       coredns:
@@ -119,8 +120,6 @@ data:
   chart_name: coredns-htk
   release: coredns-htk
   namespace: coredns-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...

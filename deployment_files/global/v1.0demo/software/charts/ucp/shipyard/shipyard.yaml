@@ -204,8 +204,7 @@ data:
   wait:
     timeout: 600
     labels:
-      application: shipyard
-      component: api
+      release_group: airship-ucp-shipyard
   install:
     no_hooks: false
   upgrade:
@@ -214,52 +213,7 @@ data:
       delete:
         - type: job
           labels:
-            application: airflow
-            component: worker
-        - type: job
-          labels:
-            application: airflow
-            component: flower
-        - type: job
-          labels:
-            application: airflow
-            component: web
-        - type: job
-          labels:
-            application: airflow
-            component: db-sync
-        - type: job
-          labels:
-            application: airflow
-            component: db-init
-        - type: job
-          labels:
-            application: airflow
-            component: scheduler
-        - type: job
-          labels:
-            application: shipyard
-            component: api
-        - type: job
-          labels:
-            application: shipyard
-            component: db-init
-        - type: job
-          labels:
-            application: shipyard
-            component: db-sync
-        - type: job
-          labels:
-            application: shipyard
-            component: ks-endpoint
-        - type: job
-          labels:
-            application: shipyard
-            component: ks-service
-        - type: job
-          labels:
-            application: shipyard
-            component: ks-user
+            release_group: airship-ucp-shipyard
   values:
     endpoints:
       postgresql_airflow_db:
@@ -330,8 +284,6 @@ data:
   chart_name: shipyard-htk
   release: shipyard-htk
   namespace: shipyard-htk
-  wait:
-    timeout: 100
   values: {}
   dependencies: []
 ...
