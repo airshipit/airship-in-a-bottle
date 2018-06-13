@@ -18,6 +18,14 @@ cd /root/deploy/airship-in-a-bottle/manifests/dev_single_node
 ./airship-in-a-bottle.sh
 ```
 
+Or, alternatively, if you have Vagrant installed, just run the following
+(only libvirt/kvm hypervisor is tested, but vagrant box supports VMware
+Desktop/Workstation/Fusion, Parallels, and Hyper-V):
+```
+curl -O https://git.airshipit.org/cgit/airship-in-a-bottle/plain/Vagrantfile
+vagrant up
+```
+
 ## Components
 
 ### Shipyard
