@@ -8,8 +8,10 @@ metadata:
     layer: global
   storagePolicy: cleartext
 data:
-  description: "Deploy nova and neutron"
+  description: "Deploy nova and neutron, and backend services"
   sequenced: False
   chart_group:
+    - libvirt
+    - openvswitch
     - nova
     - neutron

@@ -14,5 +14,3 @@ data:
     - openstack-mariadb
     - rabbitmq
     - memcached
-    - libvirt
-    - openvswitch
