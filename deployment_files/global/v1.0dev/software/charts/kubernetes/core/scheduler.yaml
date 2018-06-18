@@ -53,6 +53,8 @@ data:
   chart_name: scheduler
   release: kubernetes-scheduler
   namespace: kube-system
+  protected:
+    continue_processing: false
   timeout: 600
   wait:
     timeout: 600

@@ -71,6 +71,8 @@ data:
   chart_name: etcd
   release: kubernetes-etcd
   namespace: kube-system
+  protected:
+    continue_processing: false
   timeout: 600
   wait:
     timeout: 600

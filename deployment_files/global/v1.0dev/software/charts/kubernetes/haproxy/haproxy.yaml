@@ -28,6 +28,8 @@ data:
   chart_name: haproxy
   release: haproxy
   namespace: kube-system
+  protected:
+    continue_processing: false
   timeout: 600
   wait:
     timeout: 600

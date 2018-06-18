@@ -27,6 +27,8 @@ data:
   chart_name: nfs-provisioner
   release: nfs-provisioner
   namespace: kube-system
+  protected:
+    continue_processing: false
   timeout: 900
   wait:
     timeout: 900

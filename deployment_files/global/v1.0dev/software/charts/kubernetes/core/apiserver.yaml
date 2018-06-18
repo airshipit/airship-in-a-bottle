@@ -101,6 +101,8 @@ data:
   chart_name: apiserver
   release: kubernetes-apiserver
   namespace: kube-system
+  protected:
+    continue_processing: false
   timeout: 600
   wait:
     timeout: 600
