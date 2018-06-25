@@ -132,12 +132,12 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/armada
-        reference: 1e97cec61167b4a4f08375aa6b62d2644f119c7f
+        reference: 8e47a119348a9585dc104be16d9e5a2bd139f7ec
       armada-htk:
         type: git
-        location: https://git.openstack.org/openstack/openstack-helm
+        location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+        reference: 35ac52023a75e44ff4ef1874857952a5b3dbf561
       barbican:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
@@ -286,18 +286,18 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/tiller
-        reference: 1e97cec61167b4a4f08375aa6b62d2644f119c7f
+        reference: 8e47a119348a9585dc104be16d9e5a2bd139f7ec
       tiller-htk:
         type: git
-        location: https://git.openstack.org/openstack/openstack-helm
+        location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+        reference: 35ac52023a75e44ff4ef1874857952a5b3dbf561
   files:
     kubelet: https://dl.k8s.io/v1.10.2/kubernetes-node-linux-amd64.tar.gz
   images:
     ucp:
       armada:
-        api: quay.io/airshipit/armada:1e97cec61167b4a4f08375aa6b62d2644f119c7f
+        api: quay.io/airshipit/armada:8e47a119348a9585dc104be16d9e5a2bd139f7ec
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
