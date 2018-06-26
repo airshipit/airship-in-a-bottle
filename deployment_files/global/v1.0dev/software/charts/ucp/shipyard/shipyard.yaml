@@ -167,7 +167,7 @@ metadata:
         name: ucp_postgres_admin_password
         path: .
     - dest:
-        path: .values.endpoints.identity.auth.user.password
+        path: .values.endpoints.identity.auth.shipyard.password
       src:
         schema: deckhand/Passphrase/v1
         name: ucp_shipyard_keystone_password
@@ -249,8 +249,9 @@ data:
           flower: 1
           scheduler: 1
     labels:
-      node_selector_key: ucp-control-plane
-      node_selector_value: enabled
+      job:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
     network:
       shipyard:
         enable_node_port: true
