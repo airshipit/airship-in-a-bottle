@@ -281,7 +281,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: f402171e42356bc1e805782f1d7f090ce1f6ab17
+        reference: 92f024ba562f2f8b06286dc6263e0ea9dc2c1477
       tiller:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
