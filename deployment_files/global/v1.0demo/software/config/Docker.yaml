@@ -11,8 +11,6 @@ metadata:
   storagePolicy: cleartext
 data:
   config:
-    insecure-registries:
-      - artifacts-aic.atlantafoundry.com
     live-restore: true
     max-concurrent-downloads: 10
     storage-driver: overlay2
