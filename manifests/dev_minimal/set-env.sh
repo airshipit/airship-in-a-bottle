@@ -41,8 +41,8 @@ export NODE_NET_IFACE=ens3
 # export SHIPYARD_REFSPEC=""
 
 # Images
-# export PEGLEG_IMAGE="artifacts-aic.atlantafoundry.com/openstack/airship-pegleg:latest"
-# export PROMENADE_IMAGE="quay.io/attcomdev/promenade:latest"
+# export PEGLEG_IMAGE="quay.io/airshipit/pegleg:latest"
+# export PROMENADE_IMAGE="quay.io/airshipit/promenade:latest"
 
 # The directory that will contain the copies of designs and repos from this script
 # export WORKSPACE="/root/deploy"

@@ -73,8 +73,8 @@ SHIPYARD_REPO=${SHIPYARD_REPO:-"https://git.openstack.org/openstack/airship-ship
 SHIPYARD_REFSPEC=${SHIPYARD_REFSPEC:-""}
 
 # Images
-PEGLEG_IMAGE=${PEGLEG_IMAGE:-"artifacts-aic.atlantafoundry.com/att-comdev/pegleg:ef47933903047339bd63fcfa265dfe4296e8a322"}
-PROMENADE_IMAGE=${PROMENADE_IMAGE:-"docker.io/sthussey/promenade:replace"}
+PEGLEG_IMAGE=${PEGLEG_IMAGE:-"quay.io/airshipit/pegleg:1ada48cc360ec52c7ab28b96c28a0c7df8bcee40"}
+PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/airshipit/promenade:latest"}
 
 # Command shortcuts
 PEGLEG=${WORKSPACE}/airship-pegleg/tools/pegleg.sh
@@ -284,7 +284,7 @@ function setup_deploy_site() {
   echo "Other Notes"
   echo "-----------"
   echo "If you need to run Armada directly to deploy charts (fix something broken?), the following may be of use:"
-  echo "export ARMADA_IMAGE=artifacts-aic.atlantafoundry.com/att-comdev/armada"
+  echo "export ARMADA_IMAGE=quay.io/airshipit/armada"
   echo "docker run -t -v ~/.kube:/armada/.kube -v ${WORKSPACE}/site:/target --net=host \${ARMADA_IMAGE} apply /target/your-yaml.yaml"
   echo " "
   set -x
