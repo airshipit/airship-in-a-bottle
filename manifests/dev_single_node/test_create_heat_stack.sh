@@ -15,6 +15,9 @@
 
 set -e
 
+# Install curl if it's not already installed
+apt -y install --no-install-recommends curl
+
 # Copy run_openstack_cli and openstack_cli_docker_base_command script to dev_single_node directory
 cp /root/deploy/airship-in-a-bottle/tools/run_openstack_cli.sh /root/deploy/airship-in-a-bottle/manifests/dev_single_node/
 cp /root/deploy/airship-in-a-bottle/tools/openstack_cli_docker_base_command.sh /root/deploy/airship-in-a-bottle/manifests/dev_single_node/
