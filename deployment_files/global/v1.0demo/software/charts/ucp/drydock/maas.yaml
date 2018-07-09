@@ -160,6 +160,10 @@ data:
     timeout: 600
     labels:
       release_group: airship-maas
+  test:
+    enabled: true
+    options:
+      cleanup: true
   install:
     no_hooks: false
   upgrade:

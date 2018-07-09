@@ -73,6 +73,10 @@ data:
     timeout: 100
     labels:
       release_group: airship-ucp-armada
+  test:
+    enabled: true
+    options:
+      cleanup: true
   install:
     no_hooks: false
   upgrade:
