@@ -132,7 +132,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/armada
-        reference: 8e47a119348a9585dc104be16d9e5a2bd139f7ec
+        reference: b6479f660714a6d14c6aa291dc36b8451f1c9219
       armada-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -282,7 +282,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/tiller
-        reference: 8e47a119348a9585dc104be16d9e5a2bd139f7ec
+        reference: b6479f660714a6d14c6aa291dc36b8451f1c9219
       tiller-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -293,7 +293,7 @@ data:
   images:
     ucp:
       armada:
-        api: quay.io/airshipit/armada:8e47a119348a9585dc104be16d9e5a2bd139f7ec
+        api: quay.io/airshipit/armada:b6479f660714a6d14c6aa291dc36b8451f1c9219
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata

@@ -77,6 +77,10 @@ data:
     timeout: 600
     labels:
       release_group: airship-kubernetes-etcd
+  test:
+    enabled: true
+    options:
+      cleanup: true
   upgrade:
     no_hooks: false
     pre:
