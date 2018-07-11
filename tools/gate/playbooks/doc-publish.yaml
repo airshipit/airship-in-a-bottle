@@ -1,4 +1,4 @@
-# Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
+# Copyright 2018 AT&T Intellectual Property. All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,11 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-SHELL = /bin/bash
 
-.PHONY: docs
-docs: build_docs
-
-.PHONY: build_docs
-build_docs:
-	tox -e docs
+- hosts: primary
+  tasks:
+    - name: Publish current merged documents on readthedocs
+      no_log: true
+      uri:
+        method: POST
+        body_format: 'json'
+        body:
+          token: '{{ airship_in_a_bottle_readthedocs.token | trim }}'
+        url: '{{ airship_in_a_bottle_readthedocs.url | trim }}'
+        follow_redirects: all

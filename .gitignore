@@ -1,6 +1,7 @@
 # Sphinx documentation
 doc/_build/
 doc/build/
+.tox
 
 # OSX folder settings files
 .DS_Store
