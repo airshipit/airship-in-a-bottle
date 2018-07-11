@@ -133,6 +133,28 @@ export NODE_NET_IFACE=$HOST_IFACE
 export TARGET_SITE="demo"
 set +x
 
+# Changes DNS servers in common-addresses.yaml to the system's DNS servers
+get_dns_servers ()
+{
+  if hash nmcli 2>/dev/null; then
+    nmcli dev show | awk '/IP4.DNS/ {print $2}' | xargs
+  else
+    cat /etc/resolv.conf | awk '/nameserver/ {print $2}' | xargs
+  fi
+}
+
+if grep -q "10.96.0.10" "/etc/resolv.conf"; then
+  echo "Not changing DNS servers, /etc/resolv.conf already updated."
+else
+  DNS_CONFIG_FILE="../../deployment_files/site/$TARGET_SITE/networks/common-addresses.yaml"
+  declare -a DNS_SERVERS=($(get_dns_servers))
+  NS1=${DNS_SERVERS[0]:-8.8.8.8}
+  NS2=${DNS_SERVERS[1]:-$NS1}
+  echo "Using DNS servers $NS1 and $NS2."
+  sed -i "s/8.8.8.8/$NS1/" $DNS_CONFIG_FILE
+  sed -i "s/8.8.4.4/$NS2/" $DNS_CONFIG_FILE
+fi
+
 echo ""
 echo "Starting Airship deployment..."
 sleep 1
