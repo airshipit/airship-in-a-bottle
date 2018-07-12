@@ -18,7 +18,7 @@ metadata:
         schema: pegleg/CommonAddresses/v1
         name: common-addresses
         path: .proxy.https
-    - dest:
+      dest:
         path: .values.conf.maas.proxy.proxy_server
 data:
   values:
