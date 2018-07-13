@@ -28,7 +28,20 @@ Process
    recommended. 32GB of disk is enough, use more if you plan on doing any
    extended use.
 2) Become root. All the commands are run as root.
-3) Update etc/hosts with IP/Hostname of your VM. e.g. 10.0.0.15 testvm1
+3) Update etc/hosts with IP/Hostname of your VM. e.g. 10.0.0.15 testvm1.
+Note: If running this behind a corporate proxy, you will need to update the
+      /etc/environment file, and append your proxy configurtion there.
+      Then you will need to source the /etc/environment to set the proxy
+      environment.
+      For instance, you will need to add following lines in the
+      /etc/environment file, and then source it:
+      export http_proxy="your.proxy.address:port"
+      export https_proxy="your.proxy.address:port"
+      export no_proxy=".foo.com,.cluster.local,localhost,127.0.0.0/8,10.0.0.0/24"
+      export HTTP_PROXY="http://your.proxy.address:port"
+      export HTTPS_PROXY="http://your.proxy.address:port"
+      export NO_PROXY=".foo.com,.cluster.local,localhost,127.0.0.0/8,10.0.0.0/24"
+
 4) go to /root/deploy and clone airship-in-a-bottle. Switch to a target
    patchset if needed
    4a) If you use a directory other than /root/deploy, /root/deploy will be
@@ -40,8 +53,11 @@ Process
 
 NOTE: If running this behind a corporate proxy, you will need to update the
       file deployment_files/site/dev-proxy/networks/common-addresses.yaml to
-      specify your proxy server and appropriate no_proxy list. Also change
-      set-env.sh to use TARGET_SITE of 'dev-proxy'.
+      specify your proxy server and appropriate no_proxy list. In this file,
+      also update the dns list, and add your corporate name servers to the
+      dns list. This is done for name resolution of internal corporate
+      addresses behind the proxy.
+      Also change set-env.sh to use TARGET_SITE of 'dev-proxy'.
 
 8) ../common/deploy-airship.sh
 You may sepecify a target point to stop the deployment by using an argument of

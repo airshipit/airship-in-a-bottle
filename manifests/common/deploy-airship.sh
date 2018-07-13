@@ -52,6 +52,11 @@ export WORKSPACE=${WORKSPACE:-"/root/deploy"}
 # The site to deploy
 TARGET_SITE=${TARGET_SITE:-"dev"}
 
+# Setup blank defaults for proxy variables
+http_proxy=${http_proxy:-""}
+https_proxy=${https_proxy:-""}
+no_proxy=${no_proxy:-""}
+
 # The host name for the single-node deployment. e.g.: 'genesis'
 SHORT_HOSTNAME=${SHORT_HOSTNAME:-""}
 # The host ip for this single-node deployment. e.g.: '10.0.0.9'
@@ -122,6 +127,34 @@ function setup_workspace() {
   chmod -R 777 ${WORKSPACE}/genesis
 }
 
+function configure_docker() {
+  if [[ ! -z "${https_proxy}" ]] || [[ ! -z "${http_proxy}" ]]
+  then
+    echo "Configuring Docker to use a proxy..."
+    mkdir -p /etc/systemd/system/docker.service.d/
+    cat << EOF > /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment="HTTP_PROXY=${http_proxy}"
+Environment="HTTPS_PROXY=${https_proxy}"
+Environment="NO_PROXY=${no_proxy}"
+EOF
+    systemctl daemon-reload
+    systemctl restart docker
+  fi
+}
+
+function configure_apt() {
+  if [[ ! -z "${https_proxy}" ]] || [[ ! -z "${http_proxy}" ]]
+  then
+    echo "Configuring apt to use a proxy..."
+    mkdir -p /etc/apt/
+    cat << EOF > /etc/apt/apt.conf
+Acquire::http::proxy "${http_proxy}";
+Acquire::https::proxy "${https_proxy}";
+EOF
+  fi
+}
+
 function get_repo() {
   # Setup a repository in the workspace
   #
@@ -183,8 +216,9 @@ function generate_certs() {
   cp "${WORKSPACE}/collected"/*.yaml ${WORKSPACE}/genesis
 
   docker run --rm -t \
-      -e http_proxy=$PROXY \
-      -e https_proxy=$PROXY \
+      -e http_proxy=$http_proxy \
+      -e https_proxy=$https_proxy \
+      -e no_proxy=$no_proxy \
       -w /target \
       -e PROMENADE_DEBUG=false \
       -v ${WORKSPACE}/genesis:/target \
@@ -206,8 +240,9 @@ function lint_design() {
 function generate_genesis() {
   # Generate the genesis scripts
   docker run --rm -t \
-      -e http_proxy=$PROXY \
-      -e https_proxy=$PROXY \
+      -e http_proxy=$http_proxy \
+      -e https_proxy=$https_proxy \
+      -e no_proxy=$no_proxy \
       -w /target \
       -e PROMENADE_DEBUG=false \
       -v ${WORKSPACE}/genesis:/target \
@@ -343,10 +378,12 @@ trap clean EXIT
 
 # Common steps for all breakpoints specified
 check_preconditions || error "checking for preconditions"
+configure_apt || error "configuring apt behind proxy"
 setup_workspace || error "setting up workspace directories"
 setup_repos || error "setting up Git repos"
 configure_dev_configurables || error "adding dev-configurables values"
 install_dependencies || error "installing dependencies"
+configure_docker || error "configuring docker behind proxy"
 
 # collect
 if [[ ${STEP_BREAKPOINT} -ge 10 ]]; then
