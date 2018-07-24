@@ -15,6 +15,11 @@
 
 set -e
 
+# External subnet is local to the environment and generally can be anything
+# other then clash with default all-in-one OSH setup that uses 127.24.4.0/24
+export OSH_BR_EX_ADDR="172.24.8.1/24"
+export OSH_EXT_SUBNET="172.24.8.0/24"
+
 # Install curl if it's not already installed
 apt -y install --no-install-recommends curl
 
@@ -33,7 +38,11 @@ printf "Downloading heat-public-net-deployment.yaml\n"
 curl -LO https://raw.githubusercontent.com/openstack/openstack-helm/master/tools/gate/files/heat-public-net-deployment.yaml
 
 printf "Creating public-net Heat Stack\n"
-env -i ./run_openstack_cli.sh stack create -t heat-public-net-deployment.yaml public-net --wait
+env -i ./run_openstack_cli.sh stack create --wait \
+    --parameter subnet_cidr=${OSH_EXT_SUBNET} \
+    --parameter subnet_gateway=${OSH_BR_EX_ADDR%/*} \
+    -t heat-public-net-deployment.yaml \
+    public-net
 
 printf "Downloading heat-basic-vm-deployment.yaml\n"
 curl -LO https://raw.githubusercontent.com/openstack/openstack-helm/master/tools/gate/files/heat-basic-vm-deployment.yaml
@@ -53,8 +62,6 @@ FLOATING_IP=$(env -i ./run_openstack_cli.sh stack output show \
     -f value -c output_value)
 
 printf "Configuring required network settings\n"
-OSH_BR_EX_ADDR="172.24.4.1/24"
-OSH_EXT_SUBNET="172.24.4.0/24"
 sudo ip addr add ${OSH_BR_EX_ADDR} dev br-ex
 sudo ip link set br-ex up
 sudo iptables -P FORWARD ACCEPT
