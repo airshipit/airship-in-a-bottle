@@ -20,18 +20,25 @@ metadata:
         name: common-addresses
         path: .proxy.http
       dest:
-        path: .values.pod.env.promenade_api.http_proxy
+        path: .values.pod.env.promenade_api[0].value
     - src:
         schema: pegleg/CommonAddresses/v1
         name: common-addresses
         path: .proxy.https
       dest:
-        path: .values.pod.env.promenade_api.https_proxy
+        path: .values.pod.env.promenade_api[1].value
     - src:
         schema: pegleg/CommonAddresses/v1
         name: common-addresses
         path: .proxy.no_proxy
       dest:
-        path: .values.pod.env.promenade_api.no_proxy
-data: {}
+        path: .values.pod.env.promenade_api[2].value
+data:
+  values:
+    pod:
+      env:
+        promenade_api:
+          - name: http_proxy
+          - name: https_proxy
+          - name: no_proxy
 ...
