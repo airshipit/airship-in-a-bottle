@@ -3,6 +3,9 @@ schema: 'drydock/Region/v1'
 metadata:
   schema: 'metadata/Document/v1'
   name: 'gate-multinode'
+  layeringDefinition:
+    abstract: false
+    layer: site
   storagePolicy: 'cleartext'
   substitutions:
     - src:

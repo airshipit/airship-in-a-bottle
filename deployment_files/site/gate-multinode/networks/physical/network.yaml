@@ -6,6 +6,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   bonding:
     mode: disabled
@@ -25,6 +26,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   mtu: 1500
   cidr: 172.24.1.0/24

@@ -6,6 +6,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   certificate_authorities:
     kubernetes:

@@ -6,6 +6,7 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: site
+  storagePolicy: cleartext
 data:
   hardware_profile: 'GenericVM'
   primary_network: 'gp'
