@@ -27,6 +27,7 @@ base_docker_command=$(cat << EndOfCommand
 sudo docker run -t --rm --net=host
 -e http_proxy=${HTTP_PROXY}
 -e https_proxy=${HTTPS_PROXY}
+-e no_proxy=${NO_PROXY}
 -e OS_AUTH_URL=${OS_AUTH_URL:-http://keystone.${NAMESPACE}.svc.cluster.local:80/v3}
 -e OS_USERNAME=${OS_USERNAME:-admin}
 -e OS_USER_DOMAIN_NAME=${OS_USER_DOMAIN_NAME:-default}
