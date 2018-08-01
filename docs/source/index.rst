@@ -52,7 +52,6 @@ Conventions and Standards
    :maxdepth: 3
 
    conventions
-   blueprints/blueprints
    dev-getting-started
 
 
