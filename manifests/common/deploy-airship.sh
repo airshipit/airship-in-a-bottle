@@ -175,11 +175,11 @@ function get_repo() {
 function setup_repos() {
   # Clone and pull the various git repos
   # Get pegleg for the script only. Image is separately referenced.
-  get_repo pegleg ${PEGLEG_REPO} ${PEGLEG_REFSPEC}
+  get_repo airship-pegleg ${PEGLEG_REPO} ${PEGLEG_REFSPEC}
   # Get airship-in-a-bottle for the design
   get_repo airship-in-a-bottle ${AIRSHIP_IN_A_BOTTLE_REPO} ${AIRSHIP_IN_A_BOTTLE_REFSPEC}
   # Get Shipyard for use after genesis
-  get_repo shipyard ${SHIPYARD_REPO} ${SHIPYARD_REFSPEC}
+  get_repo airship-shipyard ${SHIPYARD_REPO} ${SHIPYARD_REFSPEC}
 }
 
 function configure_dev_configurables() {
