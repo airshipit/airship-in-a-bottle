@@ -9,12 +9,11 @@ metadata:
   storagePolicy: cleartext
 data:
   physical_provisioner:
-    deployment_strategy: all-at-once
     deploy_interval: 30
     deploy_timeout: 3600
     destroy_interval: 30
     destroy_timeout: 900
-    join_wait: 120
+    join_wait: 1
     prepare_node_interval: 30
     prepare_node_timeout: 1000
     prepare_site_interval: 10
