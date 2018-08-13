@@ -145,7 +145,7 @@ Integration testing is orchestrated in the merge gates, and uses various means
 of testing.
 
 .. _Airflow: https://airflow.apache.org/
-.. _Armada: http://armada-helm.readthedocs.io/en/latest/index.html
+.. _Armada: http://airship-armada.readthedocs.io/en/latest/index.html
 .. _Calico: https://www.projectcalico.org/calico-networking-for-kubernetes/
 .. _Ceph: https://ceph.com
 .. _etcd: https://coreos.com/etcd/
