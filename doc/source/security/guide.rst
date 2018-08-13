@@ -48,3 +48,4 @@ Airship Security Topics
   :maxdepth: 1
 
   template
+  haproxy
