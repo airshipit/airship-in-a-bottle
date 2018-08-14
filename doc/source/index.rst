@@ -45,6 +45,12 @@ Use of ``sphinx-build -b html docs/source docs/build`` will build a html
 version of this documentation that can be viewed using a browser at
 docs/build/index.html on the local filesystem.
 
+Specification Details
+---------------------
+
+Proposed, approved, and implemented specifications_ for
+Airship projects are available.
+
 Conventions and Standards
 -------------------------
 
@@ -53,6 +59,7 @@ Conventions and Standards
 
    conventions
    dev-getting-started
+   ucp-basic-deployment
 
 
 .. _airshipit.org: https://airshipit.org
@@ -62,3 +69,4 @@ Conventions and Standards
 .. _Openstack-Helm: https://docs.openstack.org/openstack-helm/latest/
 .. _Treasuremap: https://github.com/att-comdev/treasuremap
 .. _yaml: http://yaml.org/
+.. _specifications: /projects/specs

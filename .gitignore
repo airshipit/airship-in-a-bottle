@@ -1,6 +1,6 @@
 # Sphinx documentation
-docs/_build/
-docs/build/
+doc/_build/
+doc/build/
 
 # OSX folder settings files
 .DS_Store
