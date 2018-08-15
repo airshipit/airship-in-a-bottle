@@ -58,6 +58,7 @@ Conventions and Standards
    :maxdepth: 3
 
    conventions
+   security/guide
    dev-getting-started
    ucp-basic-deployment
 
