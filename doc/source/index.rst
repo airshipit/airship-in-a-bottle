@@ -14,11 +14,6 @@
       License for the specific language governing permissions and limitations
       under the License.
 
-.. tip::
-
-  The Undercloud Platform is part of the containerized Local Control Plane
-  (cLCP). More details may be found by using the `Treasuremap`_
-
 .. note::
 
   These documents will be reworked to reflect the changes associated with
@@ -30,7 +25,8 @@ Airship
 
 Airship is a collection of components that coordinate to form a means of
 configuring, deploying and maintaining a `Kubernetes`_ environment using a
-declarative set of `yaml`_ documents.
+declarative set of `yaml`_ documents. More details on using parts of Airship
+may be found by using the `Treasuremap`_
 
 Approach
 --------
@@ -60,14 +56,12 @@ Conventions and Standards
    conventions
    security/guide
    dev-getting-started
-   ucp-basic-deployment
-
 
 .. _airshipit.org: https://airshipit.org
 .. _Helm: https://helm.sh/
 .. _Kubernetes: https://kubernetes.io/
 .. _Openstack: https://www.openstack.org/
 .. _Openstack-Helm: https://docs.openstack.org/openstack-helm/latest/
-.. _Treasuremap: https://github.com/att-comdev/treasuremap
+.. _Treasuremap: https://github.com/openstack/airship-treasuremap
 .. _yaml: http://yaml.org/
 .. _specifications: /projects/specs

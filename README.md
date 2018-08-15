@@ -1,11 +1,11 @@
 # Airship in a Bottle
 
-Airship is a new name for the project, formerly known as UCP.  References to
-'UCP' or 'Undercloud Platform' will be corrected in time.
-
 Airship is a broad integration of several components
 enabling an automated, resilient Kubernetes-based infrastructure for hosting
 Helm-deployed containerized workloads.
+
+Airship is the name for the project formerly known as UCP or the Undercloud
+Platform.
 
 To get started, run the following in a fresh Ubuntu 16.04 VM
 (minimum 4vCPU/20GB RAM/32GB disk). This will deploy Airship and Openstack Helm

@@ -16,9 +16,9 @@
 
 .. _conventions:
 
-Undercloud Platform Conventions
-===============================
-Undercloud Platform components conform to a minimal set of of conventions to
+Airship Conventions
+===================
+Airship components conform to a minimal set of of conventions to
 provide for reasonable levels of consistency.
 
 Language
@@ -38,13 +38,9 @@ Conventions and Standards
 .. toctree::
    :maxdepth: 2
 
-   alarming-conditions
    api-conventions
-   rbac-conventions
-   client-software
    code-conventions
    documentation-conventions
    service-logging-conventions
-   security-conventions
 
 .. _RFC 2119: https://www.ietf.org/rfc/rfc2119.txt

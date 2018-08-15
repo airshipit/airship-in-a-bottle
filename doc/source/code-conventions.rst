@@ -19,7 +19,7 @@
 Code and Project Conventions
 ============================
 
-Conventions and standards that guide the development and arrangement of UCP
+Conventions and standards that guide the development and arrangement of Airship
 component projects.
 
 Project Structure
@@ -92,10 +92,10 @@ the root of the project.
 
 Linting and Formatting Standards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Code in the UCP components should follow the prevalent linting and formatting
-standards for the language being implemented.  In lieu of industry accepted
-code formatting standards for a target language, strive for readability and
-maintainability.
+Code in the Airship components should follow the prevalent linting and
+formatting standards for the language being implemented.  In lieu of industry
+accepted code formatting standards for a target language, strive for
+readability and maintainability.
 
 ===============  ======================================
 Known Standards
@@ -105,7 +105,7 @@ Language         Uses
 Python           PEP-8
 ===============  ======================================
 
-UCP components must provide for automated checking of their formatting
+Airship components must provide for automated checking of their formatting
 standards, such as the lint step noted above in the makefile. Components may
 provide automated reformatting.
 

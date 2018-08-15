@@ -16,7 +16,7 @@
 
 ###############################################################################
 #                                                                             #
-# Set up and deploy a Airship environment for demonstration purposes.         #
+# Set up and deploy an Airship environment for demonstration purposes.        #
 # Many of the defaults and sources used here are NOT production ready, and    #
 # this should not be used as a copy/paste source for any production use.      #
 #                                                                             #

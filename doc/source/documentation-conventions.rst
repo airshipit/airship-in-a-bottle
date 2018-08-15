@@ -18,7 +18,7 @@
 
 Documentation
 =============
-Each UCP component will maintain documentation addressing two audiences:
+Each Airship component will maintain documentation addressing two audiences:
 
   #. Consumer documentation
   #. Developer documentation
@@ -51,9 +51,9 @@ the following topics:
 Format
 ------
 There are multiple means by which consumers and developers will read the
-documentation for UCP components. The two common places for UCP components are
-`Github`_ in the form of README and code-based documentation, and
-`Readthedocs`_ for more complete/formatted documentation.
+documentation for Airship components. The two common places for Airship
+components are `Github`_ in the form of README and code-based documentation,
+and `Readthedocs`_ for more complete/formatted documentation.
 
 Documentation that is expected to be read in Github must exist and may use
 either `reStructuredText`_ or `Markdown`_. This generally would be limited to
@@ -66,20 +66,22 @@ provide a `Sphinx`_ build of the documentation.
 Finding Treasuremap
 -------------------
 `Treasuremap`_ is a project that serves as a starting point for the larger
-Containerized Cloud Platform, and provides context for the Undercloud Platform
-component projects.
+Containerized Cloud Platform, and provides context for the Airship component
+projects.
 
-Undercloud component projects should include the following at the top of the
+Airship component projects should include the following at the top of the
 main/index page of their `Readthedocs`_ documentation:
 
 .. tip::
 
-  {{component name}} is part of the containerized Local Control Plane (cLCP).
-  More details may be found by using the `Treasuremap`_
+  {{component name}} is part of Airship, a collection of components that
+  coordinate to form a means of configuring, deploying and maintaining a
+  Kubernetes environment using a declarative set of yaml documents. More
+  details on using Airship may be found by using the `Treasuremap`_
 
 .. _reStructuredText: http://www.sphinx-doc.org/en/stable/rest.html
 .. _Markdown: https://daringfireball.net/projects/markdown/syntax
-.. _Readthedocs: https://readthedocs.org/
+.. _Readthedocs: https://airshipit.readthedocs.org/
 .. _Github: https://github.com
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/index.html
-.. _Treasuremap: https://github.com/att-comdev/treasuremap
+.. _Treasuremap: https://github.com/openstack/airship-treasuremap

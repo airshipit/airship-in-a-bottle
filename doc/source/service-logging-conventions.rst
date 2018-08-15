@@ -18,14 +18,14 @@
 
 Service Logging Conventions
 ===========================
-UCP services must provide logging, should conform to a standard logging format,
-and may utilize shared code to do so.
+Airship services must provide logging, should conform to a standard logging
+format, and may utilize shared code to do so.
 
 Standard Logging Format
 -----------------------
-The following is the intended format to be used when logging from UCP services.
-When logging from those parts that are no services, a close reasonable
-approximation is desired.
+The following is the intended format to be used when logging from Airship
+services. When logging from those parts that are no services, a close
+reasonable approximation is desired.
 
 ::
 

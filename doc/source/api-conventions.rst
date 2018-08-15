@@ -19,7 +19,7 @@
 API Conventions
 ===============
 
-A collection of conventions that components of the UnderCloud Platform (UCP)
+A collection of conventions that components of Airship
 utilize for their REST APIs
 
 Resource path naming
@@ -32,7 +32,7 @@ Resource path naming
    node of the path for that resource using v#.# format.
 -  By default and unless otherwise noted, the API will be namespaced by /api
    before the version. For the purposes of documentation, this will not be
-   specified in each of the resource paths below. In more complex APIs, UCP
+   specified in each of the resource paths below. In more complex APIs, Airship
    components may use values other than /api to be more specific to point to a
    particular service.
 
@@ -50,9 +50,9 @@ Status responses
 
 Status responses, and more specifically error responses (HTTP response body
 accompanying 4xx and 5xx series responses where possible) are a customized
-version of the `Kubernetes standard for error representation`_. UCP utilizes
-the details field in a more formalized way to represent multiple messages
-related to a status response, as follows:
+version of the `Kubernetes standard for error representation`_. Airship
+utilizes the details field in a more formalized way to represent multiple
+messages related to a status response, as follows:
 
 ::
 
@@ -121,17 +121,17 @@ X-Context-Marker
 
 Validation API
 --------------
-All UCP components that participate in validation of the design supplied to a
-site implement a common resource to perform document validations. Document
+All Airship components that participate in validation of the design supplied to
+a site implement a common resource to perform document validations. Document
 validations are synchronous.
 Because of the different sources of documents that should be supported, a
-flexible input descriptor is used to indicate from where a UCP component will
-retrieve the documents to be validated.
+flexible input descriptor is used to indicate from where an Airship component
+will retrieve the documents to be validated.
 
 POST /v1.0/validatedesign
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-Invokes a UCP component to perform validations against the documents specified
-by the input structure.  Synchronous.
+Invokes an Airship component to perform validations against the documents
+specified by the input structure. Synchronous.
 
 Input structure
 ^^^^^^^^^^^^^^^
@@ -161,7 +161,7 @@ Failure message example using a ValidationMessage kind for the messageList::
     "apiVersion": "v1.0",
     "metadata": {},
     "status": "Failure",
-    "message": "{{UCP Component Name}} validations failed",
+    "message": "{{Component Name}} validations failed",
     "reason": "Validation",
     "details": {
       "errorCount": {{n}},
@@ -191,7 +191,7 @@ Success message example::
     "apiVersion": "v1.0",
     "metadata": {},
     "status": "Success",
-    "message": "{{UCP Component Name}} validations succeeded",
+    "message": "{{Component Name}} validations succeeded",
     "reason": "Validation",
     "details": {
       "errorCount": 0,
@@ -235,31 +235,31 @@ ValidationMessage:
 
 Health Check API
 ----------------
-Each UCP component shall expose an endpoint that allows other components
+Each Airship component shall expose an endpoint that allows other components
 to access and validate its health status. Clients of the health check should
 wait up to 30 seconds for a health check response from each component.
 
 GET /v1.0/health
 ~~~~~~~~~~~~~~~~
-Invokes a UCP component to return its health status. This endpoint is intended
-to be unauthenticated, and must not return any information beyond the noted
-204 or 503 status response. The component invoked is expected to return a
+Invokes an Airship component to return its health status. This endpoint is
+intended to be unauthenticated, and must not return any information beyond the
+noted 204 or 503 status response. The component invoked is expected to return a
 response in less than 30 seconds.
 
 Health Check Output
 ^^^^^^^^^^^^^^^^^^^
-The current design will be for the UCP component to return an empty response
-to show that it is alive and healthy. This means that the UCP component that
+The current design will be for the component to return an empty response
+to show that it is alive and healthy. This means that the component that
 is performing the query will receive HTTP response code 204.
 
 HTTP response code 503 with a generic response status or an empty message body
-will be returned if the UCP component determines it is in a non-healthy state,
+will be returned if the component determines it is in a non-healthy state,
 or is unable to reach another component it is dependent upon.
 
 GET /v1.0/health/extended
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-UCP components may provide an extended health check. This request invokes a
-UCP component to return its detailed health status. Authentication is required
+Airship components may provide an extended health check. This request invokes a
+component to return its detailed health status. Authentication is required
 to invoke this API call.
 
 Extended Health Check Output
@@ -277,7 +277,7 @@ Failure message example::
     "apiVersion": "v1.0",
     "metadata": {},
     "status": "Failure",
-    "message": "{{UCP Component Name}} failed to respond",
+    "message": "{{Component Name}} failed to respond",
     "reason": "HealthCheck",
     "details": {
       "errorCount": {{n}},
@@ -309,19 +309,19 @@ Success message example::
 
 Versions API
 ------------
-Each UCP component shall expose an endpoint that allows other components to
+Each Airship component shall expose an endpoint that allows other components to
 discover its different API versions. This endpoint is not prefixed by /api
 or a version.
 
 GET /versions
 ~~~~~~~~~~~~~
-Invokes a UCP component to return its list of API versions. This endpoint is
-intended to be unauthenticated, and must not return any information beyond the
-output noted below.
+Invokes an Airship component to return its list of API versions. This endpoint
+is intended to be unauthenticated, and must not return any information beyond
+the output noted below.
 
 Versions output
 ^^^^^^^^^^^^^^^
-Each UCP component shall return a list of its different API versions. The
+Each Airship component shall return a list of its different API versions. The
 response body shall be keyed with the name of each API version, with
 accompanying information pertaining to the version's `path` and `status`. The
 `status` field shall be an enum which accepts the values `stable` and `beta`,
