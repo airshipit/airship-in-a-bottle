@@ -1,0 +1,68 @@
+{
+  "configuration": {
+    "site": "gate-multinode",
+    "primary_repo": "deployment_files",
+    "aux_repos": []
+  },
+  "stages": [
+    {
+      "name": "Gate Setup",
+      "script": "gate-setup.sh"
+    },
+    {
+      "name": "Pegleg Collection",
+      "script": "pegleg-collect.sh"
+    },
+    {
+      "name": "Populate Image Cache",
+      "script": "registry-load.sh"
+    },
+    {
+      "name": "Generate Certificates",
+      "script": "generate-certificates.sh"
+    },
+    {
+      "name": "Build Scripts",
+      "script": "build-scripts.sh"
+    },
+    {
+      "name": "Create VMs",
+      "script": "create-vms.sh"
+    },
+    {
+      "name": "Genesis",
+      "script": "genesis.sh",
+      "on_error": "collect_genesis_info.sh"
+    }
+  ],
+  "vm": {
+    "n0" : {
+      "memory": 18432,
+      "vcpus": 8,
+      "mac": "52:54:00:00:a4:31",
+      "ip": "172.24.1.10",
+      "bootstrap": true
+    },
+    "n1" : {
+      "memory": 2816,
+      "vcpus": 2,
+      "mac": "52:54:00:00:a3:31",
+      "ip": "172.24.1.11",
+      "bootstrap": false
+    },
+    "n2" : {
+      "memory": 2816,
+      "vcpus": 2,
+      "mac": "52:54:00:1a:95:0d",
+      "ip": "172.24.1.12",
+      "bootstrap": false
+    },
+    "n3" : {
+      "memory": 2816,
+      "vcpus": 2,
+      "mac": "52:54:00:31:c2:36",
+      "ip": "172.24.1.13",
+      "bootstrap": false
+    }
+  }
+}

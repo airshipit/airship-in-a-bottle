@@ -15,6 +15,13 @@ metadata:
         path: .charts.openstack.openvswitch
       dest:
         path: .source
+    # Images
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .images.osh.openvswitch
+      dest:
+        path: .values.images.tags
 data:
   chart_name: openvswitch
   release: openvswitch

@@ -15,6 +15,13 @@ metadata:
         path: .charts.openstack.memcached
       dest:
         path: .source
+    # Images
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .images.osh.memcached
+      dest:
+        path: .values.images.tags
 data:
   chart_name: memcached
   release: openstack-memcached

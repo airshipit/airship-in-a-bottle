@@ -17,7 +17,7 @@ set -e
 
 # Define variables
 COMMAND='openstack'
-OPENSTACK_CLI_IMAGE="${OPENSTACK_CLI_IMAGE:-docker.io/openstackhelm/heat:newton}"
+OPENSTACK_CLI_IMAGE="${OPENSTACK_CLI_IMAGE:-docker.io/openstackhelm/heat:ocata}"
 
 # Get the path of the directory where the script is located
 # Source Base Docker Command
