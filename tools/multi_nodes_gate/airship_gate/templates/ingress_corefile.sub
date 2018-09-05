@@ -1,0 +1,9 @@
+${DNS_DOMAIN} {
+    file ${ZONE_FILE}
+    log
+}
+
+. {
+    forward . /etc/resolv.conf
+    log
+}

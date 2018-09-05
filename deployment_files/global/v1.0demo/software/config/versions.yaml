@@ -239,7 +239,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: b6fc24b9960bc6de29aa70c7d5b7725319046160
+        reference: 9f6194ff770d3776ae3572bcbe841a9289357244
       mariadb:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
@@ -507,7 +507,9 @@ data:
         maas_region: quay.io/airshipit/maas-region-controller:dfb92ce07f87648f3423be11e51425923bc9f8b1
         bootstrap: quay.io/airshipit/maas-region-controller:dfb92ce07f87648f3423be11e51425923bc9f8b1
         export_api_key: quay.io/airshipit/maas-region-controller:dfb92ce07f87648f3423be11e51425923bc9f8b1
-        maas_cache: quay.io/attcomdev/sstream-cache@sha256:sha256:90d0dc73785534ef6a3035265275e197a66727beeb9c979f60d3bbf31a6a8864
+        maas_cache: quay.io/airshipit/sstream-cache:dfb92ce07f87648f3423be11e51425923bc9f8b1
+        ingress: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.9.0
+        error_pages: gcr.io/google_containers/defaultbackend:1.0
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       keystone:
         keystone_bootstrap: docker.io/openstackhelm/heat:ocata

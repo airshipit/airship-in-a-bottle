@@ -23,6 +23,7 @@ img_base_declare() {
 
 iso_gen() {
     NAME=${1}
+    ADDL_USERDATA="${2}"
 
     if virsh vol-key --pool "${VIRSH_POOL}" --vol "cloud-init-${NAME}.iso" &> /dev/null; then
         log Removing existing cloud-init ISO for "${NAME}"
@@ -42,6 +43,13 @@ iso_gen() {
     export NAME
     export SSH_PUBLIC_KEY
     envsubst < "${TEMPLATE_DIR}/user-data.sub" > user-data
+
+    if [[ ! -z "${ADDL_USERDATA}" ]]
+    then
+      echo >> user-data
+      echo -e "${ADDL_USERDATA}" >> user-data
+    fi
+
     envsubst < "${TEMPLATE_DIR}/meta-data.sub" > meta-data
     envsubst < "${TEMPLATE_DIR}/network-config.sub" > network-config
 
@@ -126,7 +134,7 @@ vm_create() {
     wait
 
     if [[ "$(config_vm_bootstrap ${NAME})" == "true" ]]; then
-        iso_gen "${NAME}"
+        iso_gen "${NAME}" "$(config_vm_userdata ${NAME})"
         wait
 
         log Creating VM "${NAME}" and bootstrapping the boot drive
@@ -260,7 +268,7 @@ make_virtmgr_account() {
             sudo useradd -m -s /bin/sh -g "${libvirt_group}" virtmgr
         else
             sudo usermod -g "${libvirt_group}" virtmgr
-	fi
+        fi
     done
 }
 
