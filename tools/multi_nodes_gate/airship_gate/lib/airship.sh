@@ -1,9 +1,32 @@
 #!/bin/bash
 
+shipard_cmd_stdout() {
+  ssh_cmd "${GENESIS_NAME}" docker run -t --network host -v "${GENESIS_WORK_DIR}:/work" -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 -e OS_USERNAME=shipyard -e OS_USER_DOMAIN_NAME=default -e OS_PASSWORD="${SHIPYARD_PASSWORD}" -e OS_PROJECT_DOMAIN_NAME=default -e OS_PROJECT_NAME=service --entrypoint /usr/local/bin/shipyard "${IMAGE_SHIPYARD_CLI}" $* 2>&1
+}
+
 shipyard_cmd() {
-  set -o pipefail
-  ssh_cmd "${GENESIS_NAME}" docker run -t --network host -v "${GENESIS_WORK_DIR}:/work" -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 -e OS_USERNAME=shipyard -e OS_USER_DOMAIN_NAME=default -e OS_PASSWORD="${SHIPYARD_PASSWORD}" -e OS_PROJECT_DOMAIN_NAME=default -e OS_PROJECT_NAME=service "${IMAGE_SHIPYARD_CLI}" $* 2>&1 | tee -a "${LOG_FILE}"
-  set +o pipefail
+  if [[ ! -z "${LOG_FILE}" ]]
+  then
+    set -o pipefail
+    shipard_cmd_stdout $* | tee -a "${LOG_FILE}"
+    set +o pipefail
+  else
+    shipard_cmd_stdout $*
+  fi
+}
+
+drydock_cmd_stdout() {
+  ssh_cmd "${GENESIS_NAME}" docker run -t --network host -v "${GENESIS_WORK_DIR}:/work" -e DD_URL=http://drydock-api.ucp.svc.cluster.local:9000 -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 -e OS_USERNAME=shipyard -e OS_USER_DOMAIN_NAME=default -e OS_PASSWORD="${SHIPYARD_PASSWORD}" -e OS_PROJECT_DOMAIN_NAME=default -e OS_PROJECT_NAME=service --entrypoint /usr/local/bin/drydock "${IMAGE_DRYDOCK_CLI}" $* 2>&1
+}
+drydock_cmd() {
+  if [[ ! -z "${LOG_FILE}" ]]
+  then
+    set -o pipefail
+    drydock_cmd_stdout $* | tee -a "${LOG_FILE}"
+    set +o pipefail
+  else
+    drydock_cmd_stdout $*
+  fi
 }
 
 # Create a shipyard action
