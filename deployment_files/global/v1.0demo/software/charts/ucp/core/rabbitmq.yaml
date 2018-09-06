@@ -71,6 +71,10 @@ data:
         - type: job
           labels:
             release_group: airship-ucp-rabbitmq
+        - type: pod
+          labels:
+            release_group: airship-ucp-rabbitmq
+            component: test
   values:
     pod:
       replicas:

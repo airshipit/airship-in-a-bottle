@@ -78,8 +78,9 @@ SHIPYARD_REPO=${SHIPYARD_REPO:-"https://git.openstack.org/openstack/airship-ship
 SHIPYARD_REFSPEC=${SHIPYARD_REFSPEC:-""}
 
 # Images
+# TODO(bryan-strassner) refit to use master Pegleg
 PEGLEG_IMAGE=${PEGLEG_IMAGE:-"quay.io/airshipit/pegleg:1ada48cc360ec52c7ab28b96c28a0c7df8bcee40"}
-PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/airshipit/promenade:latest"}
+PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/airshipit/promenade:master"}
 
 # Command shortcuts
 PEGLEG=${WORKSPACE}/airship-pegleg/tools/pegleg.sh

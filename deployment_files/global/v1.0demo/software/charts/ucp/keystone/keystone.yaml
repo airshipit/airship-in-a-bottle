@@ -123,6 +123,10 @@ data:
         - type: job
           labels:
             release_group: airship-ucp-keystone
+        - type: pod
+          labels:
+            release_group: airship-ucp-keystone
+            component: test
     post:
       create: []
   values:

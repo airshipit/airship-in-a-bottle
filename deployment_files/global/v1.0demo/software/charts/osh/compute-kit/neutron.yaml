@@ -15,6 +15,13 @@ metadata:
         path: .charts.openstack.neutron
       dest:
         path: .source
+    # Images
+    - src:
+        schema: pegleg/SoftwareVersions/v1
+        name: software-versions
+        path: .images.osh.neutron
+      dest:
+        path: .values.images.tags
 data:
   chart_name: neutron
   release: neutron

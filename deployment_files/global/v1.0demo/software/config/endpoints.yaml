@@ -5,7 +5,7 @@ metadata:
     name: ucp_endpoints
     layeringDefinition:
         abstract: false
-        layer: site
+        layer: global
     storagePolicy: cleartext
 data:
   ucp:
@@ -13,8 +13,8 @@ data:
       namespace: ucp
       name: keystone
       hosts:
-        default: keystone-api
-        public: keystone
+        default: keystone
+        internal: keystone-api
       host_fqdn_override:
         default: null
       path:
@@ -22,10 +22,9 @@ data:
       scheme:
         default: http
       port:
-        admin:
-          default: 35357
         api:
           default: 80
+          internal: 5000
     armada:
       name: armada
       hosts:
@@ -99,7 +98,7 @@ data:
         default: rabbitmq
       host_fqdn_override:
         default: null
-      path: /openstack
+      path: /keystone
       scheme: rabbit
       port:
         amqp:
