@@ -4,6 +4,13 @@
     "primary_repo": "deployment_files",
     "aux_repos": []
   },
+  "ingress": {
+    "domain": "gate.local",
+    "172.24.1.5": [
+      "maas",
+      "drydock"
+    ]
+  },
   "stages": [
     {
       "name": "Gate Setup",
@@ -30,6 +37,11 @@
       "script": "create-vms.sh"
     },
     {
+      "name": "Register Ingress",
+      "script": "ingress-dns.sh",
+      "arguments": ["build"]
+    },
+    {
       "name": "Genesis",
       "script": "genesis.sh",
       "on_error": "collect_genesis_info.sh"
@@ -44,6 +56,14 @@
     }
   ],
   "vm": {
+    "build": {
+      "memory": 3072,
+      "vcpus": 2,
+      "mac": "52:54:00:00:be:31",
+      "ip": "172.24.1.9",
+      "bootstrap": true,
+      "userdata": "packages: [docker.io]"
+    },
     "n0" : {
       "memory": 32768,
       "vcpus": 8,

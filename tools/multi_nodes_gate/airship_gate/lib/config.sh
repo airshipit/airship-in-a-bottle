@@ -9,6 +9,7 @@ export BASE_IMAGE_URL=${BASE_IMAGE_URL:-https://cloud-images.ubuntu.com/releases
 export IMAGE_PROMENADE_CLI=${IMAGE_PROMENADE_CLI:-quay.io/airshipit/promenade:master}
 export IMAGE_PEGLEG_CLI=${IMAGE_PEGLEG_CLI:-quay.io/airshipit/pegleg:master}
 export IMAGE_SHIPYARD_CLI=${IMAGE_SHIPYARD_CLI:-quay.io/airshipit/shipyard:master}
+export IMAGE_COREDNS=${IMAGE_COREDNS:-docker.io/coredns/coredns:1.2.2}
 export PROMENADE_DEBUG=${PROMENADE_DEBUG:-0}
 export SHIPYARD_PASSWORD=${SHIPYARD_OS_PASSWORD:-password18}
 export REGISTRY_DATA_DIR=${REGISTRY_DATA_DIR:-/mnt/registry}
@@ -48,6 +49,28 @@ config_vm_bootstrap() {
     else
       echo "false"
     fi
+}
+
+config_vm_userdata() {
+    nodename=${1}
+    val=$(jq -cr ".vm.${nodename}.userdata" < "${GATE_MANIFEST}")
+
+    if [[ "${val}" != "null" ]]
+    then
+      echo "${val}"
+    fi
+}
+config_ingress_domain() {
+    jq -cr '.ingress.domain' < "${GATE_MANIFEST}"
+}
+
+config_ingress_ips() {
+    jq -cr '.ingress | keys | map(select(. != "domain")) | join(" ")' < "${GATE_MANIFEST}"
+}
+
+config_ingress_entries() {
+    IP=$1
+    jq -cr ".ingress[\"${IP}\"] | join(\" \")" < "${GATE_MANIFEST}"
 }
 
 config_pegleg_primary_repo() {

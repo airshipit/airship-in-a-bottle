@@ -24,4 +24,12 @@ data:
   values:
     manifests:
       secret_ssh_key: true
+    conf:
+      cache:
+        enabled: true
+      dns:
+        dns_servers: 172.24.1.9
+    network:
+      maas_ingress:
+        addr: 172.24.1.5/32
 ...

@@ -31,6 +31,20 @@
     "publish": {
       "$ref": "#/definitions/publish"
     },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "required": ["domain"]
+    },
     "stages": {
       "type": "array",
       "items": {
@@ -104,8 +118,7 @@
       "required": [
         "memory",
         "names",
-        "vcpus",
-        "non_genesis"
+        "vcpus"
       ],
       "additionalProperties": false
     }
