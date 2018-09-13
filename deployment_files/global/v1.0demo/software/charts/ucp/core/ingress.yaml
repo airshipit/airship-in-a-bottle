@@ -7,6 +7,8 @@ metadata:
     abstract: false
     layer: global
   storagePolicy: cleartext
+  labels:
+    name: ucp-ingress
   substitutions:
     # Chart source
     - src:

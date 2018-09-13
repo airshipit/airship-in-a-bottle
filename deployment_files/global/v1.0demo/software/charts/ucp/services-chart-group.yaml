@@ -11,8 +11,8 @@ data:
   description: Airship Services
   sequenced: true
   chart_group:
-    - ucp-maas
     - ucp-tiller
+    - ucp-maas
     - ucp-armada
     - ucp-barbican
     - ucp-deckhand

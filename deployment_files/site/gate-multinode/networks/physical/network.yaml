@@ -40,5 +40,5 @@ data:
       metric: 10
   dns:
     domain: gate.local
-    servers: '8.8.8.8 8.8.4.4'
+    servers: '172.24.1.9'
 ...

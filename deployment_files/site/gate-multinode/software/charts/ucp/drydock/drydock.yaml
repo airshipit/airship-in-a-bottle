@@ -26,6 +26,8 @@ data:
       secret_ssh_key: true
     conf:
       drydock:
+        maasdriver:
+          maas_api_url: 'http://maas.gate.local:9085/MAAS/api/2.0/'
         plugins:
           oob_driver:
             - 'drydock_provisioner.drivers.oob.pyghmi_driver.driver.PyghmiDriver'

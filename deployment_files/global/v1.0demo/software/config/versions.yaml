@@ -150,7 +150,6 @@ data:
         location: https://git.openstack.org/openstack/openstack-helm
         subpath: ceph
         reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
-      #TODO Update to new HTK with split ceph charts
       ceph-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
@@ -180,14 +179,12 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-drydock
         subpath: charts/drydock
-        reference: f8c821e7219f84f12e3a90e3101c6f20d3049b5b
-      # TODO waiting for https://review.openstack.org/#/c/595902/ to move to
-      #      openstack-helm-infra version.
+        reference: master
       drydock-htk:
         type: git
-        location: https://git.openstack.org/openstack/openstack-helm
+        location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: f902cd14fac7de4c4c9f7d019191268a6b4e9601
+        reference: bc1afb87d7aa529a4ed5321d889cdfe2f1af8a44
       ingress:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -212,7 +209,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/promenade
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 24e4ebf37aac7cc4cf3e8341bc0c0fc48c274fbb
       promenade-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -232,14 +229,12 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-maas
         subpath: charts/maas
-        # TODO(bryan-strassner) set to new version
-        #     when https://review.openstack.org/#/c/595398/ is complete
-        reference: refs/changes/98/595398/5
+        reference: master
       maas-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: 9f6194ff770d3776ae3572bcbe841a9289357244
+        reference: 4cd00f3ac539f625e7cd9733ae46232b2082027a
       mariadb:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
@@ -456,7 +451,7 @@ data:
         tiller: gcr.io/kubernetes-helm/tiller:v2.10.0
       promenade:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        promenade: quay.io/airshipit/promenade:88c786b8e92d053fd0cba7237df68cc087b81f26
+        promenade: quay.io/airshipit/promenade:24e4ebf37aac7cc4cf3e8341bc0c0fc48c274fbb
         ks_user: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_endpoints: docker.io/openstackhelm/heat:ocata

@@ -25,11 +25,36 @@ data:
     manifests:
       secret_ssh_key: true
     conf:
-      cache:
-        enabled: true
-      dns:
-        dns_servers: 172.24.1.9
+      maas:
+        dns: {dns_servers: '172.24.1.9'}
+        ntp: {use_external_only: 'true' }
+      cache: {enabled: true}
     network:
       maas_ingress:
-        addr: 172.24.1.5/32
+        addr: '172.24.1.5/32'
+    endpoints:
+      maas_region:
+        host_fqdn_override:
+          public: maas.gate.local
+        port:
+          region_api:
+            public: 9085
+      maas_ingress:
+        hosts:
+          default: maas-ingress
+          error_pages: maas-ingress-error
+        host_fqdn_override:
+          public: null
+        port:
+          http:
+            default: 9080
+          https:
+            default: 9443
+          error_pages:
+            default: 8080
+            podport: 8080
+          healthz:
+            podport: 10259
+          status:
+            podport: 18089
 ...

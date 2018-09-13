@@ -21,9 +21,14 @@ data:
     ucp:
       maas:
         location: https://git.openstack.org/openstack/airship-maas
-        reference: refs/changes/53/600253/1
+        reference: refs/changes/53/600253/39
+      maas-htk:
+        location: https://git.openstack.org/openstack/openstack-helm-infra
+        subpath: helm-toolkit
+        reference: 4cd00f3ac539f625e7cd9733ae46232b2082027a
   images:
     ucp:
       maas:
-        maas_region: docker.io/sthussey/maas-region-controller:dev
+        maas_region: 'docker.io/sthussey/maas-region-controller:dev'
+        maas_cache: 'quay.io/airshipit/sstream-cache:master'
 ...

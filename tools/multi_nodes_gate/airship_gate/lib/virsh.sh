@@ -117,11 +117,11 @@ vm_clean() {
 }
 
 vm_clean_all() {
-    log Removing all VMs in parallel
+    log Removing all VMs
     VM_NAMES=($(config_vm_names))
     for NAME in ${VM_NAMES[*]}
     do
-        vm_clean "${NAME}" &
+        vm_clean "${NAME}"
     done
     wait
 }
