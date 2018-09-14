@@ -60,14 +60,14 @@ HTTPS_PROXY=${HTTP_PROXY:-${http_proxy}}
 if [[ ! -z "${HTTPS_PROXY}" ]]
 then
     log_stage_header "Configuring Apt Proxy"
-    sudo cat << EOF > /etc/apt/apt.conf.d/50proxyconf
-Acquire::https::proxy \"${HTTPS_PROXY}\";
-Acquire::http::proxy \"${HTTPS_PROXY}\";
+    cat << EOF | sudo tee /etc/apt/apt.conf.d/50proxyconf
+Acquire::https::proxy "${HTTPS_PROXY}";
+Acquire::http::proxy "${HTTPS_PROXY}";
 EOF
 
     log_stage_header "Configuring Docker Proxy"
     sudo mkdir -p /etc/systemd/system/docker.service.d/
-    sudo cat << EOF > /etc/systemd/system/docker.service.d/proxy.conf
+    cat << EOF | sudo tee /etc/systemd/system/docker.service.d/proxy.conf
 [Service]
 Environment="HTTP_PROXY=${HTTP_PROXY}"
 Environment="HTTPS_PROXY=${HTTPS_PROXY}"
