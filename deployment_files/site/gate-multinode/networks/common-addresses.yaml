@@ -15,6 +15,7 @@ data:
 
   dns:
     cluster_domain: cluster.local
+    node_domain: gate.local
     service_ip: 10.96.0.10
     upstream_servers:
       - 172.24.1.9

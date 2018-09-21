@@ -15,7 +15,7 @@ data:
     - path: /opt/promjoin.sh
       type: file
       permissions: '555'
-      location: promenade+http://promenade-api.ucp.svc.cluster.local/api/v1.0/join-scripts?design_ref={{ action.design_ref | urlencode }}&hostname={{ node.hostname }}&ip={{ node.network.default.ip }}{% for k, v in node.labels.items() %}&labels.dynamic={{ k }}={{ v }}{% endfor %}
+      location: promenade+http://promenade-api.ucp.svc.cluster.local/api/v1.0/join-scripts?design_ref={{ action.design_ref | urlencode }}&hostname={{ node.hostname }}&ip={{ node.network.default.ip }}&domain={{ node.domain }}{% for k, v in node.labels.items() %}&labels.dynamic={{ k }}={{ v }}{% endfor %}
       location_pipeline:
         - template
       data_pipeline:
