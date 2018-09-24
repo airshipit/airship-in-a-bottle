@@ -145,7 +145,7 @@ Integration testing is orchestrated in the merge gates, and uses various means
 of testing.
 
 .. _Airflow: https://airflow.apache.org/
-.. _Armada: http://airship-armada.readthedocs.io/en/latest/index.html
+.. _Armada: https://airship-armada.readthedocs.io/
 .. _Calico: https://www.projectcalico.org/calico-networking-for-kubernetes/
 .. _Ceph: https://ceph.com
 .. _etcd: https://coreos.com/etcd/
@@ -155,7 +155,7 @@ of testing.
 .. _Keystone: https://docs.openstack.org/keystone/latest/
 .. _Kubernetes: https://kubernetes.io/
 .. _oslo.policy: https://docs.openstack.org/oslo.policy/latest/
-.. _Promenade: https://promenade.readthedocs.io/en/latest/
+.. _Promenade: https://airship-promenade.readthedocs.io/
 .. _pytest: https://docs.pytest.org/en/latest/
 .. _quay.io: https://quay.io/organization/airshipit
 .. _stestr: https://github.com/mtreinish/stestr

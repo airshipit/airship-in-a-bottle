@@ -8,7 +8,7 @@ metadata:
     layer: global
   storagePolicy: cleartext
 data:
-  description: UCP Services
+  description: Airship Services
   sequenced: true
   chart_group:
     - ucp-maas

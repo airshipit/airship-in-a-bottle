@@ -7,7 +7,7 @@ metadata:
     application: shipyard
 data:
   $schema: 'http://json-schema.org/schema#'
-  id: 'https://github.com/att-comdev/shipyard/deploymentConfiguration.yaml'
+  id: 'https://git.airshipit.org/cgit/airship-shipyard/tree/src/bin/shipyard_airflow/shipyard_airflow/schemas/deploymentConfiguration.yaml'
   type: 'object'
   properties:
     physical_provisioner:

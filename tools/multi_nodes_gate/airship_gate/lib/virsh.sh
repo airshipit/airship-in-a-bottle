@@ -84,14 +84,14 @@ iso_path() {
 
 net_clean() {
     if virsh net-list --name | grep ^airship_gate$ > /dev/null; then
-        log Destroying UCP gate network
+        log Destroying Airship gate network
         virsh net-destroy "${XML_DIR}/network.xml" &>> "${LOG_FILE}"
     fi
 }
 
 net_declare() {
     if ! virsh net-list --name | grep ^airship_gate$ > /dev/null; then
-        log Creating UCP gate network
+        log Creating Airship gate network
         virsh net-create "${XML_DIR}/network.xml" &>> "${LOG_FILE}"
     fi
 }
