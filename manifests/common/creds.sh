@@ -15,14 +15,42 @@
 # limitations under the License.
 
 # Credentials that can be exported to work with Shipyard.
-# Note that if the password was changed before the deployment, it will need to
-# be changed to match here.
 # To set your environment variables to the values in this script, run using:
 # source creds.sh
 #
+
+SHIPYARD_KEYSTONE_PASSWORD=$(awk '
+## format we are looking for:
+#schema: deckhand/Passphrase/v1
+#metadata:
+#  schema: metadata/Document/v1
+#  name: ucp_shipyard_keystone_password
+#  layeringDefinition:
+#    abstract: false
+#    layer: site
+#  storagePolicy: cleartext
+#data: password18
+    /^schema: deckhand\/Passphrase\/v1/ {
+        getline
+        getline
+        getline
+        if ($2=="ucp_shipyard_keystone_password") {
+            getline
+            getline
+            getline
+            getline
+            getline
+            print $2
+            exit
+      }
+      else {
+          getline
+      }
+}' deployment_files.yaml)
+
 export OS_USER_DOMAIN_NAME=default
 export OS_PROJECT_DOMAIN_NAME=default
 export OS_PROJECT_NAME=service
 export OS_USERNAME=shipyard
-export OS_PASSWORD=password18
+export OS_PASSWORD="${SHIPYARD_KEYSTONE_PASSWORD}"
 export OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3

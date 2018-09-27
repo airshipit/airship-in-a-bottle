@@ -275,15 +275,22 @@ function genesis_complete() {
 
   set +x
   echo "-----------"
-  echo "Waiting ${POST_GENESIS_DELAY} seconds for Genesis process to settle. This is a good time to grab a coffee :)"
+  echo "Waiting ${POST_GENESIS_DELAY} seconds for Genesis process to settle. This is a good time to grab one more coffee :)"
   echo "-----------"
   sleep ${POST_GENESIS_DELAY}
-
-  # signals that genesis completed
+  echo " "
   echo "Genesis complete. "
+  print_shipyard_info1
+  set -x
+}
+
+function print_shipyard_info1() {
+  SHIPYARD_KEYSTONE_PASS=$(awk '/^data:/ {print $2}' ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml)
+  set +x
+  # signals that genesis completed
+  echo " "
   echo "The .yaml files in ${WORKSPACE} contain the site design that may be suitable for use with Shipyard. "
-  echo "The Shipyard Keystone password may be found in ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml"
-  cat ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml
+  echo "The Shipyard Keystone password ${SHIPYARD_KEYSTONE_PASS} may be found in ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_shipyard_keystone_password.yaml"
   echo " "
   set -x
 }
@@ -292,19 +299,18 @@ function setup_deploy_site() {
   # creates a directory /${WORKSPACE}/site with all the things necessary to run
   # deploy_site
   mkdir -p ${WORKSPACE}/site
-  # TODO: (bryan-strassner) make creds.sh contain the Shipyard-Keystone
-  #     password sourced from the target design used.
   cp ${WORKSPACE}/airship-in-a-bottle/manifests/common/creds.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/genesis/*.yaml ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-shipyard/tools/execute_shipyard_action.sh ${WORKSPACE}/site
+  print_shipyard_info2
+}
+function print_shipyard_info2() {
   set +x
   echo " "
-  echo "${WORKSPACE}/site is now set up with creds.sh which can be sourced to set up credentials for use in running Shipyard"
+  echo "${WORKSPACE}/site is set up with creds.sh which can be sourced to set up credentials for use in running Shipyard"
   echo "${WORKSPACE}/site contains .yaml files that represent the single-node site deployment. (deployment_files.yaml, certificates.yaml)"
-  echo " "
-  echo "NOTE: If you changed the Shipyard keystone password (see above printouts), the creds.sh file needs to be updated to match before use."
   echo " "
   echo "----------------------------------------------------------------------------------"
   echo "The following commands will execute Shipyard to setup and run a deploy_site action"
@@ -359,10 +365,73 @@ function execute_create_heat_stack() {
   bash test_create_heat_stack.sh
 }
 
+function publish_horizon_dashboard() {
+  kubectl -n openstack expose service/horizon-int --type=NodePort --name=horizon-dashboard
+}
+
+function print_dashboards() {
+  AIRFLOW_PORT=$(kubectl -n ucp get service airflow-web-int -o jsonpath="{.spec.ports[0].nodePort}")
+  HORIZON_PORT=$(kubectl -n openstack get service horizon-dashboard -o jsonpath="{.spec.ports[0].nodePort}")
+  MAAS_PORT=$(kubectl -n ucp get service maas-region-ui -o jsonpath="{.spec.ports[0].nodePort}")
+  MASS_PASS=$(awk '/^data:/ {print $2}' ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/ucp_maas_admin_password.yaml)
+  set +x
+  echo " "
+  echo "OpenStack Horizon dashboard is available on this host at the following URL:"
+  echo " "
+  echo "  http://${HOSTIP}:${HORIZON_PORT}"
+  echo " "
+  # TODO: (roman_g) can we source it from somewhere?
+  echo "Credentials:"
+  echo "  Domain: default"
+  echo "  Username: admin"
+  echo "  Password: password"
+  echo " "
+  echo "OpenStack CLI commands could be launched via \`./run_openstack_cli.sh\` script, e.g.:"
+  echo "  # cd ${WORKSPACE}/airship-in-a-bottle/manifests/dev_single_node"
+  echo "  # ./run_openstack_cli.sh stack list"
+  echo "  ..."
+  echo "  "
+  echo "Other dashboards:"
+  echo " "
+  echo "  MAAS: http://${HOSTIP}:${MAAS_PORT}/MAAS/ admin/${MASS_PASS}"
+  echo "  Airship Shipyard Airflow DAG: http://${HOSTIP}:${AIRFLOW_PORT}/"
+  echo " "
+  echo "Airship itself does not have a dashboard."
+  echo " "
+  # TODO: (roman_g) endpoints.yaml path below does not seem to be a reliable location
+  echo "Other endpoints and credentials are listed in the following locations:"
+  echo "  ${WORKSPACE}/airship-in-a-bottle/deployment_files/global/v1.0${TARGET_SITE}/software/config/endpoints.yaml"
+  echo "  ${WORKSPACE}/airship-in-a-bottle/deployment_files/site/${TARGET_SITE}/secrets/passphrases/"
+  echo "Exposed ports of services can be listed with the following command:"
+  echo "  # kubectl get services --all-namespaces | grep -v ClusterIP"
+  echo "  ..."
+  echo " "
+  set -x
+}
+
+function your_next_steps() {
+  set +x
+  echo " "
+  echo "---------------------------------------------------------------"
+  echo " "
+  echo "Airship has completed deployment of OpenStack (OpenStack-Helm)."
+  echo " "
+  echo "Explore Airship Treasuremap repository and documentation"
+  echo "available at the following URLs:"
+  echo " "
+  echo "  https://github.com/openstack/airship-treasuremap"
+  echo "  https://airship-treasuremap.readthedocs.io/"
+  echo " "
+  echo "---------------------------------------------------------------"
+  echo " "
+  set -x
+}
+
 function clean() {
   # Perform any cleanup of temporary or unused artifacts
   set +x
   echo "To remove files generated during this script's execution, delete ${WORKSPACE}."
+  echo "This VM is disposable. Re-deployment in this same VM will lead to unpredictable results."
   set -x
 }
 
@@ -388,6 +457,7 @@ configure_docker || error "configuring docker behind proxy"
 
 # collect
 if [[ ${STEP_BREAKPOINT} -ge 10 ]]; then
+  echo "This is a good time to grab a coffee :)"
   run_pegleg_collect || error "running pegleg collect"
 fi
 
@@ -411,4 +481,10 @@ fi
 # demo
 if [[ ${STEP_BREAKPOINT} -ge 40 ]]; then
   execute_create_heat_stack || error "creating heat stack"
+  publish_horizon_dashboard || error "publishing Horizon dashboard"
+  print_shipyard_info1
+  print_shipyard_info2
+  print_dashboards || error "printing dashboards list"
+  ## Done
+  your_next_steps
 fi
