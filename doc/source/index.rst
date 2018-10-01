@@ -37,9 +37,8 @@ of `OpenStack-Helm`_ which also influences Airship's direction.
 Building this Documentation
 ---------------------------
 
-Use of ``sphinx-build -b html docs/source docs/build`` will build a html
-version of this documentation that can be viewed using a browser at
-docs/build/index.html on the local filesystem.
+Use of ``make docs`` will build a html version of this documentation that can
+be viewed using a browser at doc/build/index.html on the local filesystem.
 
 Specification Details
 ---------------------

@@ -11,63 +11,18 @@
 # limitations under the License.
 
 - project:
+    templates:
+      - docs-on-readthedocs
+    vars:
+      rtd_webhook_id: '38573'
     check:
       jobs:
         - airship-in-a-bottle-linter
-        - airship-in-a-bottle-doc-build
     gate:
       jobs:
         - airship-in-a-bottle-linter
-        - airship-in-a-bottle-doc-build
-    post:
-      jobs:
-        - airship-in-a-bottle-doc-publish
 
 - job:
     name: airship-in-a-bottle-linter
     run: tools/gate/playbooks/zuul-linter.yaml
     nodeset: openstack-helm-single-node
-
-- job:
-    name: airship-in-a-bottle-doc-build
-    description: |
-      Locally build the documentation to check for errors
-    run: tools/gate/playbooks/doc-build.yaml
-    timeout: 300
-    nodeset: openstack-helm-single-node
-
-- job:
-    name: airship-in-a-bottle-doc-publish
-    description: |
-      Publish documentation on airship-drydock.readthedocs.io
-    run: tools/gate/playbooks/doc-publish.yaml
-    secrets:
-      - airship_in_a_bottle_readthedocs
-    timeout: 300
-    nodeset: openstack-helm-single-node
-
-- secret:
-    name: airship_in_a_bottle_readthedocs
-    data:
-      url: !encrypted/pkcs1-oaep
-        - Uml3UChtbn2PP4DbTsf4qC2rStfp07DuWe5NN5pS0KIcOenbD0QX7hvx2MgQkChyKTDTs
-          QhiHolVNAoKCcoHjF8WjFXnk7lVb1Ap4K23J/BFO22OvfziMLEcWfsPIr7a7vHQ/svaiy
-          5YYqHCcJYD43CyzsJKUA7Wjfz+JHu9ZpQQGQY53H/UKxMnou3yuFNjLkCp7jQN7ZAIBX2
-          3IrmstRbhZtJTuQ0+Pncr6t3eSPssc6AU+EG4wlBIp+/MxqsIDkEz3AjWiEkMhxUOEIj6
-          nN9Evswpkyg16u4mDnFJ5vRU73e/cR95I4g5TAXbqD8Ek0PDlL1CXWeyJsabBw/UDhdBz
-          8zGa2o/lke3Wn47asEcs5nyP+DX8rIphXTT8YXjnzrL8Lvj9kaRHqvFcIX29x9gr3diev
-          l6CE7hxPtVLU2PsBWCVjxlkX46OockIWoDJJ4Q9tmpilGPlxlDVhJ485bW0dr8EJFdnGV
-          9eJBGFamrZLiH5h6mOiDtqO1MnuXMLHeA7gnxcRlAC51jh5LzjQFh2wQ9K41T3oZXp+sE
-          TR6pfIsQzTdFl2LMLs+UXRULGcDciJDUxySkTF+W3FEIuMBPN2beL0JFQuPdKbbl0pcpn
-          gCZ/ok3a83q6WMrl68Si6ODJeLSyJ8lRc3m6tADgGekcRfaT2C/BjD6yEvsJiM=
-      token: !encrypted/pkcs1-oaep
-        - SZLvIg3x9of5ORJJsH5BSZVPG5xtoTFWvFaPSAp6T0JIdYcbx03RXnZx3ZAftwQwv908X
-          OycWj3QrIIfXa8rmS7pJ3H3cNBXjB5KISiqWu00u5K2ZOiWt30NrKy3gU0cuyi2iBo38u
-          W034X5Z6onswmzIsvGs7DxxGcSq+RF/2hqAspdzGj7carW3QZoQLkmDDHScnRenH8IB4+
-          XMX/4gO63tqyZGczrd18O+4AlLdRFcAR7ScuVnSpr6KnxyBUfvOec83swS1F60wTniFe5
-          4GwUKcqWG9C4HjoJ4D0+xGO1ZnPd03w1T/mBTU79z86p9IL2rFrJcSwxshKPWDTY+JrmT
-          K9Zn1GYaPJk6oDeHNmJz7b66zcbf8glb2D9KAWeNeCfX+oUPZDw+1ePtGTKV1DcWoQFhp
-          L5IHgyrixkT4hO4LvuRAn0ZRWjV/MWh618HzbgB5785GJlnSnBgeDFcy9+AbmhoWh37C3
-          y7tIF6i8j8Jvlsazmj7XfUeNqLB6V7ibMXc1yKMUBhwMKFLYgAOJbMRtS338Uqj4GCSFa
-          78q40byAbR0O6uHiCtZxrEvAUKz3LJcd+jpKfnSDtnLPAs4je7YUNaCYkGPZnSeaY0XuU
-          2Xjb0r3VK7XNIy8hwC5hj/nb8LGU6Q41mKSSVGF41pK8dLEa4X+LJn21PGDbBI=

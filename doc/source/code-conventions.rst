@@ -143,7 +143,9 @@ Project ``foo``, supporting multiple executable modules ``foo_service``,
 ``foo_cli``, and a shared module ``foo_client`` ::
 
   {root of foo}
-   |- /docs
+   |- /doc
+   |    |- /source
+   |    |- requirements.txt
    |- /etc
    |    |- /foo
    |         |- {sample files}

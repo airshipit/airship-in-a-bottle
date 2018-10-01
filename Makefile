@@ -13,8 +13,12 @@
 # limitations under the License.
 SHELL = /bin/bash
 
+.PHONY: clean
+clean:
+	rm -rf doc/build
+
 .PHONY: docs
-docs: build_docs
+docs: clean build_docs
 
 .PHONY: build_docs
 build_docs:
