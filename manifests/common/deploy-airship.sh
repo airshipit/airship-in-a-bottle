@@ -201,7 +201,7 @@ function install_dependencies() {
 
 function run_pegleg_collect() {
   # Runs pegleg collect to get the documents combined
-  IMAGE=${PEGLEG_IMAGE} ${PEGLEG} site -p /workspace/airship-in-a-bottle/deployment_files collect ${TARGET_SITE} -s /workspace/collected
+  IMAGE=${PEGLEG_IMAGE} TERM_OPTS="-i" ${PEGLEG} site -p /workspace/airship-in-a-bottle/deployment_files collect ${TARGET_SITE} -s /workspace/collected
 }
 
 function generate_certs() {
@@ -235,7 +235,7 @@ function generate_certs() {
 
 function lint_design() {
   # After the certificates are in the deployment files run a pegleg lint
-  IMAGE=${PEGLEG_IMAGE} ${PEGLEG} lint -p /workspace/airship-in-a-bottle/deployment_files
+  IMAGE=${PEGLEG_IMAGE} TERM_OPTS="-i" ${PEGLEG} lint -p /workspace/airship-in-a-bottle/deployment_files
 }
 
 function generate_genesis() {
