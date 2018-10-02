@@ -274,12 +274,12 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-shipyard
         subpath: charts/shipyard
-        reference: 188aa9d9f1bb4d2b95fb72783a44ee5d06eb331b
+        reference: 0a14e7e80fb7b7bd41b29e9690f231229c1e95ca
       shipyard-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
         subpath: helm-toolkit
-        reference: b6fc24b9960bc6de29aa70c7d5b7725319046160
+        reference: bb3ff98d53c38a2ba70f506a8b6dc36207baa207
       tiller:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
@@ -490,13 +490,13 @@ data:
         drydock_db_init: docker.io/postgres:9.5
         drydock_db_sync: quay.io/airshipit/drydock:a41acdd7607ff5281d3df3ea435e15d5ff5c3f99
       shipyard:
-        airflow: quay.io/airshipit/airflow:188aa9d9f1bb4d2b95fb72783a44ee5d06eb331b
-        shipyard: quay.io/airshipit/shipyard:188aa9d9f1bb4d2b95fb72783a44ee5d06eb331b
+        airflow: quay.io/airshipit/airflow:0a14e7e80fb7b7bd41b29e9690f231229c1e95ca
+        shipyard: quay.io/airshipit/shipyard:0a14e7e80fb7b7bd41b29e9690f231229c1e95ca
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         shipyard_db_init: docker.io/postgres:9.5
-        shipyard_db_sync: quay.io/airshipit/shipyard:188aa9d9f1bb4d2b95fb72783a44ee5d06eb331b
+        shipyard_db_sync: quay.io/airshipit/shipyard:0a14e7e80fb7b7bd41b29e9690f231229c1e95ca
         airflow_db_init: docker.io/postgres:9.5
-        airflow_db_sync: quay.io/airshipit/airflow:188aa9d9f1bb4d2b95fb72783a44ee5d06eb331b
+        airflow_db_sync: quay.io/airshipit/airflow:0a14e7e80fb7b7bd41b29e9690f231229c1e95ca
         ks_user: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_endpoints: docker.io/openstackhelm/heat:ocata
