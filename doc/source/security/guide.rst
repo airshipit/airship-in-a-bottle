@@ -35,6 +35,7 @@ be listed as well as the project scope.
   * Solution: The solution is how this security concern is addressed in the platform
     * Remediated: The item is solved for automatically
     * Configurable: The item is based on configuration. Guidance will be provided.
+    * Mitigated: The item currently mitigated while a permanent remediation is in progress.
     * Pending: Addressing the item is in-progress
   * Audit: Auditing the item provides for ongoing monitoring to ensure there is no regression
     * Testing: The item is tested for in an automated test pipeline during development
@@ -49,3 +50,4 @@ Airship Security Topics
 
   template
   haproxy
+  ubuntu
