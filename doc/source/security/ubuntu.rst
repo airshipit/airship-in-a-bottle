@@ -178,7 +178,7 @@ System Service Configuration
 
 If ``sshd`` is enabled, ensure it is securely configured:
 
-  - **Must** only support protocol verison 2 (``Protocol 2``)
+  - **Must** only support protocol version 2 (``Protocol 2``)
   - **Must** disallow root SSH logins (``PermitRootLogin no``)
   - **Must** disallow empty passwords (``PermitEmptyPasswords no``)
   - **Should** set a idle timeout interval (``ClientAliveInterval 600`` and ``ClientAliveCountMax 0``)
