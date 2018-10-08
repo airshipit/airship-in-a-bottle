@@ -27,12 +27,12 @@ data:
           type: git
           location: https://git.openstack.org/openstack/openstack-helm-infra
           subpath: calico
-          reference: b6fc24b9960bc6de29aa70c7d5b7725319046160
+          reference: 26e1b9cde63a3d5a55417d25f05cf8787b03256d
         calico-htk:
           type: git
           location: https://git.openstack.org/openstack/openstack-helm-infra
           subpath: helm-toolkit
-          reference: b6fc24b9960bc6de29aa70c7d5b7725319046160
+          reference: 26e1b9cde63a3d5a55417d25f05cf8787b03256d
       apiserver:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
@@ -583,11 +583,11 @@ data:
         etcd: quay.io/coreos/etcd:v3.2.14
         etcdctl: quay.io/coreos/etcd:v3.2.14
       calico:
-        cni: quay.io/calico/cni:v1.11.2
-        ctl: quay.io/calico/ctl:v1.6.2
-        kube_policy_controller: quay.io/calico/kube-policy-controller:v0.7.0
-        node: quay.io/calico/node:v2.6.5
-        settings: quay.io/calico/ctl:v1.6.2
+        cni: quay.io/calico/cni:v3.2.1
+        ctl: quay.io/calico/ctl:release-v3.2-amd64
+        kube_controllers: quay.io/calico/kube-controllers:v3.2.1
+        node: quay.io/calico/node:v3.2.1
+        settings: quay.io/calico/ctl:release-v3.2-amd64
     osh:
       memcached:
         dep_check: *dep_check
