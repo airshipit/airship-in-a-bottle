@@ -10,6 +10,7 @@ export IMAGE_PROMENADE_CLI=${IMAGE_PROMENADE_CLI:-quay.io/airshipit/promenade:ma
 export IMAGE_PEGLEG_CLI=${IMAGE_PEGLEG_CLI:-quay.io/airshipit/pegleg:ac6297eae6c51ab2f13a96978abaaa10cb46e3d6}
 export IMAGE_SHIPYARD_CLI=${IMAGE_SHIPYARD_CLI:-quay.io/airshipit/shipyard:master}
 export IMAGE_COREDNS=${IMAGE_COREDNS:-docker.io/coredns/coredns:1.2.2}
+export IMAGE_DRYDOCK_CLI=${IMAGE_DRYDOCK_CLI:-quay.io/airshipit/drydock:master}
 export PROMENADE_DEBUG=${PROMENADE_DEBUG:-0}
 export SHIPYARD_PASSWORD=${SHIPYARD_OS_PASSWORD:-password18}
 export REGISTRY_DATA_DIR=${REGISTRY_DATA_DIR:-/mnt/registry}
