@@ -6,10 +6,8 @@
   },
   "ingress": {
     "domain": "gate.local",
-    "172.24.1.5": [
-      "maas",
-      "drydock"
-    ]
+    "172.24.1.5": ["maas"],
+    "172.24.1.6": ["drydock","shipyard","keystone"]
   },
   "stages": [
     {

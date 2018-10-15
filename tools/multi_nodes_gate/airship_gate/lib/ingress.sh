@@ -30,5 +30,5 @@ ingress_dns_start() {
   ssh_cmd "${nodename}" mkdir -p "${remote_work_dir}"
   rsync_cmd "$DNS_ZONE_FILE" "${nodename}:${remote_zone_file}"
   rsync_cmd "$COREFILE" "${nodename}:${remote_corefile}"
-  ssh_cmd "${nodename}" docker run -d -v /var/tmp/coredns:/data -w /data --network host -P $IMAGE_COREDNS -conf $(basename $remote_corefile)
+  ssh_cmd "${nodename}" docker run -d -v /var/tmp/coredns:/data -w /data --network host --restart always -P $IMAGE_COREDNS -conf $(basename $remote_corefile)
 }

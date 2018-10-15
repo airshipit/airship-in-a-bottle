@@ -17,9 +17,8 @@ data:
     cluster_domain: cluster.local
     service_ip: 10.96.0.10
     upstream_servers:
-      - 8.8.8.8
-      - 8.8.4.4
-    upstream_servers_joined: 8.8.8.8,8.8.4.4
+      - 172.24.1.9
+    upstream_servers_joined: 172.24.1.9
 
   genesis:
     hostname: n0

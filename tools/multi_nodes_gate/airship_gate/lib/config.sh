@@ -16,6 +16,7 @@ export SHIPYARD_PASSWORD=${SHIPYARD_OS_PASSWORD:-password18}
 export REGISTRY_DATA_DIR=${REGISTRY_DATA_DIR:-/mnt/registry}
 export VIRSH_POOL=${VIRSH_POOL:-airship}
 export VIRSH_POOL_PATH=${VIRSH_POOL_PATH:-/var/lib/libvirt/airship}
+export UPSTREAM_DNS=${UPSTREAM_DNS:-"8.8.8.8 208.67.220.220"}
 
 config_vm_memory() {
     nodename=${1}

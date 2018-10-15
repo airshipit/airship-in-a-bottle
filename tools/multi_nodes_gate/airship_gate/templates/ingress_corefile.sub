@@ -4,6 +4,6 @@ ${DNS_DOMAIN} {
 }
 
 . {
-    forward . /etc/resolv.conf
+    forward . ${UPSTREAM_DNS}
     log
 }

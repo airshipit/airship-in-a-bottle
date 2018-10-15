@@ -102,9 +102,15 @@ metadata:
     - src:
         schema: pegleg/EndpointCatalogue/v1
         name: ucp_endpoints
-        path: .ucp.maas_region_ui
+        path: .ucp.maas_region
       dest:
-        path: .values.endpoints.maas_region_ui
+        path: .values.endpoints.maas_region
+    - src:
+        schema: pegleg/EndpointCatalogue/v1
+        name: ucp_endpoints
+        path: .ucp.physicalprovisioner
+      dest:
+        path: .values.endpoints.physicalprovisioner
 
     # Account and credential substitutions
     - src:
@@ -131,7 +137,7 @@ metadata:
         name: ucp_service_accounts
         path: .ucp.maas.admin
       dest:
-        path: .values.endpoints.maas_region_ui.auth.admin
+        path: .values.endpoints.maas_region.auth.admin
 
     # Secrets
     - dest:

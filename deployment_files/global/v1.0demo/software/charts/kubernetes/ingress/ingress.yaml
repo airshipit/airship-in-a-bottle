@@ -6,6 +6,8 @@ metadata:
   layeringDefinition:
     abstract: false
     layer: global
+  labels:
+    name: ingress-kube-system
   storagePolicy: cleartext
   substitutions:
     # Chart source
@@ -50,7 +52,7 @@ data:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "603"
     pod:
       replicas:
-        error_page: 2
+        error_page: 1
   dependencies:
     - ingress-kube-system-htk
 ---

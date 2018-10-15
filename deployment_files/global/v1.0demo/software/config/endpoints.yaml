@@ -17,6 +17,7 @@ data:
         internal: keystone-api
       host_fqdn_override:
         default: null
+        public: keystone.gate.local
       path:
         default: /v3
       scheme:
@@ -119,19 +120,19 @@ data:
         api:
           default: 9000
           nodeport: 31900
+          public: 80
       path:
         default: /api/v1.0
       scheme:
         default: http
       host_fqdn_override:
         default: null
-    maas_region_ui:
-      name: maas-region-ui
+        public: drydock.gate.local
+    maas_region:
+      name: maas-region
       hosts:
-        default: maas-region-ui
+        default: maas-region
         public: maas
-      path:
-        default: /MAAS
       scheme:
         default: "http"
       port:
@@ -168,6 +169,7 @@ data:
         default: http
       host_fqdn_override:
         default: null
+        public: shipyard.gate.local
     airflow_web:
       name: airflow-web
       hosts:
