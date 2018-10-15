@@ -71,17 +71,6 @@ data:
                   type: string
                 reference:
                   type: string
-            ucp-helm-toolkit:
-              type: object
-              properties:
-                type:
-                  type: string
-                location:
-                  type: string
-                subpath:
-                  type: string
-                reference:
-                  type: string
             controller-manager:
               type: object
               properties:
@@ -232,6 +221,276 @@ data:
                   type: string
                 reference:
                   type: string
+        osh_infra:
+          type: object
+          properties:
+            elasticsearch:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            fluent_logging:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            kibana:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            prometheus:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            prometheus_node_exporter:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            prometheus_kube_state_metrics:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            prometheus_alertmanager:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            grafana:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            prometheus_openstack_exporter:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            nagios:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+        osh:
+          type: object
+          properties:
+            barbican:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            cinder:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            glance:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            heat:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            horizon:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            ingress:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            keystone:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            libvirt:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            mariadb:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            memcached:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            neutron:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            nova:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            openvswitch:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            rabbitmq:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
         ucp:
           type: object
           properties:
@@ -257,7 +516,29 @@ data:
                   type: string
                 reference:
                   type: string
-            ceph:
+            ceph-mon:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            ceph-osd:
+              type: object
+              properties:
+                type:
+                  type: string
+                location:
+                  type: string
+                subpath:
+                  type: string
+                reference:
+                  type: string
+            ceph-client:
               type: object
               properties:
                 type:
@@ -613,7 +894,37 @@ data:
         ceph:
           type: object
           properties:
-            ceph:
+            ceph-mon:
+              type: object
+              properties:
+                fluentbit:
+                  type: string
+                ceph_bootstrap:
+                  type: string
+                dep_check:
+                  type: string
+                ceph_mon:
+                  type: string
+                ceph_config_helper:
+                  type: string
+                ceph_mon_check:
+                  type: string
+                image_repo_sync:
+                  type: string
+            ceph-osd:
+              type: object
+              properties:
+                fluentbit:
+                  type: string
+                ceph_bootstrap:
+                  type: string
+                dep_check:
+                  type: string
+                ceph_osd:
+                  type: string
+                image_repo_sync:
+                  type: string
+            ceph-client:
               type: object
               properties:
                 ks_endpoints:
@@ -626,13 +937,21 @@ data:
                   type: string
                 dep_check:
                   type: string
-                ceph_daemon:
+                ceph_mds:
+                  type: string
+                ceph_mgr:
+                  type: string
+                ceph_rgw:
                   type: string
                 ceph_config_helper:
+                  type: string
+                ceph_rbd_pool:
                   type: string
                 ceph_rbd_provisioner:
                   type: string
                 ceph_cephfs_provisioner:
+                  type: string
+                image_repo_sync:
                   type: string
         kubernetes:
           type: object
@@ -715,8 +1034,8 @@ data:
       type: object
       properties:
         repositories:
-          type: array
-          items:
+          type: object
+          additionalProperties:
             type: object
             properties:
               name:
