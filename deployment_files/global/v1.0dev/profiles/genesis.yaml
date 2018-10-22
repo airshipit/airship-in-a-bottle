@@ -61,6 +61,12 @@ metadata:
         path: .genesis.ip
       dest:
         path: .ip
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .dns.node_domain
+      dest:
+        path: .domain
 data:
   armada:
     target_manifest: cluster-bootstrap

@@ -57,6 +57,22 @@ data:
 
   type: object
   properties:
+    armada:
+      type: object
+      properties:
+        target_manifest:
+          type: string
+      additionalProperties: false
+
+    apiserver:
+      type: object
+      properties:
+        command_prefix:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+
     files:
       type: array
       items:
@@ -65,14 +81,11 @@ data:
     hostname:
       $ref: '#/definitions/hostname'
 
+    domain:
+      type: string
+
     ip:
       $ref: '#/definitions/ip_address'
-
-    armada:
-      properties:
-        target_manifest:
-          type: string
-      additionalProperties: false
 
     labels:
       properties:
@@ -125,7 +138,6 @@ data:
   required:
     - hostname
     - ip
-    - armada
     - images
     - labels
   additionalProperties: false
