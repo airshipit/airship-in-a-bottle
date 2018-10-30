@@ -1,0 +1,26 @@
+---
+schema: pegleg/EndpointCatalogue/v1
+metadata:
+    schema: metadata/Document/v1
+    name: ucp_endpoints
+    replacement: true
+    layeringDefinition:
+        abstract: false
+        layer: site
+        parentSelector:
+          name: ucp_endpoints
+        actions:
+          - method: merge
+            path: .
+    storagePolicy: cleartext
+# Override endpoints specified at the global layer, in support of a
+# dns server
+data:
+  ucp:
+    identity:
+      host_fqdn_override:
+        public: keystone.gate.local
+    shipyard:
+      host_fqdn_override:
+        public: shipyard.gate.local
+...

@@ -3,6 +3,8 @@ schema: pegleg/EndpointCatalogue/v1
 metadata:
     schema: metadata/Document/v1
     name: ucp_endpoints
+    labels:
+      name: ucp_endpoints
     layeringDefinition:
         abstract: false
         layer: global
@@ -17,7 +19,6 @@ data:
         internal: keystone-api
       host_fqdn_override:
         default: null
-        public: keystone.gate.local
       path:
         default: /v3
       scheme:
@@ -169,7 +170,6 @@ data:
         default: http
       host_fqdn_override:
         default: null
-        public: shipyard.gate.local
     airflow_web:
       name: airflow-web
       hosts:
