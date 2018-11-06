@@ -62,6 +62,23 @@ metadata:
       dest:
         path: .values.endpoints.physicalprovisioner.port.api.nodeport
 
+    # MaaS IPs
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        # TODO(mb874d): Can change once we have an accessible VIP from fresh nodes.
+        path: .genesis.ip
+      dest:
+        path: .values.conf.drydock.maasdriver.maas_api_url
+        pattern: 'MAAS_IP'
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .node_ports.maas_api
+      dest:
+        path: .values.conf.drydock.maasdriver.maas_api_url
+        pattern: 'MAAS_PORT'
+
     # Credentials
 
     - src:
