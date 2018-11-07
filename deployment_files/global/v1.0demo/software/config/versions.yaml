@@ -177,12 +177,12 @@ data:
         type: git
       drydock:
         location: https://git.openstack.org/openstack/airship-drydock
-        reference: 3470f89519d018c572905566891bafc8a3c51c3b
+        reference: 485f919822c7e425741a19ab507f83ea075529c5
         subpath: charts/drydock
         type: git
       drydock-htk:
         location: https://git.openstack.org/openstack/openstack-helm-infra
-        reference: 5d356f9265b337b75f605dee839faa8cd0ed3ab2
+        reference: 4ad893eb1a5ebd7c7660c70d44d1316862268cf1
         subpath: helm-toolkit
         type: git
       ingress:
@@ -207,12 +207,12 @@ data:
         type: git
       maas:
         location: https://git.openstack.org/openstack/airship-maas
-        reference: 2e003450cceb16b9bda71aa69a939a8466516582
+        reference: refs/changes/83/619283/11
         subpath: charts/maas
         type: git
       maas-htk:
         location: https://git.openstack.org/openstack/openstack-helm-infra
-        reference: 5d356f9265b337b75f605dee839faa8cd0ed3ab2
+        reference: 4ad893eb1a5ebd7c7660c70d44d1316862268cf1
         subpath: helm-toolkit
         type: git
       mariadb:
@@ -461,9 +461,9 @@ data:
         divingbell: docker.io/ubuntu:16.04
       drydock:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        drydock: quay.io/airshipit/drydock:3470f89519d018c572905566891bafc8a3c51c3b
+        drydock: quay.io/airshipit/drydock:485f919822c7e425741a19ab507f83ea075529c5
         drydock_db_init: docker.io/postgres:9.5
-        drydock_db_sync: quay.io/airshipit/drydock:3470f89519d018c572905566891bafc8a3c51c3b
+        drydock_db_sync: quay.io/airshipit/drydock:485f919822c7e425741a19ab507f83ea075529c5
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_user: docker.io/openstackhelm/heat:ocata
@@ -474,7 +474,7 @@ data:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         export_api_key: quay.io/airshipit/maas-region-controller:2e003450cceb16b9bda71aa69a939a8466516582
         maas_cache: quay.io/airshipit/sstream-cache:2e003450cceb16b9bda71aa69a939a8466516582
-        maas_rack: quay.io/airshipit/maas-rack-controller:2e003450cceb16b9bda71aa69a939a8466516582
+        maas_rack: docker.io/sthussey/maas-rack-controller:dev
         maas_region: quay.io/airshipit/maas-region-controller:2e003450cceb16b9bda71aa69a939a8466516582
       promenade:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1

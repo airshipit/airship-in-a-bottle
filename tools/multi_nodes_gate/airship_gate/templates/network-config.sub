@@ -8,6 +8,4 @@ config:
         address: ${BR_IP_NODE}/24
         gateway: 172.24.1.1
   - type: nameserver
-    address:
-      - 8.8.8.8
-      - 8.8.4.4
+    address: [${DNS_SERVERS}]

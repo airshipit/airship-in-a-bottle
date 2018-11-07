@@ -16,6 +16,7 @@ export SHIPYARD_PASSWORD=${SHIPYARD_OS_PASSWORD:-password18}
 export REGISTRY_DATA_DIR=${REGISTRY_DATA_DIR:-/mnt/registry}
 export VIRSH_POOL=${VIRSH_POOL:-airship}
 export VIRSH_POOL_PATH=${VIRSH_POOL_PATH:-/var/lib/libvirt/airship}
+export VIRSH_CPU_OPTS=${VIRSH_CPU_OPTS:-host}
 export UPSTREAM_DNS=${UPSTREAM_DNS:-"8.8.8.8 208.67.220.220"}
 
 config_vm_memory() {
@@ -35,6 +36,16 @@ config_vm_ip() {
 config_vm_mac() {
     nodename=${1}
     jq -cr ".vm.${nodename}.mac" < "${GATE_MANIFEST}"
+}
+
+config_vm_io() {
+    nodename=${1}
+    io_profile=$(jq -cr ".vm.${nodename}.io_profile" < "${GATE_MANIFEST}")
+    if [[ -z "$io_profile" ]]
+    then
+      io_profile="fast"
+    fi
+    echo -n "$io_profile"
 }
 
 config_vm_vcpus() {
@@ -62,12 +73,20 @@ config_vm_userdata() {
       echo "${val}"
     fi
 }
+
 config_ingress_domain() {
     jq -cr '.ingress.domain' < "${GATE_MANIFEST}"
 }
 
+config_ingress_ca() {
+    if [[ ! -z "$GATE_MANIFEST" ]]
+    then
+      jq -cr '.ingress.ca' < "${GATE_MANIFEST}"
+    fi
+}
+
 config_ingress_ips() {
-    jq -cr '.ingress | keys | map(select(. != "domain")) | join(" ")' < "${GATE_MANIFEST}"
+    jq -cr '.ingress | keys | map(select(test("([0-9]{1,3}.?){4}"))) | join(" ")' < "${GATE_MANIFEST}"
 }
 
 config_ingress_entries() {
@@ -85,4 +104,10 @@ config_pegleg_sitename() {
 
 config_pegleg_aux_repos() {
     jq -cr '.configuration.aux_repos | join(" ")' < "${GATE_MANIFEST}"
+}
+
+join_array() {
+  local IFS=$1
+  shift
+  echo "$*"
 }

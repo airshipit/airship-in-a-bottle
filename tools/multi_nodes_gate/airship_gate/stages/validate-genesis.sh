@@ -13,12 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -x
+set -e
 
-SCRIPT_DIR=$(realpath $(dirname $0))
-WORKSPACE=$(realpath ${SCRIPT_DIR}/../../..)
-GATE_UTILS=${WORKSPACE}/multi_nodes_gate/airship_gate/lib/all.sh
+source "${GATE_UTILS}"
 
-source ${GATE_UTILS}
+# Copies script and virtmgr private key to genesis VM
+rsync_cmd "${SCRIPT_DEPOT}/validate-genesis.sh" "${GENESIS_NAME}:/root/airship/"
 
-shipyard_cmd $@
+set -o pipefail
+ssh_cmd "${GENESIS_NAME}" /root/airship/validate-genesis.sh 2>&1 | tee -a "${LOG_FILE}"
+set +o pipefail
+
+if ! ssh_cmd n0 docker images | tail -n +2 | grep -v registry:5000 ; then
+    log_warn "Using some non-cached docker images.  This will slow testing."
+    ssh_cmd n0 docker images | tail -n +2 | grep -v registry:5000 | tee -a "${LOG_FILE}"
+fi

@@ -39,7 +39,7 @@ render_pegleg_cli() {
     then
         for r in ${aux_repos[*]}
         do
-          cli_string="${cli_string} -a ${r}"
+          cli_string="${cli_string} -a /workspace/${r}"
         done
     fi
 

@@ -17,7 +17,7 @@ ingress_dns_config() {
     done
   done
 
-  DNS_DOMAIN=${ingress_domain} ZONE_FILE=$(basename $DNS_ZONE_FILE) envsubst < "${TEMPLATE_DIR}/ingress_corefile.sub" > "${COREFILE}"
+  DNS_DOMAIN=${ingress_domain} ZONE_FILE=$(basename $DNS_ZONE_FILE) DNS_SERVERS="$UPSTREAM_DNS" envsubst < "${TEMPLATE_DIR}/ingress_corefile.sub" > "${COREFILE}"
 }
 
 ingress_dns_start() {

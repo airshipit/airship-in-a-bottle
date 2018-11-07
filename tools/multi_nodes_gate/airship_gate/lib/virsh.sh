@@ -51,6 +51,8 @@ iso_gen() {
     fi
 
     envsubst < "${TEMPLATE_DIR}/meta-data.sub" > meta-data
+
+    export DNS_SERVERS=$(join_array ',' $UPSTREAM_DNS)
     envsubst < "${TEMPLATE_DIR}/network-config.sub" > network-config
 
     {
@@ -129,7 +131,16 @@ vm_clean_all() {
 vm_create() {
     NAME=${1}
     MAC_ADDRESS=$(config_vm_mac "${NAME}")
-    DISK_OPTS="bus=virtio,cache=directsync,discard=unmap,format=qcow2"
+    IO_PROF=$(config_vm_io "${NAME}")
+    if [[ "$IO_PROF" == "fast" ]]
+    then
+      DISK_OPTS="bus=virtio,cache=none,format=qcow2,io=native"
+    elif [[ "$IO_PROF" == "safe" ]]
+    then
+      DISK_OPTS="bus=virtio,cache=directsync,discard=unmap,format=qcow2,io=native"
+    else
+      DISK_OPTS="bus=virtio,format=qcow2"
+    fi
     vol_create_root "${NAME}"
     wait
 
@@ -141,7 +152,7 @@ vm_create() {
         virt-install \
             --name "${NAME}" \
             --virt-type kvm \
-            --cpu host \
+            --cpu ${VIRSH_CPU_OPTS} \
             --graphics vnc,listen=0.0.0.0 \
             --noautoconsole \
             --network "network=airship_gate,model=virtio" \
@@ -161,7 +172,7 @@ vm_create() {
         virt-install \
             --name "${NAME}" \
             --virt-type kvm \
-            --cpu host \
+            --cpu ${VIRSH_CPU_OPTS} \
             --graphics vnc,listen=0.0.0.0 \
             --noautoconsole \
             --network "network=airship_gate,model=virtio" \

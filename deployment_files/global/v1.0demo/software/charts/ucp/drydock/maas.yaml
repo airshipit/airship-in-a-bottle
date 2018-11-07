@@ -43,34 +43,6 @@ metadata:
         path: .values.conf.drydock.bootaction_url
         pattern: '(DRYDOCK_PORT)'
 
-    # MaaS IPs
-    - src:
-        schema: pegleg/CommonAddresses/v1
-        name: common-addresses
-        # TODO(mb874d): Can change once we have an accessible VIP from fresh nodes.
-        path: .bootstrap.ip
-      dest:
-        path: .values.conf.maas.url.maas_url
-        pattern: '(MAAS_IP)'
-    - src:
-        schema: pegleg/CommonAddresses/v1
-        name: common-addresses
-        path: .node_ports.maas_api
-      dest:
-        path: .values.conf.maas.url.maas_url
-        pattern: '(MAAS_PORT)'
-    - src:
-        schema: pegleg/CommonAddresses/v1
-        name: common-addresses
-        path: .node_ports.maas_api
-      dest:
-        path: .values.network.gui.node_port.port
-    - src:
-        schema: pegleg/CommonAddresses/v1
-        name: common-addresses
-        path: .node_ports.maas_proxy
-      dest:
-        path: .values.network.proxy.node_port.port
 
     # MaaS Config
     - src:
@@ -111,6 +83,12 @@ metadata:
         path: .ucp.physicalprovisioner
       dest:
         path: .values.endpoints.physicalprovisioner
+    - src:
+        schema: pegleg/EndpointCatalogue/v1
+        name: ucp_endpoints
+        path: .ucp.maas_ingress
+      dest:
+        path: .values.endpoints.maas_ingress
 
     # Account and credential substitutions
     - src:
@@ -180,6 +158,10 @@ data:
           labels:
             release_group: airship-maas
   values:
+    pod:
+      replicas:
+        rack: 1
+        region: 1
     labels:
       rack:
         node_selector_key: ucp-control-plane

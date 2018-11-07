@@ -17,6 +17,12 @@ metadata:
 # dns server
 data:
   ucp:
+    physicalprovisioner:
+      host_fqdn_override:
+        public: drydock.gate.local
+    maas_region:
+      host_fqdn_override:
+        public: maas.gate.local
     identity:
       host_fqdn_override:
         public: keystone.gate.local

@@ -1,7 +1,31 @@
 #!/bin/bash
 
+install_ingress_ca() {
+  ingress_ca=$(config_ingress_ca)
+  if [[ -z "$ingress_ca" ]]
+  then
+    echo "Not installing ingress root CA."
+    return
+  fi
+  local_file="${TEMP_DIR}/ingress_ca.pem"
+  remote_file="${GENESIS_WORK_DIR}/ingress_ca.pem"
+  cat <<< "$ingress_ca" > "$local_file"
+  rsync_cmd "$local_file" "${GENESIS_NAME}":"$remote_file"
+}
+
 shipard_cmd_stdout() {
-  ssh_cmd "${GENESIS_NAME}" docker run -t --network host -v "${GENESIS_WORK_DIR}:/work" -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 -e OS_USERNAME=shipyard -e OS_USER_DOMAIN_NAME=default -e OS_PASSWORD="${SHIPYARD_PASSWORD}" -e OS_PROJECT_DOMAIN_NAME=default -e OS_PROJECT_NAME=service --entrypoint /usr/local/bin/shipyard "${IMAGE_SHIPYARD_CLI}" $* 2>&1
+  install_ingress_ca
+  ssh_cmd "${GENESIS_NAME}" \
+    docker run -t --network=host \
+    -v "${GENESIS_WORK_DIR}:/work" \
+    -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 \
+    -e OS_USERNAME=shipyard \
+    -e OS_USER_DOMAIN_NAME=default \
+    -e OS_PASSWORD="${SHIPYARD_PASSWORD}" \
+    -e OS_PROJECT_DOMAIN_NAME=default \
+    -e OS_PROJECT_NAME=service \
+    -e REQUESTS_CA_BUNDLE=/work/ingress_ca.pem \
+    --entrypoint /usr/local/bin/shipyard "${IMAGE_SHIPYARD_CLI}" $* 2>&1
 }
 
 shipyard_cmd() {
@@ -16,7 +40,19 @@ shipyard_cmd() {
 }
 
 drydock_cmd_stdout() {
-  ssh_cmd "${GENESIS_NAME}" docker run -t --network host -v "${GENESIS_WORK_DIR}:/work" -e DD_URL=http://drydock-api.ucp.svc.cluster.local:9000 -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 -e OS_USERNAME=shipyard -e OS_USER_DOMAIN_NAME=default -e OS_PASSWORD="${SHIPYARD_PASSWORD}" -e OS_PROJECT_DOMAIN_NAME=default -e OS_PROJECT_NAME=service --entrypoint /usr/local/bin/drydock "${IMAGE_DRYDOCK_CLI}" $* 2>&1
+  install_ingress_ca
+  ssh_cmd "${GENESIS_NAME}" \
+    docker run -t --network=host \
+    -v "${GENESIS_WORK_DIR}:/work" \
+    -e DD_URL=http://drydock-api.ucp.svc.cluster.local:9000 \
+    -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 \
+    -e OS_USERNAME=shipyard \
+    -e OS_USER_DOMAIN_NAME=default \
+    -e OS_PASSWORD="${SHIPYARD_PASSWORD}" \
+    -e OS_PROJECT_DOMAIN_NAME=default \
+    -e OS_PROJECT_NAME=service \
+    -e REQUESTS_CA_BUNDLE=/work/ingress_ca.pem \
+    --entrypoint /usr/local/bin/drydock "${IMAGE_DRYDOCK_CLI}" $* 2>&1
 }
 drydock_cmd() {
   if [[ ! -z "${LOG_FILE}" ]]

@@ -128,12 +128,10 @@ data:
         default: http
       host_fqdn_override:
         default: null
-        public: drydock.gate.local
     maas_region:
       name: maas-region
       hosts:
         default: maas-region
-        public: maas
       scheme:
         default: "http"
       port:
@@ -142,6 +140,24 @@ data:
           public: 80
       host_fqdn_override:
         default: null
+    maas_ingress:
+      hosts:
+        default: maas-ingress
+        error_pages: maas-ingress-error
+      host_fqdn_override:
+        public: null
+      port:
+        http:
+          default: 80
+        https:
+          default: 443
+        error_pages:
+          default: 8080
+          podport: 8080
+        healthz:
+          podport: 10259
+        status:
+          podport: 18089
     kubernetesprovisioner:
       name: promenade
       hosts:

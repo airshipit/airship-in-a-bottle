@@ -4,6 +4,6 @@ ${DNS_DOMAIN} {
 }
 
 . {
-    forward . ${UPSTREAM_DNS}
+    forward . ${DNS_SERVERS}
     log
 }
