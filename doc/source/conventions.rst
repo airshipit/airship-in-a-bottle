@@ -18,7 +18,7 @@
 
 Airship Conventions
 ===================
-Airship components conform to a minimal set of of conventions to
+Airship components conform to a minimal set of conventions to
 provide for reasonable levels of consistency.
 
 Language
