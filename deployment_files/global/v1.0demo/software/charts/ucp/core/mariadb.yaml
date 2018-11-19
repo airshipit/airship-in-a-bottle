@@ -72,6 +72,12 @@ data:
       prometheus_mysql_exporter:
         node_selector_key: ucp-control-plane
         node_selector_value: enabled
+      ingress:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
+      error_server:
+        node_selector_key: ucp-control-plane
+        node_selector_value: enabled
     pod:
       replicas:
         server: 1
