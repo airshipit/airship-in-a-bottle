@@ -91,8 +91,11 @@ data:
       - --service-cluster-ip-range=SERVICE_CIDR
       - --service-node-port-range=SERVICE_NODE_PORT_RANGE
       - --authorization-mode=Node,RBAC
-      - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
+      - --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds,NodeRestriction,EventRateLimit
       - --endpoint-reconciler-type=lease
+      # NOTE(mark-burnett): This flag is removed in Kubernetes 1.11
+      - --repair-malformed-updates=false
+
   armada:
     target_manifest: cluster-bootstrap
   labels:
@@ -109,11 +112,11 @@ data:
       - openvswitch=enabled
       - promenade-genesis=enabled
       - ucp-control-plane=enabled
-      - ceph-mgr=enabled
       - ceph-mon=enabled
       - ceph-mds=enabled
-      - ceph-rgw=enabled
       - ceph-osd=enabled
+      - ceph-rgw=enabled
+      - ceph-mgr=enabled
   files:
     - path: /var/lib/anchor/calico-etcd-bootstrap
       content: "# placeholder for triggering calico etcd bootstrapping\n# this file will be deleted"

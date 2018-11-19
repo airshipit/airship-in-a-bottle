@@ -153,7 +153,8 @@ vm_create() {
             --disk "vol=${VIRSH_POOL}/cloud-init-${NAME}.iso,device=cdrom" &>> "${LOG_FILE}"
 
         ssh_wait "${NAME}"
-        ssh_cmd "${NAME}" sync
+	ssh_cmd "${NAME}" cloud-init status --wait
+	ssh_cmd "${NAME}" sync
 
     else
         log Creating VM "${NAME}"
@@ -172,18 +173,24 @@ vm_create() {
     fi
 }
 
+vm_create_validate() {
+    NAME=${1}
+    vm_create "${name}"
+    if [[ "$(config_vm_bootstrap ${name})" == "true" ]]
+    then
+      vm_validate "${name}"
+    fi
+}
+
 vm_create_all() {
     log Starting all VMs
 
     VM_NAMES=($(config_vm_names))
     for name in ${VM_NAMES[*]}
     do
-      vm_create "${name}"
-      if [[ "$(config_vm_bootstrap ${name})" == "true" ]]
-      then
-        vm_validate "${name}"
-      fi
+      vm_create_validate "${name}" &
     done
+    wait
 }
 
 vm_start() {

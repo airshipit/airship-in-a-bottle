@@ -97,6 +97,22 @@ metadata:
       dest:
         path: .values.secrets.service_account.public_key
 
+     # Command prefix
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .kubernetes.service_cidr
+      dest:
+        path: .values.command_prefix[1]
+        pattern: SERVICE_CIDR
+    - src:
+        schema: pegleg/CommonAddresses/v1
+        name: common-addresses
+        path: .kubernetes.service_node_port_range
+      dest:
+        path: .values.command_prefix[2]
+        pattern: SERVICE_NODE_PORT_RANGE
+
 data:
   chart_name: apiserver
   release: kubernetes-apiserver
@@ -115,9 +131,20 @@ data:
           labels:
             release_group: airship-kubernetes-apiserver
   values:
+
     apiserver:
       etcd:
         endpoints: https://127.0.0.1:2378
+    command_prefix:
+      - /apiserver
+      - --service-cluster-ip-range=SERVICE_CIDR
+      - --service-node-port-range=SERVICE_NODE_PORT_RANGE
+      - --authorization-mode=Node,RBAC
+      - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
+      - --endpoint-reconciler-type=lease
+      # NOTE(mark-burnett): This flag is removed in Kubernetes 1.11
+      - --repair-malformed-updates=false
+
   dependencies:
     - kubernetes-apiserver-htk
 ---
