@@ -35,7 +35,7 @@ data:
           type: git
         etcd:
           location: https://git.openstack.org/openstack/airship-promenade
-          reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+          reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
           subpath: charts/etcd
           type: git
         etcd-htk:
@@ -45,7 +45,7 @@ data:
           type: git
       controller-manager:
         location: https://git.openstack.org/openstack/airship-promenade
-        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         subpath: charts/controller_manager
         type: git
       controller-manager-htk:
@@ -55,7 +55,7 @@ data:
         type: git
       coredns:
         location: https://git.openstack.org/openstack/airship-promenade
-        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         subpath: charts/coredns
         type: git
       coredns-htk:
@@ -65,7 +65,7 @@ data:
         type: git
       etcd:
         location: https://git.openstack.org/openstack/airship-promenade
-        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         subpath: charts/etcd
         type: git
       etcd-htk:
@@ -75,7 +75,7 @@ data:
         type: git
       haproxy:
         location: https://git.openstack.org/openstack/airship-promenade
-        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         subpath: charts/haproxy
         type: git
       haproxy-htk:
@@ -95,7 +95,7 @@ data:
         type: git
       proxy:
         location: https://git.openstack.org/openstack/airship-promenade
-        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         subpath: charts/proxy
         type: git
       proxy-htk:
@@ -105,7 +105,7 @@ data:
         type: git
       scheduler:
         location: https://git.openstack.org/openstack/airship-promenade
-        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         subpath: charts/scheduler
         type: git
       scheduler-htk:
@@ -126,7 +126,7 @@ data:
         reference: 5d356f9265b337b75f605dee839faa8cd0ed3ab2
       armada:
         location: https://git.openstack.org/openstack/airship-armada
-        reference: 32baf9851e9cd29f4b8670e73a9409a0e7a59e35
+        reference: 709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
         subpath: charts/armada
         type: git
       armada-htk:
@@ -277,7 +277,7 @@ data:
         type: git
       tiller:
         location: https://git.openstack.org/openstack/airship-armada
-        reference: 32baf9851e9cd29f4b8670e73a9409a0e7a59e35
+        reference: 709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
         subpath: charts/tiller
         type: git
       tiller-htk:
@@ -442,21 +442,12 @@ data:
   images:
     ucp:
       armada:
-        api: quay.io/airshipit/armada:32baf9851e9cd29f4b8670e73a9409a0e7a59e35
+        api: quay.io/airshipit/armada:709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_user: docker.io/openstackhelm/heat:ocata
         helm: lachlanevenson/k8s-helm:v2.10.0
-        tiller: gcr.io/kubernetes-helm/tiller:v2.10.0
-      armada:
-        api: quay.io/airshipit/armada:32baf9851e9cd29f4b8670e73a9409a0e7a59e35
-        dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        helm: docker.io/lachlanevenson/k8s-helm:v2.10.0
-        image_repo_sync: docker.io/docker:17.07.0
-        ks_endpoints: docker.io/openstackhelm/heat:ocata
-        ks_service: docker.io/openstackhelm/heat:ocata
-        ks_user: docker.io/openstackhelm/heat:ocata
         tiller: gcr.io/kubernetes-helm/tiller:v2.10.0
       deckhand:
         db_init: docker.io/postgres:9.5
@@ -576,7 +567,7 @@ data:
         etcd: quay.io/coreos/etcd:v3.2.14
         etcdctl: quay.io/coreos/etcd:v3.2.14
       kubectl: gcr.io/google_containers/hyperkube-amd64:v1.10.2
-      pause: gcr.io/google_containers/pause-amd64:3.0
+      pause: gcr.io/google_containers/pause-amd64:3.1
       scheduler:
         anchor: gcr.io/google_containers/hyperkube-amd64:v1.10.2
         scheduler: gcr.io/google_containers/hyperkube-amd64:v1.10.2

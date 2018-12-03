@@ -17,7 +17,7 @@ data:
           type: git
           location: https://git.openstack.org/openstack/airship-promenade
           subpath: charts/etcd
-          reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+          reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
         etcd-htk:
           type: git
           location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -37,7 +37,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/apiserver
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
       apiserver-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -47,7 +47,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/controller_manager
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
       controller-manager-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -57,7 +57,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/coredns
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
       coredns-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -67,7 +67,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/haproxy
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
       haproxy-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -77,7 +77,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/etcd
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
       etcd-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -97,7 +97,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/proxy
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
       proxy-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -107,7 +107,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/scheduler
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: 425d8bdff8b5fb9aadd22bfbf6de727986e7abe0
       scheduler-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -128,7 +128,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/armada
-        reference: 9c3ebe68c76c62244d52a7f5ceffc2e955970290
+        reference: 709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
       armada-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -210,7 +210,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-promenade
         subpath: charts/promenade
-        reference: 88c786b8e92d053fd0cba7237df68cc087b81f26
+        reference: cfb8aa498c294c2adbc369ba5aaee19b49550d22
       promenade-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -280,7 +280,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-armada
         subpath: charts/tiller
-        reference: 9c3ebe68c76c62244d52a7f5ceffc2e955970290
+        reference: 709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
       tiller-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
@@ -292,7 +292,7 @@ data:
   images:
     ucp:
       armada:
-        api: quay.io/airshipit/armada:9c3ebe68c76c62244d52a7f5ceffc2e955970290
+        api: quay.io/airshipit/armada:709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
@@ -301,7 +301,7 @@ data:
         tiller: gcr.io/kubernetes-helm/tiller:v2.10.0
       promenade:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        promenade: quay.io/airshipit/promenade:88c786b8e92d053fd0cba7237df68cc087b81f26
+        promenade: quay.io/airshipit/promenade:cfb8aa498c294c2adbc369ba5aaee19b49550d22
         ks_user: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_endpoints: docker.io/openstackhelm/heat:ocata
@@ -416,7 +416,7 @@ data:
         etcd: quay.io/coreos/etcd:v3.2.14
         etcdctl: quay.io/coreos/etcd:v3.2.14
       kubectl: gcr.io/google_containers/hyperkube-amd64:v1.10.2
-      pause: gcr.io/google_containers/pause-amd64:3.0
+      pause: gcr.io/google_containers/pause-amd64:3.1
       scheduler:
         anchor: gcr.io/google_containers/hyperkube-amd64:v1.10.2
         scheduler: gcr.io/google_containers/hyperkube-amd64:v1.10.2

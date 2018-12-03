@@ -91,11 +91,8 @@ data:
       - --service-cluster-ip-range=SERVICE_CIDR
       - --service-node-port-range=SERVICE_NODE_PORT_RANGE
       - --authorization-mode=Node,RBAC
-      - --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds,NodeRestriction,EventRateLimit
+      - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
       - --endpoint-reconciler-type=lease
-      # NOTE(mark-burnett): This flag is removed in Kubernetes 1.11
-      - --repair-malformed-updates=false
-
   armada:
     target_manifest: cluster-bootstrap
   labels:

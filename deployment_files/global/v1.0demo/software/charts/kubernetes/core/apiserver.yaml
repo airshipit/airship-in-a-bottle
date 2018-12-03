@@ -142,9 +142,6 @@ data:
       - --authorization-mode=Node,RBAC
       - --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
       - --endpoint-reconciler-type=lease
-      # NOTE(mark-burnett): This flag is removed in Kubernetes 1.11
-      - --repair-malformed-updates=false
-
   dependencies:
     - kubernetes-apiserver-htk
 ---
