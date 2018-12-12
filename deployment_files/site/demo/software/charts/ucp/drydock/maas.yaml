@@ -1,0 +1,30 @@
+---
+schema: armada/Chart/v1
+metadata:
+  schema: metadata/Document/v1
+  name: ucp-maas
+  replacement: true
+  layeringDefinition:
+    abstract: false
+    layer: site
+    parentSelector:
+      name: ucp-maas
+    actions:
+      - method: merge
+        path: .
+  storagePolicy: cleartext
+  substitutions:
+    # Chart source
+    - src:
+        schema: dev/Configurables/v1
+        name: dev-configurables
+        path: .maas-ingress
+      dest:
+        path: .values.network.maas_ingress.addr
+        pattern: REPLACEME
+data:
+  values:
+    network:
+      maas_ingress:
+        addr: REPLACEME
+...

@@ -132,6 +132,7 @@ data:
       name: maas-region
       hosts:
         default: maas-region
+        public: maas-region
       scheme:
         default: "http"
       port:

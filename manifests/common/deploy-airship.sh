@@ -190,6 +190,7 @@ data:
   hostip: ${HOSTIP}
   hostcidr: ${HOSTCIDR}
   interface: ${NODE_NET_IFACE}
+  maas-ingress: '192.169.1.5/32'
 EOF
 }
 
