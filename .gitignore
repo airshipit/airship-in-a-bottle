@@ -5,3 +5,6 @@ doc/build/
 
 # OSX folder settings files
 .DS_Store
+
+# Other
+.vagrant/

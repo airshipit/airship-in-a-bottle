@@ -207,7 +207,7 @@ data:
         type: git
       maas:
         location: https://git.openstack.org/openstack/airship-maas
-        reference: 617607e42690befae69c86ad9b21134fdd467cbb
+        reference: bb81a1cecd27520b858e00f0bcf519ceb2d07582
         subpath: charts/maas
         type: git
       maas-htk:
@@ -468,14 +468,14 @@ data:
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_user: docker.io/openstackhelm/heat:ocata
       maas:
-        bootstrap: quay.io/airshipit/maas-region-controller:617607e42690befae69c86ad9b21134fdd467cbb
+        bootstrap: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
         db_init: docker.io/postgres:9.5
-        db_sync: quay.io/airshipit/maas-region-controller:617607e42690befae69c86ad9b21134fdd467cbb
+        db_sync: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        export_api_key: quay.io/airshipit/maas-region-controller:617607e42690befae69c86ad9b21134fdd467cbb
-        maas_cache: quay.io/airshipit/sstream-cache:617607e42690befae69c86ad9b21134fdd467cbb
-        maas_rack: quay.io/airshipit/maas-rack-controller:617607e42690befae69c86ad9b21134fdd467cbb
-        maas_region: quay.io/airshipit/maas-region-controller:617607e42690befae69c86ad9b21134fdd467cbb
+        export_api_key: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        maas_cache: quay.io/airshipit/sstream-cache:bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        maas_rack: quay.io/airshipit/maas-rack-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        maas_region: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
       promenade:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         image_repo_sync: docker.io/docker:17.07.0

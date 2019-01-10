@@ -165,6 +165,8 @@ data:
           default: 80
         https:
           default: 443
+        ingress_default_server:
+          default: 8383
         error_pages:
           default: 8080
           podport: 8080
