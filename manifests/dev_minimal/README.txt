@@ -22,6 +22,41 @@ versions file: deployment_files/global/v1.0dev/software/config/versions.yaml
 Running ../common/deploy_airship.sh will download and build into the
 /root/deploy directory.
 
+Proxy Configuration
+-------------------
+
+Configuration in this section is needed only if running the deployment
+behind a corporate proxy.
+
+1) Update the /etc/environment file, and append your proxy configurtion there.
+   Then you will need to source the /etc/environment to set the proxy environment.
+   For instance, you will need to add following lines in the
+   /etc/environment file, and then source it:
+
+     export http_proxy="your.proxy.address:port"
+     export https_proxy="your.proxy.address:port"
+     export no_proxy=".foo.com,.cluster.local,localhost,127.0.0.0/8,10.0.0.0/24"
+     export HTTP_PROXY="http://your.proxy.address:port"
+     export HTTPS_PROXY="http://your.proxy.address:port"
+     export NO_PROXY=".foo.com,.cluster.local,localhost,127.0.0.0/8,10.0.0.0/24"
+
+2) Update the file deployment_files/site/dev-proxy/networks/common-addresses.yaml
+   to specify your proxy server and appropriate no_proxy list. In this file,
+   also update the dns list, and add your corporate name servers to the
+   dns list. This is done for name resolution of internal corporate
+   addresses behind the proxy.
+3) Change set-env.sh to use TARGET_SITE of 'dev-proxy'.
+4) Update "charts" section in deployment_files/global/v1.0dev/software/config/versions.yaml
+   file, every chart should include "proxy_server" parameter with proxy configuration.
+   For example:
+
+     armada:
+       type: git
+       location: https://git.openstack.org/openstack/airship-armada
+       subpath: charts/armada
+       reference: 709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
+       proxy_server: http://your.proxy.address:port
+
 Process
 -------
 1) Set up a VM with at least 4 cores and 12GB of memeory. 8 core/16GB is
@@ -29,19 +64,6 @@ Process
    extended use.
 2) Become root. All the commands are run as root.
 3) Update etc/hosts with IP/Hostname of your VM. e.g. 10.0.0.15 testvm1.
-Note: If running this behind a corporate proxy, you will need to update the
-      /etc/environment file, and append your proxy configurtion there.
-      Then you will need to source the /etc/environment to set the proxy
-      environment.
-      For instance, you will need to add following lines in the
-      /etc/environment file, and then source it:
-      export http_proxy="your.proxy.address:port"
-      export https_proxy="your.proxy.address:port"
-      export no_proxy=".foo.com,.cluster.local,localhost,127.0.0.0/8,10.0.0.0/24"
-      export HTTP_PROXY="http://your.proxy.address:port"
-      export HTTPS_PROXY="http://your.proxy.address:port"
-      export NO_PROXY=".foo.com,.cluster.local,localhost,127.0.0.0/8,10.0.0.0/24"
-
 4) go to /root/deploy and clone airship-in-a-bottle. Switch to a target
    patchset if needed
    4a) If you use a directory other than /root/deploy, /root/deploy will be
@@ -50,15 +72,6 @@ Note: If running this behind a corporate proxy, you will need to update the
 5) cd into /root/deploy/airship-in-a-bottle/manifests/dev_minimal
 6) Update the set-env.sh with the hostname and ip on the appropriate lines.
 7) source set-env.sh
-
-NOTE: If running this behind a corporate proxy, you will need to update the
-      file deployment_files/site/dev-proxy/networks/common-addresses.yaml to
-      specify your proxy server and appropriate no_proxy list. In this file,
-      also update the dns list, and add your corporate name servers to the
-      dns list. This is done for name resolution of internal corporate
-      addresses behind the proxy.
-      Also change set-env.sh to use TARGET_SITE of 'dev-proxy'.
-
 8) ../common/deploy-airship.sh
 You may sepecify a target point to stop the deployment by using an argument of
 "collect", "genesis", or "deploy" to the deploy_airship.sh. It will
