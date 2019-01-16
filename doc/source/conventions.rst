@@ -29,7 +29,7 @@ language definitions. In this spirit:
 -  'must', 'shall', 'will', and 'required' language indicates inflexible rules.
 -  'should' and 'recommended' language is expected to be followed but reasonable
    exceptions may exist.
--  'may' and 'can' lanugage is intended to be optional, but will provide a
+-  'may' and 'can' language is intended to be optional, but will provide a
    recommended approach if used.
 
 Conventions and Standards
