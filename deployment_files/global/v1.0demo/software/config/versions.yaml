@@ -177,7 +177,7 @@ data:
         type: git
       drydock:
         location: https://git.openstack.org/openstack/airship-drydock
-        reference: 485f919822c7e425741a19ab507f83ea075529c5
+        reference: d93d6d5a0a370ced536180612d1ade708e29cd47
         subpath: charts/drydock
         type: git
       drydock-htk:
@@ -461,9 +461,9 @@ data:
         divingbell: docker.io/ubuntu:16.04
       drydock:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        drydock: quay.io/airshipit/drydock:485f919822c7e425741a19ab507f83ea075529c5
+        drydock: quay.io/airshipit/drydock:d93d6d5a0a370ced536180612d1ade708e29cd47
         drydock_db_init: docker.io/postgres:9.5
-        drydock_db_sync: quay.io/airshipit/drydock:485f919822c7e425741a19ab507f83ea075529c5
+        drydock_db_sync: quay.io/airshipit/drydock:d93d6d5a0a370ced536180612d1ade708e29cd47
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_user: docker.io/openstackhelm/heat:ocata
