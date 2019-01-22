@@ -2,6 +2,10 @@ rsync_cmd() {
     rsync -e "ssh -F ${SSH_CONFIG_DIR}/config" "${@}"
 }
 
+ssh_cmd_raw() {
+    ssh -F "${SSH_CONFIG_DIR}/config" $@
+}
+
 ssh_cmd() {
     HOST=${1}
     shift
