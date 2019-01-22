@@ -66,8 +66,10 @@ echo ""
 echo "The minimum recommended size of the Ubuntu 16.04 VM is 4 vCPUs, 20GB of RAM with 32GB disk space."
 CPU_COUNT=$(grep -c processor /proc/cpuinfo)
 RAM_TOTAL=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
+# Blindly assume that all storage on this VM is under root FS
+DISK_SIZE=$(df --output=source,size / | awk '/dev/ {print $2}')
 source /etc/os-release
-if [[ $CPU_COUNT -lt 4 || $RAM_TOTAL -lt 20000000 || $NAME != "Ubuntu" || $VERSION_ID != "16.04" ]]; then
+if [[ $CPU_COUNT -lt 4 || $RAM_TOTAL -lt 20000000 || $DISK_SIZE -lt 30000000 || $NAME != "Ubuntu" || $VERSION_ID != "16.04" ]]; then
   echo "Error: minimum VM recommendations are not met. Exiting."
   exit 1
 fi
