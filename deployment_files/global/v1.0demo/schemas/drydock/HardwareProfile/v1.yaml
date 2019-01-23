@@ -7,7 +7,6 @@ metadata:
     application: drydock
 data:
   $schema: 'http://json-schema.org/schema#'
-  id: 'http://att.com/att-comdev/drydock/hardwareProfile.yaml'
   type: 'object'
   properties:
     vendor:
@@ -34,4 +33,17 @@ data:
     device_aliases:
       type: 'object'
       additionalProperties: true
+    cpu_sets:
+      type: 'object'
+      additionalProperties:
+        type: 'string'
+    hugepages:
+      type: 'object'
+      additionalProperties:
+        type: 'object'
+        propertes:
+          size:
+            type: 'string'
+          count:
+            type: 'number'
   additionalProperties: false
