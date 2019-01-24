@@ -19,11 +19,7 @@ data:
     - ucp-storage-provisioner
     - ucp-core
     - ucp-keystone
-# TODO(bryan-strassner)
-# Excluding diving bell for now - crash loop on uamlite in this env
-# might be missing configuration, might be a symptom of running in a VM
-# same change in bootstrap manifest.
-#    - ucp-divingbell
+    - ucp-divingbell
     - ucp-services
     - openstack-ingress-controller
     - openstack-component-infrastructure

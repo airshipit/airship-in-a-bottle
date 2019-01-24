@@ -170,7 +170,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/airship-divingbell
         subpath: divingbell
-        reference: 0ac90c40a0741a929204d139dfa0415562b7044e
+        reference: 87dbc54044fd679f56123ffb1db9fefd35a77801
       divingbell-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
