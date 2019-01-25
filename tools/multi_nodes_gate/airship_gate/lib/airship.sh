@@ -93,24 +93,36 @@ shipyard_action_wait() {
       log "Shipyard action ${action} did not complete in ${timeout} seconds."
       return 2
     fi
-    RESULT=$(shipyard_cmd --output-format=raw describe "${ACTION_ID}")
-    ACTION_STATUS=$(echo "${RESULT}" | jq -r '.action_lifecycle')
-    ACTION_RESULT=$(echo "${RESULT}" | jq -r '.dag_status')
 
-    if [[ "${ACTION_STATUS}" == "Complete" ]]
-    then
-      if [[ "${ACTION_RESULT}" == "success" ]]
-      then
-        log "Shipyard action ${action} success!"
-        return 0
-      else
-        log "Shipyard action ${action} completed with result ${ACTION_RESULT}"
-        echo "${RESULT}" | jq >> "${LOG_FILE}"
-        return 1
-      fi
-    else
-      sleep "${poll_time}"
+    ACTION_STATUS=$(shipyard_cmd describe "${ACTION_ID}" | grep -i "Lifecycle" | \
+            awk '{print $2}')
+
+    ACTION_STEPS=$(shipyard_cmd describe "${ACTION_ID}" | grep -i "step/" | \
+            awk '{print $3}')
+
+    # Verify lifecycle status
+    if [ "${ACTION_STATUS}" == "Failed" ]; then
+            echo -e "\n${ACTION_ID} FAILED\n"
+            shipyard_cmd describe "${ACTION_ID}"
+            exit 1
     fi
+
+    if [ "${ACTION_STATUS}" == "Complete" ]; then
+            # Verify status of each action step
+            for step in ${ACTION_STEPS}; do
+              if [ "${step}" == "failed" ]; then
+                echo -e "\n${ACTION_ID} FAILED\n"
+                shipyard_cmd describe "${ACTION_ID}"
+                exit 1
+              fi
+            done
+
+            echo -e "\n${ACTION_ID} completed SUCCESSFULLY\n"
+            shipyard_cmd describe "${ACTION_ID}"
+            exit 0
+    fi
+
+    sleep "${poll_time}"
   done
 }
 
