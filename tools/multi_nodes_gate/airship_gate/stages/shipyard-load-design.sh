@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+set -ex
 
 source "${GATE_UTILS}"
 
@@ -58,20 +58,20 @@ rsync_cmd "${DEFINITION_DEPOT}"/*.yaml "${GENESIS_NAME}:${GENESIS_WORK_DIR}/site
 
 sleep 120
 
-check_configdocs_result "$(shipyard_cmd create configdocs design --directory=/${GENESIS_WORK_DIR}/site --replace)"
+check_configdocs_result "$(shipyard_cmd create configdocs design --directory=${GENESIS_WORK_DIR}/site --replace)"
 
 if [[ "${OMIT_CERTS}" == "0" ]]
 then
   ssh_cmd "${GENESIS_NAME}" mkdir -p "${GENESIS_WORK_DIR}/certs"
   rsync_cmd "${CERT_DEPOT}"/*.yaml "${GENESIS_NAME}:${GENESIS_WORK_DIR}/certs/"
-  check_configdocs_result "$(shipyard_cmd create configdocs certs --directory=/${GENESIS_WORK_DIR}/certs --append)"
+  check_configdocs_result "$(shipyard_cmd create configdocs certs --directory=${GENESIS_WORK_DIR}/certs --append)"
 fi
 
 if [[ "${OMIT_GATE}" == "0" ]]
 then
   ssh_cmd "${GENESIS_NAME}" mkdir -p "${GENESIS_WORK_DIR}/gate"
   rsync_cmd "${GATE_DEPOT}"/*.yaml "${GENESIS_NAME}:${GENESIS_WORK_DIR}/gate/"
-  check_configdocs_result "$(shipyard_cmd create configdocs gate --directory=/${GENESIS_WORK_DIR}/gate --append)"
+  check_configdocs_result "$(shipyard_cmd create configdocs gate --directory=${GENESIS_WORK_DIR}/gate --append)"
 fi
 
 check_configdocs_result "$(shipyard_cmd commit configdocs)"
