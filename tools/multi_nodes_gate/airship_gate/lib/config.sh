@@ -11,6 +11,7 @@ export IMAGE_PEGLEG_CLI=${IMAGE_PEGLEG_CLI:-quay.io/airshipit/pegleg:50ce7a02e08
 export IMAGE_SHIPYARD_CLI=${IMAGE_SHIPYARD_CLI:-quay.io/airshipit/shipyard:4dd6b484d11e86ad51da733841b9ef137421d461}
 export IMAGE_COREDNS=${IMAGE_COREDNS:-docker.io/coredns/coredns:1.2.2}
 export IMAGE_DRYDOCK_CLI=${IMAGE_DRYDOCK_CLI:-quay.io/airshipit/drydock:d93d6d5a0a370ced536180612d1ade708e29cd47}
+export IMAGE_DOCKER_REGISTRY=${IMAGE_DOCKER_REGISTRY:-"docker.io/registry:2"}
 export PROMENADE_DEBUG=${PROMENADE_DEBUG:-0}
 export REGISTRY_DATA_DIR=${REGISTRY_DATA_DIR:-/mnt/registry}
 export VIRSH_POOL=${VIRSH_POOL:-airship}

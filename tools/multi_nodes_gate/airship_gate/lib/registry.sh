@@ -69,6 +69,6 @@ registry_up() {
             --restart=always \
             --name registry \
             -v "${REGISTRY_DATA_DIR}:/var/lib/registry" \
-                registry:2 &>> "${LOG_FILE}"
+                "${IMAGE_DOCKER_REGISTRY}" &>> "${LOG_FILE}"
     fi
 }
