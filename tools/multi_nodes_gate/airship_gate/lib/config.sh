@@ -1,5 +1,5 @@
 #!/bin/bash
-export TEMP_DIR=${TEMP_DIR:-$(mktemp -d)}
+export TEMP_DIR=${TEMP_DIR:-$(mktemp -d -p /var/tmp)}
 export NAMEKEY_FILE=${NAMEKEY_FILE:-"$HOME/.airship_key"}
 export DEFINITION_DEPOT="${TEMP_DIR}/site_yaml/"
 export RENDERED_DEPOT="${TEMP_DIR}/rendered_yaml/"
