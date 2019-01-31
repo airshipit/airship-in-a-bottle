@@ -50,16 +50,28 @@ render_pegleg_cli() {
     echo ${cli_string}
 }
 
+collect_design_docs() {
+  docker run \
+    --rm -t \
+    --network none \
+    -v "${REPO_ROOT}":/workspace \
+    -v "${DEFINITION_DEPOT}":/collect \
+    "${IMAGE_PEGLEG_CLI}" \
+    $(render_pegleg_cli)
+}
+
+collect_initial_docs() {
+  collect_design_docs
+  log "Generating virtmgr key documents"
+  gen_libvirt_key && install_libvirt_key
+  collect_ssh_key
+}
+
 log "Collecting site definition to ${DEFINITION_DEPOT}"
 
-docker run \
-  --rm -t \
-  --network none \
-  -v "${REPO_ROOT}":/workspace \
-  -v "${DEFINITION_DEPOT}":/collect \
-  "${IMAGE_PEGLEG_CLI}" \
-  $(render_pegleg_cli)
-
-log "Generating virtmgr key documents"
-gen_libvirt_key && install_libvirt_key
-collect_ssh_key
+if [[ "$1" != "update" ]];
+then
+  collect_initial_docs
+else
+  collect_design_docs
+fi
