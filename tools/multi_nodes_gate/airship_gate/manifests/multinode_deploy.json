@@ -53,6 +53,11 @@
     {
       "name": "Deploy Site",
       "script": "shipyard-deploy-site.sh"
+    },
+    {
+      "name": "Validate Kube",
+      "script": "validate-kube.sh",
+      "on_error": "collect_genesis_info.sh"
     }
   ],
   "vm": {
