@@ -18,7 +18,8 @@ set -e
 source "${GATE_UTILS}"
 
 # Docker registry (cache) setup
-registry_up
+# note: currently not used
+# registry_up
 
 # SSH setup
 ssh_setup_declare
