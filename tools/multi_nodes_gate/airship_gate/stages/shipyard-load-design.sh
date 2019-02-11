@@ -53,25 +53,25 @@ check_configdocs_result(){
 }
 
 # Copy site design to genesis node
-ssh_cmd "${GENESIS_NAME}" mkdir -p "${GENESIS_WORK_DIR}/site"
-rsync_cmd "${DEFINITION_DEPOT}"/*.yaml "${GENESIS_NAME}:${GENESIS_WORK_DIR}/site/"
+ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/site"
+rsync_cmd "${DEFINITION_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/site/"
 
 sleep 120
 
-check_configdocs_result "$(shipyard_cmd create configdocs design --directory=${GENESIS_WORK_DIR}/site --replace)"
+check_configdocs_result "$(shipyard_cmd create configdocs design --directory=${BUILD_WORK_DIR}/site --replace)"
 
 if [[ "${OMIT_CERTS}" == "0" ]]
 then
-  ssh_cmd "${GENESIS_NAME}" mkdir -p "${GENESIS_WORK_DIR}/certs"
-  rsync_cmd "${CERT_DEPOT}"/*.yaml "${GENESIS_NAME}:${GENESIS_WORK_DIR}/certs/"
-  check_configdocs_result "$(shipyard_cmd create configdocs certs --directory=${GENESIS_WORK_DIR}/certs --append)"
+  ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/certs"
+  rsync_cmd "${CERT_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/certs/"
+  check_configdocs_result "$(shipyard_cmd create configdocs certs --directory=${BUILD_WORK_DIR}/certs --append)"
 fi
 
 if [[ "${OMIT_GATE}" == "0" ]]
 then
-  ssh_cmd "${GENESIS_NAME}" mkdir -p "${GENESIS_WORK_DIR}/gate"
-  rsync_cmd "${GATE_DEPOT}"/*.yaml "${GENESIS_NAME}:${GENESIS_WORK_DIR}/gate/"
-  check_configdocs_result "$(shipyard_cmd create configdocs gate --directory=${GENESIS_WORK_DIR}/gate --append)"
+  ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/gate"
+  rsync_cmd "${GATE_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/gate/"
+  check_configdocs_result "$(shipyard_cmd create configdocs gate --directory=${BUILD_WORK_DIR}/gate --append)"
 fi
 
 check_configdocs_result "$(shipyard_cmd commit configdocs)"

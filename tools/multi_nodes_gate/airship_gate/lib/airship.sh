@@ -8,17 +8,20 @@ install_ingress_ca() {
     return
   fi
   local_file="${TEMP_DIR}/ingress_ca.pem"
-  remote_file="${GENESIS_WORK_DIR}/ingress_ca.pem"
+  remote_file="${BUILD_WORK_DIR}/ingress_ca.pem"
   cat <<< "$ingress_ca" > "$local_file"
-  rsync_cmd "$local_file" "${GENESIS_NAME}":"$remote_file"
+  rsync_cmd "$local_file" "${BUILD_NAME}":"$remote_file"
 }
 
 shipard_cmd_stdout() {
+  # needed to reach airship endpoints
+  dns_server=$(config_vm_ip "${BUILD_NAME}")
   install_ingress_ca
-  ssh_cmd "${GENESIS_NAME}" \
+  ssh_cmd "${BUILD_NAME}" \
     docker run -t --network=host \
-    -v "${GENESIS_WORK_DIR}:/work" \
-    -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 \
+    --dns ${dns_server} \
+    -v "${BUILD_WORK_DIR}:/work" \
+    -e OS_AUTH_URL=${AIRSHIP_KEYSTONE_URL} \
     -e OS_USERNAME=shipyard \
     -e OS_USER_DOMAIN_NAME=default \
     -e OS_PASSWORD="${SHIPYARD_PASSWORD}" \
@@ -40,10 +43,12 @@ shipyard_cmd() {
 }
 
 drydock_cmd_stdout() {
+  dns_server=$(config_vm_ip "${BUILD_NAME}")
   install_ingress_ca
-  ssh_cmd "${GENESIS_NAME}" \
+  ssh_cmd "${BUILD_NAME}" \
     docker run -t --network=host \
-    -v "${GENESIS_WORK_DIR}:/work" \
+    --dns ${dns_server} \
+    -v "${BUILD_WORK_DIR}:/work" \
     -e DD_URL=http://drydock-api.ucp.svc.cluster.local:9000 \
     -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 \
     -e OS_USERNAME=shipyard \
