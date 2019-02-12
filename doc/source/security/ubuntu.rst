@@ -61,9 +61,10 @@ The mounts ``/tmp``, ``/var``, ``/var/log``, ``/var/log/audit`` and ``/home`` sh
 individual file systems.
 
   - Project Scope: Drydock
-  - Solution *Configurable*: Drydock supports user designed partitioning, see `Filesystem Configuration`_.
+  - Solution *Configurable*: Drydock supports user designed partitioning, see
+    `Filesystem Configuration`_.
   - Audit: *Testing*: The Airship testing pipeline will validate that nodes are partitioned
-           as described in the site definition.
+    as described in the site definition.
 
 Filesystem Hardening
 ^^^^^^^^^^^^^^^^^^^^
@@ -73,7 +74,7 @@ Disallow symlinks and hardlinks to files not owned by the user. Set ``fs.protect
 
   - Project Scope: Diving Bell
   - Solution *Configurable*: Diving Bell overrides will enforce this kernel tunable. By default
-             MAAS deploys nodes in compliance.
+    MAAS deploys nodes in compliance.
   - Audit: *Pending*: This will be verified on an ongoing basis via a Sonobuoy plugin.
 
 Execution Environment Hardening
@@ -84,8 +85,8 @@ disabling core dumps (``hard core 0``)
 
   - Project Scope: DivingBell, Drydock
   - Solution *Configurable*: Diving Bell overrides will enforce this kernel tunable, by default
-             MAAS deploys nodes with ``fs.suid_dumpable = 2``. A boot action will put in place
-             the hard limit.
+    MAAS deploys nodes with ``fs.suid_dumpable = 2``. A boot action will put in place the hard
+    limit.
   - Audit: *Pending*: This will be verified on an ongoing basis via a Sonobuoy plugin
 
 Randomizing stack space can make it harder to exploit buffer overflow vulnerabilities. Enable
@@ -93,7 +94,7 @@ the kernel tunable ``kernel.randomize_va_space = 2``.
 
   - Project Scope: DivingBell
   - Solution *Configurable*: Diving Bell overrides will enforce this kernel tunable, by default
-             MAAS deploys nodes in compliance.
+    MAAS deploys nodes in compliance.
   - Audit: *Pending*: This will be verified on an ongoing basis via a Sonobuoy plugin
 
 Mandatory Access Control
@@ -104,9 +105,9 @@ to use it.
 
   - Project Scope: Drydock, Promenade
   - Solution *Configurable*: A bootaction will put in place the default AppArmor profile. Promenade
-             will deploy a Docker configuration to enforce the default policy.
+    will deploy a Docker configuration to enforce the default policy.
   - Audit: *Pending*: This will be verified on an ongoing basis via a Sonobuoy plugin probing
-           ``/proc/<pid>/attr/current``.
+    ``/proc/<pid>/attr/current``.
 
 Put in place an approved AppArmor profile to be used by containers that will manipulate the
 on-host AppArmor profiles. This allows an init container in Pods to put customized AppArmor
@@ -114,7 +115,7 @@ profile in place and load them.
 
   - Project Scope: Drydock
   - Solution *Configurable*: A bootaction will put in place the profile-manager AppArmor profile and
-             load it on each boot.
+    load it on each boot.
   - Audit: *Pending*: The availability of this profile will be verified by a Sonobuoy plugin.
 
 .. IMPORTANT::
@@ -135,7 +136,8 @@ Run `rsyslogd` to log events.
 Run a monitor for logging kernel audit events such as auditd.
 
   - Project Scope: Non-Airship
-  - Solution *Remediated*: The Sysdig Falco <https://sysdig.com/opensource/falco/> will be used and
+  - Solution *Remediated*: The `Sysdig Falco <https://sysdig.com/opensource/falco/>`_ will be used
+    and
   - Audit: *Pending*: This will be verified on an ongoing basis via a Sonobuoy plugin.
 
 Watch the watchers. Ensure that monitoring services are up and responsive.
@@ -239,6 +241,7 @@ Temporary Mitigation Status
 References
 ----------
 
-OpenSCAP for Ubuntu 16.04 - https://static.open-scap.org/ssg-guides/ssg-ubuntu1604-guide-common.html
-Ubuntu 16.04 Server Guide - https://help.ubuntu.com/16.04/serverguide/security.html
-Canonical MAAS 2.x TLS - https://docs.maas.io/2.3/en/installconfig-network-ssl & https://docs.maas.io/2.4/en/installconfig-network-ssl
+  * `OpenSCAP for Ubuntu 16.04 <https://static.open-scap.org/ssg-guides/ssg-ubuntu1604-guide-common.html>`_
+  * `Ubuntu 16.04 Server Guide <https://help.ubuntu.com/16.04/serverguide/security.html>`_
+  * `Canonical MAAS 2.3 TLS <https://docs.maas.io/2.3/en/installconfig-network-ssl>`_
+  * `Canonical MAAS 2.4 TLS <https://docs.maas.io/2.4/en/installconfig-network-ssl>`_
