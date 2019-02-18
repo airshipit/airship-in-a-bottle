@@ -42,6 +42,8 @@ iso_gen() {
     export BR_IP_NODE
     export NAME
     export SSH_PUBLIC_KEY
+    export NTP_POOLS=$(join_array ',' $NTP_POOLS)
+    export NTP_SERVERS=$(join_array ',' $NTP_SERVERS)
     envsubst < "${TEMPLATE_DIR}/user-data.sub" > user-data
 
     if [[ ! -z "${ADDL_USERDATA}" ]]

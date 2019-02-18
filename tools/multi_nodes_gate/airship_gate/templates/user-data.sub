@@ -14,3 +14,7 @@ chpasswd:
   list: |
     root:password
   expire: false
+
+ntp:
+  pools: [${NTP_POOLS}]
+  servers: [${NTP_SERVERS}]

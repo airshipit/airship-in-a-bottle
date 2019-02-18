@@ -17,6 +17,8 @@ export VIRSH_POOL=${VIRSH_POOL:-airship}
 export VIRSH_POOL_PATH=${VIRSH_POOL_PATH:-/var/lib/libvirt/airship}
 export VIRSH_CPU_OPTS=${VIRSH_CPU_OPTS:-host}
 export UPSTREAM_DNS=${UPSTREAM_DNS:-"8.8.8.8 8.8.4.4"}
+export NTP_POOLS=${NTP_POOLS:-"0.ubuntu.pool.ntp.org 1.ubuntu.pool.ntp.org"}
+export NTP_SERVERS=${NTP_SERVERS:-""}
 
 export SHIPYARD_PASSWORD=${SHIPYARD_OS_PASSWORD:-'password18'}
 export AIRSHIP_KEYSTONE_URL=${AIRSHIP_KEYSTONE_URL:-'http://keystone.gate.local:80/v3'}
