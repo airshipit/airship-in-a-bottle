@@ -96,7 +96,9 @@ net_clean() {
 net_declare() {
     if ! virsh net-list --name | grep ^airship_gate$ > /dev/null; then
         log Creating Airship gate network
-        virsh net-create "${XML_DIR}/network.xml" &>> "${LOG_FILE}"
+        virsh net-define "${XML_DIR}/network.xml" &>> "${LOG_FILE}"
+        virsh net-start airship_gate
+        virsh net-autostart airship_gate
     fi
 }
 
@@ -104,7 +106,9 @@ pool_declare() {
     log Validating virsh pool setup
     if ! virsh pool-uuid "${VIRSH_POOL}" &> /dev/null; then
         log Creating pool "${VIRSH_POOL}"
-        virsh pool-create-as --name "${VIRSH_POOL}" --type dir --target "${VIRSH_POOL_PATH}" &>> "${LOG_FILE}"
+        virsh pool-define-as --name "${VIRSH_POOL}" --type dir --target "${VIRSH_POOL_PATH}" &>> "${LOG_FILE}"
+        virsh pool-start "${VIRSH_POOL}"
+        virsh pool-autostart "${VIRSH_POOL}"
     fi
 }
 
@@ -166,8 +170,8 @@ vm_create() {
             --disk "vol=${VIRSH_POOL}/cloud-init-${NAME}.iso,device=cdrom" &>> "${LOG_FILE}"
 
         ssh_wait "${NAME}"
-	ssh_cmd "${NAME}" cloud-init status --wait
-	ssh_cmd "${NAME}" sync
+        ssh_cmd "${NAME}" cloud-init status --wait
+        ssh_cmd "${NAME}" sync
 
     else
         log Creating VM "${NAME}"
@@ -184,6 +188,7 @@ vm_create() {
             --import \
             --disk "vol=${VIRSH_POOL}/airship-gate-${NAME}.img,${DISK_OPTS}" &>> "${LOG_FILE}"
     fi
+    virsh autostart "${NAME}"
 }
 
 vm_create_validate() {
