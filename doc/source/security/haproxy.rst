@@ -52,4 +52,4 @@ value to an existing header.
 References
 ----------
 
-HAProxy Configuration Guide - http://cbonte.github.io/haproxy-dconv/1.8/configuration.html
+`HAProxy Configuration Guide <http://cbonte.github.io/haproxy-dconv/1.8/configuration.html>`_
