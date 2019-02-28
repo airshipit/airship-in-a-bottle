@@ -421,7 +421,7 @@ data:
       nova: &nova docker.io/openstackhelm/nova:ocata
       glance: &glance docker.io/openstackhelm/glance:ocata
       rabbitmq: &rabbitmq docker.io/rabbitmq:3.7-management
-      rally_test: &rally_test docker.io/kolla/ubuntu-source-rally:4.0.0
+      rally_test: &rally_test docker.io/kolla/ubuntu-source-rally:ocata
       memcached: &memcached docker.io/memcached:1.5.5
       mariadb_db: &mariadb_db docker.io/mariadb:10.2.13
       nova_novncproxy: &nova_novncproxy docker.io/kolla/ubuntu-source-nova-novncproxy:3.0.3
@@ -510,7 +510,7 @@ data:
         barbican_api: docker.io/openstackhelm/barbican:ocata
       keystone:
         keystone_bootstrap: docker.io/openstackhelm/heat:ocata
-        test: docker.io/kolla/ubuntu-source-rally:4.0.0
+        test: docker.io/kolla/ubuntu-source-rally:ocata
         db_init: docker.io/openstackhelm/heat:ocata
         keystone_db_sync: docker.io/openstackhelm/keystone:ocata
         db_drop: docker.io/openstackhelm/heat:ocata

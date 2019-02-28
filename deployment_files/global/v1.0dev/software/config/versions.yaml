@@ -357,7 +357,7 @@ data:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
       keystone:
         keystone_bootstrap: docker.io/openstackhelm/heat:ocata
-        test: docker.io/kolla/ubuntu-source-rally:4.0.0
+        test: docker.io/kolla/ubuntu-source-rally:ocata
         db_init: docker.io/openstackhelm/heat:ocata
         keystone_db_sync: docker.io/openstackhelm/keystone:ocata
         db_drop: docker.io/openstackhelm/heat:ocata
