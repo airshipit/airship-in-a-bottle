@@ -42,7 +42,7 @@ Sensitive data should be encrypted at-rest.
 Sensitive data should be encrypted in-transit.
 
   * Project Scope: Shipyard, Deckhand
-  * Solution *Pending*: Shipard and Deckhand API endpoints should support
+  * Solution *Pending*: Shipyard and Deckhand API endpoints should support
     TLS. See data_security_.
   * Audit: *Pending*: Expect to validate post-deployment that endpoints all support TLS
 
