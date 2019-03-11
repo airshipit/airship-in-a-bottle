@@ -57,8 +57,14 @@ ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/site"
 rsync_cmd "${DEFINITION_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/site/"
 
 sleep 120
-
 check_configdocs_result "$(shipyard_cmd create configdocs design --directory=${BUILD_WORK_DIR}/site --replace)"
+
+# Skip certs/gate if already part of site manifests
+if [[ "${USE_EXISTING_SECRETS}" ]]
+then
+  OMIT_CERTS=1
+  OMIT_GATE=1
+fi
 
 if [[ "${OMIT_CERTS}" == "0" ]]
 then

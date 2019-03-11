@@ -30,6 +30,12 @@ GATE_FILES=($(find "${GATE_DEPOT}" -name '*.yaml' | xargs -n 1 basename | xargs 
 mkdir -p "${CERT_DEPOT}"
 chmod 777 "${CERT_DEPOT}"
 
+if [[ "${USE_EXISTING_SECRETS}" ]]
+then
+  log Certificates already provided by manifests
+  exit 0
+fi
+
 log Generating certificates
 docker run --rm -t \
     -w /tmp \
