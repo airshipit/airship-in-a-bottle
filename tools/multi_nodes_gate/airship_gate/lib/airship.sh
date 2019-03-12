@@ -50,7 +50,7 @@ drydock_cmd_stdout() {
     --dns ${dns_server} \
     -v "${BUILD_WORK_DIR}:/work" \
     -e DD_URL=http://drydock-api.ucp.svc.cluster.local:9000 \
-    -e OS_AUTH_URL=http://keystone.ucp.svc.cluster.local:80/v3 \
+    -e OS_AUTH_URL=${AIRSHIP_KEYSTONE_URL} \
     -e OS_USERNAME=shipyard \
     -e OS_USER_DOMAIN_NAME=default \
     -e OS_PASSWORD="${SHIPYARD_PASSWORD}" \
