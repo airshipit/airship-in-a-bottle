@@ -23,11 +23,27 @@ chmod 777 "${DEFINITION_DEPOT}"
 render_pegleg_cli() {
     cli_string="pegleg -v site"
 
+    if [[ "${GERRIT_SSH_USER}" ]]
+    then
+      cli_string+=" -u ${GERRIT_SSH_USER}"
+    fi
+
+    if [[ "${GERRIT_SSH_KEY}" ]]
+    then
+      cli_string+=" -k /workspace/${GERRIT_SSH_KEY}"
+    fi
+
     primary_repo=$(config_pegleg_primary_repo)
 
     if [[ -d "${REPO_ROOT}/${primary_repo}" ]]
     then
-      cli_string="${cli_string} -p /workspace/${primary_repo}"
+      # NOTE: to get latest pegleg colllect to work
+      # airship-in-bottle repo has versions (v1.0demo, v1.0dev) within global
+      # and that is preventing pegleg to collect documents.
+      # It complains with duplicate data
+      $(find ${REPO_ROOT}/${primary_repo}  -name "v1.0dev" -type d \
+        -exec rm -r {} +)
+      cli_string="${cli_string} -r /workspace/${primary_repo}"
     else
       log "${primary_repo} not a valid primary repository"
       return 1
@@ -39,7 +55,7 @@ render_pegleg_cli() {
     then
         for r in ${aux_repos[*]}
         do
-          cli_string="${cli_string} -a /workspace/${r}"
+          cli_string="${cli_string} -e ${r}=/workspace/${r}"
         done
     fi
 
@@ -53,7 +69,7 @@ render_pegleg_cli() {
 collect_design_docs() {
   docker run \
     --rm -t \
-    --network none \
+    --network host \
     -v "${REPO_ROOT}":/workspace \
     -v "${DEFINITION_DEPOT}":/collect \
     "${IMAGE_PEGLEG_CLI}" \
