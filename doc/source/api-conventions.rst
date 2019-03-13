@@ -119,6 +119,11 @@ X-Context-Marker
   marker. This marker may only be a 36-character canonical representation of an
   UUID (8-4-4-4-12)
 
+X-End-User
+  The user name of the initial invoker that will be carried on all logs for
+  user tracing cross components. Shipyard doesn't support this header and when
+  passed, it will be ignored.
+
 Validation API
 --------------
 All Airship components that participate in validation of the design supplied to
