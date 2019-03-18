@@ -301,22 +301,35 @@ make_virtmgr_account() {
 gen_libvirt_key() {
     log Removing any existing virtmgr SSH keys
     sudo rm -rf ~virtmgr/.ssh
-    log Generating new SSH keypair for virtmgr
     sudo mkdir -p ~virtmgr/.ssh
-    sudo ssh-keygen -N '' -b 2048 -t rsa -f ~virtmgr/.ssh/airship_gate &>> "${LOG_FILE}"
+
+    if [[ "${GATE_SSH_KEY}" ]]; then
+        log "Using existing SSH keys for virtmgr"
+	cp "${GATE_SSH_KEY}" ~virtmgr/.ssh/airship_gate
+	cp "${GATE_SSH_KEY}.pub" ~virtmgr/.ssh/airship_gate.pub
+    else
+        log "Generating new SSH keypair for virtmgr"
+        sudo ssh-keygen -N '' -b 2048 -t rsa -f ~virtmgr/.ssh/airship_gate &>> "${LOG_FILE}"
+    fi
 }
 
 # Install private key into site definition
 install_libvirt_key() {
     export PUB_KEY=$(sudo cat ~virtmgr/.ssh/airship_gate.pub)
+
     mkdir -p ${TEMP_DIR}/tmp
     envsubst < "${TEMPLATE_DIR}/authorized_keys.sub" > ${TEMP_DIR}/tmp/virtmgr.authorized_keys
     sudo cp ${TEMP_DIR}/tmp/virtmgr.authorized_keys ~virtmgr/.ssh/authorized_keys
     sudo chown -R virtmgr ~virtmgr/.ssh
     sudo chmod 700 ~virtmgr/.ssh
     sudo chmod 600 ~virtmgr/.ssh/authorized_keys
-    mkdir -p "${GATE_DEPOT}"
 
+    if [[ "${USE_EXISTING_SECRETS}" ]]; then
+        log "Using existing manifests for secrets"
+	return 0
+    fi
+
+    mkdir -p "${GATE_DEPOT}"
     cat << EOF > ${GATE_DEPOT}/airship_drydock_kvm_ssh_key.yaml
 ---
 schema: deckhand/CertificateKey/v1

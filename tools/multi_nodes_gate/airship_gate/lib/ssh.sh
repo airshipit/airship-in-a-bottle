@@ -41,8 +41,16 @@ ssh_config_declare() {
 ssh_keypair_declare() {
     log Validating SSH keypair exists
     if [ ! -s "${SSH_CONFIG_DIR}/id_rsa" ]; then
-        log Generating SSH keypair
-        ssh-keygen -N '' -f "${SSH_CONFIG_DIR}/id_rsa" &>> "${LOG_FILE}"
+        if [[ "${GATE_SSH_KEY}" ]]; then
+            log "Using existing SSH keys for VMs"
+            cp "${GATE_SSH_KEY}" "${SSH_CONFIG_DIR}/id_rsa"
+            chmod 600 "${SSH_CONFIG_DIR}/id_rsa"
+
+            cp "${GATE_SSH_KEY}.pub" "${SSH_CONFIG_DIR}/id_rsa.pub"
+        else
+            log Generating SSH keypair
+            ssh-keygen -N '' -f "${SSH_CONFIG_DIR}/id_rsa" &>> "${LOG_FILE}"
+        fi
     fi
 }
 

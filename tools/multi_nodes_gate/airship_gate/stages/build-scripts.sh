@@ -17,6 +17,14 @@ do
   fi
 done
 
+CERTS_PATH="/certs/*.yaml"
+KEYS_PATH="/gate/*.yaml"
+if [[ "${USE_EXISTING_SECRETS}" ]]
+then
+    CERTS_PATH=""
+    KEYS_PATH=""
+fi
+
 log Building scripts
 docker run --rm -t \
     -w /config \
@@ -31,4 +39,5 @@ docker run --rm -t \
             build-all \
                 --validators \
                 -o /scripts \
-                /config/*.yaml /certs/*.yaml /gate/*.yaml
+                /config/*.yaml ${CERTS_PATH} ${KEYS_PATH}
+
