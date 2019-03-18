@@ -70,6 +70,7 @@ collect_design_docs() {
   docker run \
     --rm -t \
     --network host \
+    -v "${HOME}/.ssh":/root/.ssh \
     -v "${REPO_ROOT}":/workspace \
     -v "${DEFINITION_DEPOT}":/collect \
     "${IMAGE_PEGLEG_CLI}" \
