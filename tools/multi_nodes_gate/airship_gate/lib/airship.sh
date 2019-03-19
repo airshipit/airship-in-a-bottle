@@ -140,7 +140,7 @@ collect_ssh_key() {
     ssh_keypair_declare
   fi
 
-  if [[ "${USE_EXISTING_SECRETS}" ]]; then
+  if [[ -n "${USE_EXISTING_SECRETS}" ]]; then
       log "Using existing manifests for secrets"
       return 0
   fi

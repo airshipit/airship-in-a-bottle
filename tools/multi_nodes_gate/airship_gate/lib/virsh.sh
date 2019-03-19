@@ -324,9 +324,9 @@ install_libvirt_key() {
     sudo chmod 700 ~virtmgr/.ssh
     sudo chmod 600 ~virtmgr/.ssh/authorized_keys
 
-    if [[ "${USE_EXISTING_SECRETS}" ]]; then
+    if [[ -n "${USE_EXISTING_SECRETS}" ]]; then
         log "Using existing manifests for secrets"
-	return 0
+        return 0
     fi
 
     mkdir -p "${GATE_DEPOT}"

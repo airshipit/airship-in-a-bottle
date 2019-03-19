@@ -60,7 +60,7 @@ sleep 120
 check_configdocs_result "$(shipyard_cmd create configdocs design --directory=${BUILD_WORK_DIR}/site --replace)"
 
 # Skip certs/gate if already part of site manifests
-if [[ "${USE_EXISTING_SECRETS}" ]]
+if [[ -n "${USE_EXISTING_SECRETS}" ]]
 then
   OMIT_CERTS=1
   OMIT_GATE=1

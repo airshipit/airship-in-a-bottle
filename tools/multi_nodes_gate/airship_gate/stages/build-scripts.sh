@@ -19,7 +19,7 @@ done
 
 CERTS_PATH="/certs/*.yaml"
 KEYS_PATH="/gate/*.yaml"
-if [[ "${USE_EXISTING_SECRETS}" ]]
+if [[ -n "${USE_EXISTING_SECRETS}" ]]
 then
     CERTS_PATH=""
     KEYS_PATH=""
