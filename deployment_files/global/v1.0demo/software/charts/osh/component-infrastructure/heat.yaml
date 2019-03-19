@@ -30,6 +30,10 @@ data:
     timeout: 1800
     labels:
       release_group: airship-heat
+  test:
+    enabled: true
+    options:
+      cleanup: false
   install:
     no_hooks: false
   upgrade:

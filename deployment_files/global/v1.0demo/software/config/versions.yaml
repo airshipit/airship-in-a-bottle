@@ -611,6 +611,7 @@ data:
         dep_check: *dep_check
         rabbit_init: *rabbitmq
       heat:
+        test: *rally_test
         bootstrap: *heat
         db_init: *heat
         heat_db_sync: *heat
@@ -654,7 +655,7 @@ data:
         dep_check: *dep_check
       mariadb:
         mariadb: *mariadb_db
-        ingress: *ingress_controller
+        ingress: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.9.0
         error_pages: *ingress_error_pages
         prometheus_create_mysql_user: *mariadb_db
         prometheus_mysql_exporter: docker.io/prom/mysqld-exporter:v0.10.0
