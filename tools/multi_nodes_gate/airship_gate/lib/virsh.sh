@@ -305,8 +305,8 @@ gen_libvirt_key() {
 
     if [[ "${GATE_SSH_KEY}" ]]; then
         log "Using existing SSH keys for virtmgr"
-	cp "${GATE_SSH_KEY}" ~virtmgr/.ssh/airship_gate
-	cp "${GATE_SSH_KEY}.pub" ~virtmgr/.ssh/airship_gate.pub
+        sudo cp "${GATE_SSH_KEY}" ~virtmgr/.ssh/airship_gate
+        sudo cp "${GATE_SSH_KEY}.pub" ~virtmgr/.ssh/airship_gate.pub
     else
         log "Generating new SSH keypair for virtmgr"
         sudo ssh-keygen -N '' -b 2048 -t rsa -f ~virtmgr/.ssh/airship_gate &>> "${LOG_FILE}"
