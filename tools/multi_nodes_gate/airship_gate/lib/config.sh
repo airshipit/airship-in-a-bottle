@@ -1,5 +1,6 @@
 export TEMP_DIR=${TEMP_DIR:-$(mktemp -d)}
 export DEFINITION_DEPOT="${TEMP_DIR}/site_yaml/"
+export RENDERED_DEPOT="${TEMP_DIR}/rendered_yaml/"
 export CERT_DEPOT="${TEMP_DIR}/cert_yaml/"
 export GATE_DEPOT="${TEMP_DIR}/gate_yaml/"
 export SCRIPT_DEPOT="${TEMP_DIR}/scripts/"

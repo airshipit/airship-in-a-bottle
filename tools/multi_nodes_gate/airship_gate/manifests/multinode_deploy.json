@@ -20,6 +20,10 @@
       "script": "pegleg-collect.sh"
     },
     {
+      "name": "Pegleg Render",
+      "script": "pegleg-render.sh"
+    },
+    {
       "name": "Generate Certificates",
       "script": "generate-certificates.sh"
     },
@@ -40,6 +44,10 @@
       "name": "Create BGP router",
       "script": "bgp-router.sh",
       "arguments": ["build"]
+    },
+    {
+      "name": "Pre Genesis Setup",
+      "script": "genesis-setup.sh"
     },
     {
       "name": "Genesis",
