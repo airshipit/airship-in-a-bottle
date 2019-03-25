@@ -31,8 +31,8 @@ REQUIRE_RELOG=0
 
 log_stage_header "Installing Packages"
 export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update -qq
-sudo apt-get install -q -y --no-install-recommends \
+sudo -E apt-get update -qq
+sudo -E apt-get install -q -y --no-install-recommends \
     curl \
     docker.io \
     fio \
