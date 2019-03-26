@@ -37,6 +37,11 @@
       "arguments": ["build"]
     },
     {
+      "name": "Create BGP router",
+      "script": "bgp-router.sh",
+      "arguments": ["build"]
+    },
+    {
       "name": "Genesis",
       "script": "genesis.sh",
       "on_error": "collect_genesis_info.sh"
@@ -84,5 +89,9 @@
       "ip": "172.24.1.13",
       "bootstrap": false
     }
+  },
+  "bgp" : {
+    "quagga_as": 64688,
+    "calico_as": 64671
   }
 }

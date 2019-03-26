@@ -94,6 +94,13 @@ if [[ ! -d ${VIRSH_POOL_PATH} ]]; then
     sudo mkdir -p "${VIRSH_POOL_PATH}"
 fi
 
+log_stage_header "Disabling br_netfilter"
+br_netfilter_files=('bridge-nf-call-arptables' 'bridge-nf-call-iptables' 'bridge-nf-call-ip6tables')
+for br_netfilter_file in "${br_netfilter_files[@]}"
+do
+        sudo sh -c "(echo "0" > /proc/sys/net/bridge/${br_netfilter_file})"
+done
+
 if [[ ${REQUIRE_RELOG} -eq 1 ]]; then
     echo
     log_note "You must ${C_HEADER}log out${C_CLEAR} and back in before the gate is ready to run."

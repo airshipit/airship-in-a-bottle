@@ -15,6 +15,7 @@ source "$LIB_DIR"/ssh.sh
 source "$LIB_DIR"/virsh.sh
 source "$LIB_DIR"/airship.sh
 source "$LIB_DIR"/ingress.sh
+source "$LIB_DIR"/bgp.sh
 
 if [[ -v GATE_DEBUG && ${GATE_DEBUG} = "1" ]]; then
     set -x
