@@ -380,7 +380,7 @@ data:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm
         subpath: nova
-        reference: 92b04a735d6a26e6cffc5c83a4a7dccfdebba2b7
+        reference: 112e15b1655285194593a7afca4352ce046c7a47
       nova-htk:
         type: git
         location: https://git.openstack.org/openstack/openstack-helm-infra
