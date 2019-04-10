@@ -69,6 +69,8 @@ collect_design_docs() {
     -v "${HOME}/.ssh":/root/.ssh \
     -v "${REPO_ROOT}":/workspace \
     -v "${DEFINITION_DEPOT}":/collect \
+    -e "PEGLEG_PASSPHRASE=$PEGLEG_PASSPHRASE" \
+    -e "PEGLEG_SALT=$PEGLEG_SALT" \
     "${IMAGE_PEGLEG_CLI}" \
     $(render_pegleg_cli)
 }
