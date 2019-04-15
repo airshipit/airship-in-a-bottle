@@ -21,7 +21,7 @@ source "${GATE_UTILS}"
 rsync_cmd "${SCRIPT_DEPOT}/genesis.sh" "${GENESIS_NAME}:/root/airship/"
 
 set -o pipefail
-ssh_cmd "${GENESIS_NAME}" /root/airship/genesis.sh 2>&1 | tee -a "${LOG_FILE}"
+ssh_cmd_raw "${GENESIS_NAME}" "PROMENADE_ENCRYPTION_KEY=${PROMENADE_ENCRYPTION_KEY} /root/airship/genesis.sh" 2>&1 | tee -a "${LOG_FILE}"
 set +o pipefail
 
 if ! ssh_cmd n0 docker images | tail -n +2 | grep -v registry:5000 ; then

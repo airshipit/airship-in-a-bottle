@@ -33,6 +33,7 @@ docker run --rm -t \
     -v "${GATE_DEPOT}:/gate" \
     -v "${CERT_DEPOT}:/certs" \
     -v "${SCRIPT_DEPOT}:/scripts" \
+    -e "PROMENADE_ENCRYPTION_KEY=${PROMENADE_ENCRYPTION_KEY}" \
     ${DOCKER_RUN_OPTS[*]} \
     "${IMAGE_PROMENADE_CLI}" \
         promenade \
