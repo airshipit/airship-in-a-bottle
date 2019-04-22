@@ -84,4 +84,4 @@ main/index page of their `Readthedocs`_ documentation:
 .. _Readthedocs: https://airshipit.readthedocs.io/
 .. _Github: https://github.com
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/index.html
-.. _Treasuremap: https://github.com/openstack/airship-treasuremap
+.. _Treasuremap: https://opendev.org/airship/treasuremap/

@@ -61,6 +61,6 @@ Conventions and Standards
 .. _Kubernetes: https://kubernetes.io/
 .. _Openstack: https://www.openstack.org/
 .. _Openstack-Helm: https://docs.openstack.org/openstack-helm/latest/
-.. _Treasuremap: https://github.com/openstack/airship-treasuremap
+.. _Treasuremap: https://opendev.org/airship/treasuremap/
 .. _yaml: http://yaml.org/
 .. _specifications: /projects/specs

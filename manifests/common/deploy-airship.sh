@@ -420,7 +420,7 @@ function your_next_steps() {
   echo "Explore Airship Treasuremap repository and documentation"
   echo "available at the following URLs:"
   echo " "
-  echo "  https://github.com/openstack/airship-treasuremap"
+  echo "  https://opendev.org/airship/treasuremap/"
   echo "  https://airship-treasuremap.readthedocs.io/"
   echo " "
   echo "---------------------------------------------------------------"
