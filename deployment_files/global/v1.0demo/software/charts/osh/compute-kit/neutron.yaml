@@ -52,6 +52,8 @@ data:
           labels:
             application: neutron
             component: ks-endpoints
+  test:
+    timeout: 2700
   wait:
     timeout: 1800
   values:
