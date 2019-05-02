@@ -72,10 +72,6 @@ data:
           labels:
             application: nova
             component: cell-setup
-  test:
-    timeout: 2700
-  wait:
-    timeout: 2700
   values:
     labels:
       agent:
