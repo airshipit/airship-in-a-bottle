@@ -15,6 +15,7 @@ export IMAGE_QUAGGA=${IMAGE_QUAGGA:-docker.io/cumulusnetworks/quagga:CL3.3.2}
 export IMAGE_DRYDOCK_CLI=${IMAGE_DRYDOCK_CLI:-quay.io/airshipit/drydock:d93d6d5a0a370ced536180612d1ade708e29cd47}
 export IMAGE_DOCKER_REGISTRY=${IMAGE_DOCKER_REGISTRY:-"docker.io/registry:2"}
 export PROMENADE_DEBUG=${PROMENADE_DEBUG:-0}
+export PROMENADE_TMP_LOCAL=${PROMENADE_TMP_LOCAL:-tmp_bin}
 export REGISTRY_DATA_DIR=${REGISTRY_DATA_DIR:-/mnt/registry}
 export VIRSH_POOL=${VIRSH_POOL:-airship}
 export VIRSH_POOL_PATH=${VIRSH_POOL_PATH:-/var/lib/libvirt/airship}
