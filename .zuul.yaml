@@ -15,6 +15,7 @@
       - docs-on-readthedocs
     vars:
       rtd_webhook_id: '38573'
+      rtd_project_name: 'airshipit'
     check:
       jobs:
         - airship-in-a-bottle-linter
