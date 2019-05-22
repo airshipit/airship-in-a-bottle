@@ -33,6 +33,11 @@ Setup and Use
 
    where the argument for the gate.sh script is the filename of the json file
    in ./airship_gate/manifests without the json extension.
+   if you run the script without any arguments::
+
+     $ ./gate.sh
+
+   then it will by default stand up a four-node Airship cluster.
 
 Each of the defined manifests used for the gate defines a virtual machine
 configuration, and the steps to run as part of that gate. Additional
