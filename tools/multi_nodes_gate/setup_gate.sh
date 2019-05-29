@@ -95,11 +95,12 @@ if [[ ! -d ${VIRSH_POOL_PATH} ]]; then
 fi
 
 log_stage_header "Disabling br_netfilter"
-br_netfilter_files=('bridge-nf-call-arptables' 'bridge-nf-call-iptables' 'bridge-nf-call-ip6tables')
-for br_netfilter_file in "${br_netfilter_files[@]}"
-do
-        sudo sh -c "(echo "0" > /proc/sys/net/bridge/${br_netfilter_file})"
-done
+cat << EOF | sudo tee /etc/sysctl.d/60-bridge.conf
+net.bridge.bridge-nf-call-ip6tables = 0
+net.bridge.bridge-nf-call-iptables = 0
+net.bridge.bridge-nf-call-arptables = 0
+EOF
+sudo sysctl -p /etc/sysctl.d/60-bridge.conf
 
 if [[ ${REQUIRE_RELOG} -eq 1 ]]; then
     echo
