@@ -25,6 +25,14 @@ then
     KEYS_PATH=""
 fi
 
+PROMENADE_TMP_LOCAL="$(basename $PROMENADE_TMP_LOCAL)"
+PROMENADE_TMP="${TEMP_DIR}/${PROMENADE_TMP_LOCAL}"
+mkdir -p $PROMENADE_TMP
+chmod 777 $PROMENADE_TMP
+
+DOCKER_SOCK="/var/run/docker.sock"
+sudo chmod o+rw $DOCKER_SOCK
+
 log Building scripts
 docker run --rm -t \
     -w /config \
@@ -33,6 +41,11 @@ docker run --rm -t \
     -v "${GATE_DEPOT}:/gate" \
     -v "${CERT_DEPOT}:/certs" \
     -v "${SCRIPT_DEPOT}:/scripts" \
+    -v "${PROMENADE_TMP}:/${PROMENADE_TMP_LOCAL}" \
+    -v "${DOCKER_SOCK}:${DOCKER_SOCK}" \
+    -e "DOCKER_HOST=unix:/${DOCKER_SOCK}" \
+    -e "PROMENADE_TMP=${PROMENADE_TMP}" \
+    -e "PROMENADE_TMP_LOCAL=/${PROMENADE_TMP_LOCAL}" \
     -e "PROMENADE_ENCRYPTION_KEY=${PROMENADE_ENCRYPTION_KEY}" \
     ${DOCKER_RUN_OPTS[*]} \
     "${IMAGE_PROMENADE_CLI}" \
@@ -42,3 +55,4 @@ docker run --rm -t \
                 -o /scripts \
                 /config/*.yaml ${CERTS_PATH} ${KEYS_PATH}
 
+sudo chmod o-rw $DOCKER_SOCK

@@ -26,7 +26,7 @@ function upload_script() {
   # Copies script to genesis VM
   rsync_cmd "$BASH_SOURCE" "$GENESIS_NAME:/root/airship/"
   set -o pipefail
-  ssh_cmd_raw "$GENESIS_NAME" "GATE_DEBUG=${GATE_DEBUG} NUM_NODES=$1 /root/airship/${BASENAME}" 2>&1 | tee -a "$LOG_FILE"
+  ssh_cmd_raw "$GENESIS_NAME" "KUBECONFIG=${KUBECONFIG} GATE_DEBUG=${GATE_DEBUG} NUM_NODES=$1 /root/airship/${BASENAME}" 2>&1 | tee -a "$LOG_FILE"
   set +o pipefail
 }
 
@@ -99,6 +99,7 @@ if [[ -n "$GATE_UTILS" ]]; then
   upload_script $NUM_NODES
 else
 set +e
+  KUBECONFIG="${KUBECONFIG:-/etc/kubernetes/admin/kubeconfig.yaml}"
   KUBECTL="${KUBECTL:-/usr/local/bin/kubectl}"
   NUM_NODES="${NUM_NODES:-4}"
   PAUSE="${PAUSE:-1}"
