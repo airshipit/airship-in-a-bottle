@@ -77,6 +77,8 @@ if which helm; then
 fi
 
 kubectl get --all-namespaces -o wide pods > "${BASE_DIR}/pods.txt"
+kubectl get pods --all-namespaces -o yaml  > "${BASE_DIR}/pods_long.yaml"
+kubectl describe pods --all-namespaces > "${BASE_DIR}/pods_describe.txt"
 
 get_namespaces | \
     xargs -r -n 1 -P "${PARALLELISM_FACTOR}" -I {} bash -c 'get_pods "$@"' _ {} | \
