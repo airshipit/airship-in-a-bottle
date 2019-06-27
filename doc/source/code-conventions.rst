@@ -208,5 +208,5 @@ prevail.
 
 
 .. _Docker: https://www.docker.com/
-.. _helm-toolkit: https://git.openstack.org/cgit/openstack/openstack-helm-infra/tree/helm-toolkit
+.. _helm-toolkit: https://opendev.org/openstack/openstack-helm-infra/src/branch/master/helm-toolkit
 .. _Openstack-Helm: https://wiki.openstack.org/wiki/Openstack-helm

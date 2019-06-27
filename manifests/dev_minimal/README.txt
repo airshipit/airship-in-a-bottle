@@ -52,7 +52,7 @@ behind a corporate proxy.
 
      armada:
        type: git
-       location: https://git.openstack.org/openstack/airship-armada
+       location: https://opendev.org/airship/armada
        subpath: charts/armada
        reference: 709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
        proxy_server: http://your.proxy.address:port

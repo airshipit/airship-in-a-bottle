@@ -70,11 +70,11 @@ POST_GENESIS_DELAY=${POST_GENESIS_DELAY:-60}
 
 
 # Repositories
-AIRSHIP_IN_A_BOTTLE_REPO=${AIRSHIP_IN_A_BOTTLE_REPO:-"https://git.openstack.org/openstack/airship-in-a-bottle"}
+AIRSHIP_IN_A_BOTTLE_REPO=${AIRSHIP_IN_A_BOTTLE_REPO:-"https://opendev.org/airship/airship-in-a-bottle"}
 AIRSHIP_IN_A_BOTTLE_REFSPEC=${AIRSHIP_IN_A_BOTTLE_REFSPEC:-""}
-PEGLEG_REPO=${PEGLEG_REPO:-"https://git.openstack.org/openstack/airship-pegleg.git"}
+PEGLEG_REPO=${PEGLEG_REPO:-"https://opendev.org/airship/pegleg.git"}
 PEGLEG_REFSPEC=${PEGLEG_REFSPEC:-""}
-SHIPYARD_REPO=${SHIPYARD_REPO:-"https://git.openstack.org/openstack/airship-shipyard.git"}
+SHIPYARD_REPO=${SHIPYARD_REPO:-"https://opendev.org/airship/shipyard.git"}
 SHIPYARD_REFSPEC=${SHIPYARD_REFSPEC:-""}
 
 # Images

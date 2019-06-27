@@ -33,11 +33,11 @@ export HOSTCIDR=10.0.0.0/24
 export NODE_NET_IFACE=ens3
 
 # Repositories
-# export AIRSHIP_IN_A_BOTTLE_REPO="https://git.openstack.org/openstack/airship-in-a-bottle"
+# export AIRSHIP_IN_A_BOTTLE_REPO="https://opendev.org/airship/airship-in-a-bottle"
 # export AIRSHIP_IN_A_BOTTLE_REFSPEC=""
-# export PEGLEG_REPO="https://git.openstack.org/openstack/airship-pegleg.git"
+# export PEGLEG_REPO="https://opendev.org/airship/pegleg.git"
 # export PEGLEG_REFSPEC=""
-# export SHIPYARD_REPO="https://git.openstack.org/openstack/airship-shipyard.git"
+# export SHIPYARD_REPO="https://opendev.org/airship/shipyard.git"
 # export SHIPYARD_REFSPEC=""
 
 # Images

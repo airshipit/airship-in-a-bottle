@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
     node.vm.hostname = "n0"
     node.vm.provision :shell, inline: <<-SHELL
       mkdir /root/deploy
-      git clone https://git.airshipit.org/airship-in-a-bottle /root/deploy/airship-in-a-bottle
+      git clone https://opendev.org/airship/airship-in-a-bottle /root/deploy/airship-in-a-bottle
       cd /root/deploy/airship-in-a-bottle/manifests/dev_single_node
       ./airship-in-a-bottle.sh -y
     SHELL
