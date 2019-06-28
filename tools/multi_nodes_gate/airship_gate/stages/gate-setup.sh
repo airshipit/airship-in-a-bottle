@@ -21,6 +21,9 @@ source "${GATE_UTILS}"
 # note: currently not used
 # registry_up
 
+# Create temp_dir structure
+mkdir -p ${TEMP_DIR}/console
+
 # SSH setup
 ssh_setup_declare
 

@@ -21,8 +21,11 @@ GATE_UTILS=${WORKSPACE}/multi_nodes_gate/airship_gate/lib/all.sh
 
 GATE_COLOR=${GATE_COLOR:-1}
 
-MANIFEST_ARG=${1:-multinode_deploy}
-GATE_MANIFEST=${WORKSPACE}/multi_nodes_gate/airship_gate/manifests/${MANIFEST_ARG}.json
+MANIFEST_ARG=${1:-"multinode_deploy"}
+if [ -z "$GATE_MANIFEST" ]
+then
+  GATE_MANIFEST=${WORKSPACE}/multi_nodes_gate/airship_gate/manifests/${MANIFEST_ARG}.json
+fi
 
 export GATE_COLOR
 export GATE_MANIFEST

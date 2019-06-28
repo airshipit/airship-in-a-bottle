@@ -91,6 +91,8 @@ shipyard_action_wait() {
   ACTION_ID=$(shipyard_cmd create action ${options} "${action}")
   ACTION_ID=$(echo "${ACTION_ID}" | grep -oE 'action/[0-9A-Z]+')
 
+  echo "Action ${ACTION_ID} has been created."
+
   while true;
   do
     if [[ $(date +%s) -ge ${end_time} ]]
