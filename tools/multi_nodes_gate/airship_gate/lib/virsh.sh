@@ -157,11 +157,13 @@ vm_create() {
         log Creating VM "${NAME}" and bootstrapping the boot drive
         virt-install \
             --name "${NAME}" \
+            --os-variant ubuntu16.04 \
             --virt-type kvm \
             --cpu ${VIRSH_CPU_OPTS} \
-            --graphics vnc,listen=0.0.0.0 \
+            --serial file,path=${TEMP_DIR}/console/${NAME}.log \
+            --graphics none \
             --noautoconsole \
-            --network "network=airship_gate,model=virtio" \
+            --network "network=airship_gate,model=virtio,address.type=pci,address.slot=0x03" \
             --mac="${MAC_ADDRESS}" \
             --vcpus "$(config_vm_vcpus ${NAME})" \
             --memory "$(config_vm_memory ${NAME})" \
@@ -177,11 +179,13 @@ vm_create() {
         log Creating VM "${NAME}"
         virt-install \
             --name "${NAME}" \
+            --os-variant ubuntu16.04 \
             --virt-type kvm \
             --cpu ${VIRSH_CPU_OPTS} \
-            --graphics vnc,listen=0.0.0.0 \
+            --graphics none \
+            --serial file,path=${TEMP_DIR}/console/${NAME}.log \
             --noautoconsole \
-            --network "network=airship_gate,model=virtio" \
+            --network "network=airship_gate,model=virtio,address.type=pci,address.slot=0x03" \
             --mac="${MAC_ADDRESS}" \
             --vcpus "$(config_vm_vcpus ${NAME})" \
             --memory "$(config_vm_memory ${NAME})" \
@@ -266,7 +270,8 @@ vol_create_root() {
         virsh vol-create-as \
             --pool "${VIRSH_POOL}" \
             --name "airship-gate-${NAME}.img" \
-            --capacity 64G \
+            --capacity 56G \
+            --allocation 56G \
             --format qcow2 \
             --backing-vol 'airship-gate-base.img' \
             --backing-vol-format qcow2 &>> "${LOG_FILE}"
@@ -274,8 +279,9 @@ vol_create_root() {
         virsh vol-create-as \
             --pool "${VIRSH_POOL}" \
             --name "airship-gate-${NAME}.img" \
-            --capacity 64G \
-            --format qcow2 &>> "${LOG_FILE}"
+            --capacity 56G \
+            --allocation 56G \
+            --format raw &>> "${LOG_FILE}"
     fi
 }
 
