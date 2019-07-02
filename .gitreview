@@ -1,4 +1,4 @@
 [gerrit]
 host=review.opendev.org
 port=29418
-project=airship/in-a-bottle
+project=airship/airship-in-a-bottle
