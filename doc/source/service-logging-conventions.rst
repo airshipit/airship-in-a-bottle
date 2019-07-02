@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _service-logging-conventions:
 
 Service Logging Conventions
@@ -63,3 +69,5 @@ allowing for finer grained logging control than a global logger.
 
 
 .. _Python Logging: https://docs.python.org/3/library/logging.html
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/

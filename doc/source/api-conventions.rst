@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _api-conventions:
 
 API Conventions
@@ -349,3 +355,5 @@ Success message example::
 
 .. _Kubernetes standard for error representation: https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#response-status-kind
 .. _HTTP status code: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/

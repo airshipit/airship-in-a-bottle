@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _ubuntu_security_guide:
 
 Canonical Ubuntu/MAAS Security Guide
@@ -245,3 +251,6 @@ References
   * `Ubuntu 16.04 Server Guide <https://help.ubuntu.com/16.04/serverguide/security.html>`_
   * `Canonical MAAS 2.3 TLS <https://docs.maas.io/2.3/en/installconfig-network-ssl>`_
   * `Canonical MAAS 2.4 TLS <https://docs.maas.io/2.4/en/installconfig-network-ssl>`_
+
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/

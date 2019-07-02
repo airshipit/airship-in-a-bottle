@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _dev-getting-started:
 
 Getting Started for Airship Developers
@@ -160,3 +166,5 @@ of testing.
 .. _quay.io: https://quay.io/organization/airshipit
 .. _stestr: https://github.com/mtreinish/stestr
 .. _YAML: http://yaml.org/
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/
