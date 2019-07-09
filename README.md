@@ -16,7 +16,7 @@ To get started, run the following in a fresh Ubuntu 16.04 VM
 ```
 sudo -i
 mkdir -p /root/deploy && cd "$_"
-git clone https://git.openstack.org/openstack/airship-in-a-bottle
+git clone https://opendev.org/airship/airship-in-a-bottle
 cd /root/deploy/airship-in-a-bottle/manifests/dev_single_node
 ./airship-in-a-bottle.sh
 ```
@@ -25,7 +25,7 @@ Or, alternatively, if you have Vagrant installed, just run the following
 (only libvirt/kvm hypervisor is tested, but vagrant box supports VMware
 Desktop/Workstation/Fusion, Parallels, and Hyper-V):
 ```
-curl -O https://git.airshipit.org/cgit/airship-in-a-bottle/plain/Vagrantfile
+curl -O https://opendev.org/airship/airship-in-a-bottle/raw/branch/master/Vagrantfile
 vagrant up
 ```
 
