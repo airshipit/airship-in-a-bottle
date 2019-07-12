@@ -164,11 +164,11 @@ function get_repo() {
   # $3 = refspec of repo pull
   cd ${WORKSPACE}
   if [ ! -d "$1" ] ; then
-    git clone $2
+    git clone $2 $1
     if [ -n "$3" ] ; then
-      cd $1
+      pushd $1
       git pull $2 $3
-      cd ..
+      popd
     fi
   fi
 }
@@ -176,11 +176,11 @@ function get_repo() {
 function setup_repos() {
   # Clone and pull the various git repos
   # Get pegleg for the script only. Image is separately referenced.
-  get_repo airship-pegleg ${PEGLEG_REPO} ${PEGLEG_REFSPEC}
+  get_repo pegleg ${PEGLEG_REPO} ${PEGLEG_REFSPEC}
   # Get airship-in-a-bottle for the design
   get_repo airship-in-a-bottle ${AIRSHIP_IN_A_BOTTLE_REPO} ${AIRSHIP_IN_A_BOTTLE_REFSPEC}
   # Get Shipyard for use after genesis
-  get_repo airship-shipyard ${SHIPYARD_REPO} ${SHIPYARD_REFSPEC}
+  get_repo shipyard ${SHIPYARD_REPO} ${SHIPYARD_REFSPEC}
 }
 
 function configure_dev_configurables() {
@@ -302,9 +302,9 @@ function setup_deploy_site() {
   mkdir -p ${WORKSPACE}/site
   cp ${WORKSPACE}/airship-in-a-bottle/manifests/common/creds.sh ${WORKSPACE}/site
   cp ${WORKSPACE}/genesis/*.yaml ${WORKSPACE}/site
-  cp ${WORKSPACE}/airship-shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
-  cp ${WORKSPACE}/airship-shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
-  cp ${WORKSPACE}/airship-shipyard/tools/execute_shipyard_action.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/shipyard/tools/run_shipyard.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/shipyard/tools/shipyard_docker_base_command.sh ${WORKSPACE}/site
+  cp ${WORKSPACE}/shipyard/tools/execute_shipyard_action.sh ${WORKSPACE}/site
   print_shipyard_info2
 }
 function print_shipyard_info2() {
