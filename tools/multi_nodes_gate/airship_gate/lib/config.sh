@@ -134,3 +134,9 @@ join_array() {
   shift
   echo "$*"
 }
+
+besteffort() {
+  set +e
+  $@
+  set -e
+}
