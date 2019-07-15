@@ -83,7 +83,7 @@ PEGLEG_IMAGE=${PEGLEG_IMAGE:-"quay.io/airshipit/pegleg:ac6297eae6c51ab2f13a96978
 PROMENADE_IMAGE=${PROMENADE_IMAGE:-"quay.io/airshipit/promenade:master"}
 
 # Command shortcuts
-PEGLEG=${WORKSPACE}/airship-pegleg/tools/pegleg.sh
+PEGLEG=${WORKSPACE}/pegleg/tools/pegleg.sh
 
 function check_preconditions() {
   set +x
