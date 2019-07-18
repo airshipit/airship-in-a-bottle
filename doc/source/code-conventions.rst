@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _code-conventions:
 
 Code and Project Conventions
@@ -210,3 +216,5 @@ prevail.
 .. _Docker: https://www.docker.com/
 .. _helm-toolkit: https://opendev.org/openstack/openstack-helm-infra/src/branch/master/helm-toolkit
 .. _Openstack-Helm: https://wiki.openstack.org/wiki/Openstack-helm
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/

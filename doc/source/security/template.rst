@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _template_security_guide:
 
 Template for a Security Guide Topic
@@ -68,3 +74,6 @@ References
 ----------
 
 `Transport Layer Security (TLS) <https://www.sans.org/reading-room/whitepapers/protocols/ssl-tls-beginners-guide-1029>`_
+
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/

@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. note::
 
   These documents will be reworked to reflect the changes associated with
@@ -64,3 +70,5 @@ Conventions and Standards
 .. _Treasuremap: https://opendev.org/airship/treasuremap/
 .. _yaml: http://yaml.org/
 .. _specifications: /projects/specs
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/

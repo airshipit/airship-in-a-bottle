@@ -14,6 +14,12 @@
       License for the specific language governing permissions and limitations
       under the License.
 
+.. warning::
+
+  This repository is being deprecated. Project documentation has moved to the
+  `Airship Docs`_ project, and Airship-in-a-Bottle environment will be merged
+  into the `Airship Treasuremap`_ project.
+
 .. _documentation-conventions:
 
 Documentation
@@ -85,3 +91,5 @@ main/index page of their `Readthedocs`_ documentation:
 .. _Github: https://github.com
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/index.html
 .. _Treasuremap: https://opendev.org/airship/treasuremap/
+.. _Airship Docs: https://airship-docs.readthedocs.org
+.. _Airship Treasuremap: https://opendev.org/airship/treasuremap/
