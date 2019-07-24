@@ -29,33 +29,9 @@ export CALICO_DIR="${BASE_DIR}/calico"
 
 mkdir -p "${BASE_DIR}"
 
-PARALLELISM_FACTOR=2
-
-function get_namespaces () {
-    kubectl get namespaces -o name | awk -F '/' '{ print $NF }'
-}
-
-function get_pods () {
-    NAMESPACE=$1
-    kubectl get pods -n "${NAMESPACE}" -o name --show-all | awk -F '/' '{ print $NF }' | xargs -L1 -P 1 -I {} echo "${NAMESPACE}" {}
-}
-export -f get_pods
-
-function get_pod_logs () {
-    NAMESPACE=${1% *}
-    POD=${1#* }
-    INIT_CONTAINERS=$(kubectl get pod "${POD}" -n "${NAMESPACE}" -o json | jq -r '.spec.initContainers[]?.name')
-    CONTAINERS=$(kubectl get pod "${POD}" -n "${NAMESPACE}" -o json | jq -r '.spec.containers[].name')
-    POD_DIR="${BASE_DIR}/pod-logs/${NAMESPACE}/${POD}"
-    mkdir -p "${POD_DIR}"
-    for CONTAINER in ${INIT_CONTAINERS} ${CONTAINERS}; do
-        echo "get_pod_logs() [${NAMESPACE}] ${POD} ${CONTAINER}"
-        kubectl logs "${POD}" -n "${NAMESPACE}" -c "${CONTAINER}" > "${POD_DIR}/${CONTAINER}.txt"
-    done
-}
-
-
-export -f get_pod_logs
+export OBJECT_TYPE="${OBJECT_TYPE:="pods"}"
+export CLUSTER_TYPE="${CLUSTER_TYPE:="namespace"}"
+export PARALLELISM_FACTOR="${PARALLELISM_FACTOR:=2}"
 
 function get_releases () {
     helm list --all --short
@@ -80,9 +56,8 @@ kubectl get --all-namespaces -o wide pods > "${BASE_DIR}/pods.txt"
 kubectl get pods --all-namespaces -o yaml  > "${BASE_DIR}/pods_long.yaml"
 kubectl describe pods --all-namespaces > "${BASE_DIR}/pods_describe.txt"
 
-get_namespaces | \
-    xargs -r -n 1 -P "${PARALLELISM_FACTOR}" -I {} bash -c 'get_pods "$@"' _ {} | \
-    xargs -r -n 2 -P "${PARALLELISM_FACTOR}" -I {} bash -c 'get_pod_logs "$@"' _ {}
+./tools/multi_nodes_gate/airship_gate/bin/namespace-objects.sh
+./tools/multi_nodes_gate/airship_gate/bin/cluster-objects.sh
 
 iptables-save > "${BASE_DIR}/iptables"
 
@@ -104,4 +79,3 @@ if which calicoctl; then
 fi
 
 tar zcf "${SUBDIR_NAME}.tgz" -C "${TEMP_DIR}" "${SUBDIR_NAME}"
-
