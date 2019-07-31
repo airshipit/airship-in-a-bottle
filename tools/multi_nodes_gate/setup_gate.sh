@@ -100,7 +100,7 @@ net.bridge.bridge-nf-call-ip6tables = 0
 net.bridge.bridge-nf-call-iptables = 0
 net.bridge.bridge-nf-call-arptables = 0
 EOF
-sudo sysctl -p /etc/sysctl.d/60-bridge.conf
+besteffort sudo sysctl -p /etc/sysctl.d/60-bridge.conf
 
 if [[ ${REQUIRE_RELOG} -eq 1 ]]; then
     echo
