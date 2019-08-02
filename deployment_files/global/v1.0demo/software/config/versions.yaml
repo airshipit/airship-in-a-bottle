@@ -177,12 +177,12 @@ data:
         type: git
       drydock:
         location: https://opendev.org/airship/drydock
-        reference: d93d6d5a0a370ced536180612d1ade708e29cd47
+        reference: e2bb7cb0f9dd4f65cf2bcd6db50b6c6fc2c7f1de
         subpath: charts/drydock
         type: git
       drydock-htk:
         location: https://opendev.org/openstack/openstack-helm-infra
-        reference: 4ad893eb1a5ebd7c7660c70d44d1316862268cf1
+        reference: 09366598b57a9ecd19fd34f5f844685bb6f2aabd
         subpath: helm-toolkit
         type: git
       ingress:
@@ -207,12 +207,12 @@ data:
         type: git
       maas:
         location: https://opendev.org/airship/maas
-        reference: bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        reference: 922db8aee15f978b9e58a9a2a1c0052febc41aa8
         subpath: charts/maas
         type: git
       maas-htk:
         location: https://opendev.org/openstack/openstack-helm-infra
-        reference: 4ad893eb1a5ebd7c7660c70d44d1316862268cf1
+        reference: 09366598b57a9ecd19fd34f5f844685bb6f2aabd
         subpath: helm-toolkit
         type: git
       mariadb:
@@ -442,13 +442,13 @@ data:
   images:
     ucp:
       armada:
-        api: quay.io/airshipit/armada:709eb9ec9b78b76fd18b817ae6c7a32221e9d0c4
+        api: quay.io/airshipit/armada:b5432ea39423a14ab41f218cb23301aeb3b1500d-ubuntu_xenial
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_user: docker.io/openstackhelm/heat:ocata
-        helm: lachlanevenson/k8s-helm:v2.10.0
-        tiller: gcr.io/kubernetes-helm/tiller:v2.10.0
+        helm: lachlanevenson/k8s-helm:v2.14.1
+        tiller: gcr.io/kubernetes-helm/tiller:v2.14.1
       deckhand:
         db_init: docker.io/postgres:9.5
         db_sync: quay.io/airshipit/deckhand:464d2c0ea5ebb50bee615a0e0f2624c3aa40d9bd
@@ -461,21 +461,21 @@ data:
         divingbell: docker.io/ubuntu:16.04
       drydock:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        drydock: quay.io/airshipit/drydock:d93d6d5a0a370ced536180612d1ade708e29cd47
+        drydock: quay.io/airshipit/drydock:e2bb7cb0f9dd4f65cf2bcd6db50b6c6fc2c7f1de
         drydock_db_init: docker.io/postgres:9.5
-        drydock_db_sync: quay.io/airshipit/drydock:d93d6d5a0a370ced536180612d1ade708e29cd47
+        drydock_db_sync: quay.io/airshipit/drydock:e2bb7cb0f9dd4f65cf2bcd6db50b6c6fc2c7f1de
         ks_endpoints: docker.io/openstackhelm/heat:ocata
         ks_service: docker.io/openstackhelm/heat:ocata
         ks_user: docker.io/openstackhelm/heat:ocata
       maas:
-        bootstrap: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        bootstrap: quay.io/airshipit/maas-region-controller:922db8aee15f978b9e58a9a2a1c0052febc41aa8
         db_init: docker.io/postgres:9.5
-        db_sync: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        db_sync: quay.io/airshipit/maas-region-controller:922db8aee15f978b9e58a9a2a1c0052febc41aa8
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-        export_api_key: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
-        maas_cache: quay.io/airshipit/sstream-cache:bb81a1cecd27520b858e00f0bcf519ceb2d07582
-        maas_rack: quay.io/airshipit/maas-rack-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
-        maas_region: quay.io/airshipit/maas-region-controller:bb81a1cecd27520b858e00f0bcf519ceb2d07582
+        export_api_key: quay.io/airshipit/maas-region-controller:922db8aee15f978b9e58a9a2a1c0052febc41aa8
+        maas_cache: quay.io/airshipit/sstream-cache:922db8aee15f978b9e58a9a2a1c0052febc41aa8
+        maas_rack: quay.io/airshipit/maas-rack-controller:922db8aee15f978b9e58a9a2a1c0052febc41aa8
+        maas_region: quay.io/airshipit/maas-region-controller:922db8aee15f978b9e58a9a2a1c0052febc41aa8
       promenade:
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
         image_repo_sync: docker.io/docker:17.07.0
@@ -496,7 +496,7 @@ data:
         shipyard_db_init: docker.io/postgres:9.5
         shipyard_db_sync: quay.io/airshipit/shipyard:4dd6b484d11e86ad51da733841b9ef137421d461
       tiller:
-        tiller: gcr.io/kubernetes-helm/tiller:v2.10.0
+        tiller: gcr.io/kubernetes-helm/tiller:v2.14.1
       barbican:
         bootstrap: docker.io/openstackhelm/heat:ocata
         dep_check: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1

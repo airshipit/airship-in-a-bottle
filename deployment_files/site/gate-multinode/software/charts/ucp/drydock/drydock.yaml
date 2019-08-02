@@ -24,6 +24,11 @@ data:
   values:
     manifests:
       secret_ssh_key: true
+    pod:
+      security_context:
+        drydock:
+          pod:
+            runAsUser: 0
     conf:
       drydock:
         plugins:
