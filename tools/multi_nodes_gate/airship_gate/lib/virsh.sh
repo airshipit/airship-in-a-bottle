@@ -1,3 +1,4 @@
+#!/bin/bash
 img_base_declare() {
     log Validating base image exists
     if ! virsh vol-key --pool "${VIRSH_POOL}" --vol airship-gate-base.img > /dev/null; then
@@ -24,6 +25,8 @@ img_base_declare() {
 iso_gen() {
     NAME=${1}
     ADDL_USERDATA="${2}"
+    disk_layout="$(config_vm_disk_layout "$NAME")"
+    vm_disks="$(config_disk_list "$disk_layout")"
 
     if virsh vol-key --pool "${VIRSH_POOL}" --vol "cloud-init-${NAME}.iso" &> /dev/null; then
         log Removing existing cloud-init ISO for "${NAME}"
@@ -46,9 +49,51 @@ iso_gen() {
     export NTP_SERVERS=$(join_array ',' $NTP_SERVERS)
     envsubst < "${TEMPLATE_DIR}/user-data.sub" > user-data
 
+    fs_header="false"
+    for disk in $vm_disks
+    do
+      disk_format="$(config_disk_format "$disk_layout" "$disk")"
+      if [[ ! -z "$disk_format" ]]
+      then
+        if [[ "$fs_header" = "false" ]]
+        then
+          echo "fs_header:" >> user-data
+          fs_header="true"
+        fi
+        export FS_TYPE=$(config_format_type "$disk_format")
+        export DISK_DEVICE="$disk"
+        envsubst < "${TEMPLATE_DIR}/disk-data.sub" >> user-data
+        unset FS_TYPE
+        unset DISK_DEVICE
+      fi
+    done
+
+    echo >> user-data
+
+    mount_header="false"
+    for disk in $vm_disks
+    do
+      disk_format="$(config_disk_format "$disk_layout" "$disk")"
+      if [[ ! -z "$disk_format" ]]
+      then
+        if [[ "$mount_header" = "false" ]]
+        then
+          echo "mounts:" >> user-data
+          mount_header="true"
+        fi
+
+        export MOUNTPOINT=$(config_format_mount "$disk_format")
+        export DISK_DEVICE="$disk"
+        envsubst < "${TEMPLATE_DIR}/mount-data.sub" >> user-data
+        unset MOUNTPOINT
+        unset DISK_DEVICE
+      fi
+    done
+
+    echo >> user-data
+
     if [[ ! -z "${ADDL_USERDATA}" ]]
     then
-      echo >> user-data
       echo -e "${ADDL_USERDATA}" >> user-data
     fi
 
@@ -143,15 +188,80 @@ vm_create() {
       DISK_OPTS="bus=virtio,cache=none,format=qcow2,io=native"
     elif [[ "$IO_PROF" == "safe" ]]
     then
-      DISK_OPTS="bus=virtio,cache=directsync,discard=unmap,format=qcow2,io=native"
-    else
-      DISK_OPTS="bus=virtio,format=qcow2"
-    fi
-    vol_create_root "${NAME}"
-    wait
 
-    if [[ "$(config_vm_bootstrap ${NAME})" == "true" ]]; then
-        iso_gen "${NAME}" "$(config_vm_userdata ${NAME})"
+vm_create_vols(){
+    NAME="$1"
+    disk_layout="$(config_vm_disk_layout "$NAME")"
+    vm_disks="$(config_disk_list "$disk_layout")"
+    bs_disk="$(config_layout_bootstrap "$disk_layout")"
+    bs_vm="$(config_vm_bootstrap "${NAME}")"
+
+    vols=()
+    for disk in $vm_disks
+    do
+      io_prof=$(config_disk_ioprofile "${disk_layout}" "${disk}")
+      size=$(config_disk_size "${disk_layout}" "${disk}")
+
+      if [[ "$bs_vm" = "true" && "$bs_disk" = "$disk" ]]
+      then
+        vol_create_disk "$NAME" "$disk" "$size" "true"
+      else
+        vol_create_disk "$NAME" "$disk" "$size"
+      fi
+
+      if [[ "$io_prof" == "fast" ]]
+      then
+        DISK_OPTS="bus=virtio,cache=none,format=qcow2,io=native"
+      elif [[ "$io_prof" == "safe" ]]
+      then
+        DISK_OPTS="bus=virtio,cache=directsync,discard=unmap,format=qcow2,io=native"
+      else
+        DISK_OPTS="bus=virtio,format=qcow2"
+      fi
+
+      vol_cmd="--disk vol=${VIRSH_POOL}/airship-gate-${NAME}-${disk}.img,target=${disk},size=${size},${DISK_OPTS}"
+      vols+=($vol_cmd)
+    done
+
+    echo "${vols[@]}"
+}
+
+vol_create_disk() {
+    NAME=${1}
+    DISK=${2}
+    SIZE=${3}
+    BS=${4}
+
+    if virsh vol-list --pool "${VIRSH_POOL}" | grep "airship-gate-${NAME}-${DISK}.img" &> /dev/null; then
+        log Deleting previous volume "airship-gate-${NAME}-${DISK}.img"
+        virsh vol-delete --pool "${VIRSH_POOL}" "airship-gate-${NAME}-${DISK}.img" &>> "${LOG_FILE}"
+    fi
+
+    log Creating volume "${DISK}" for "${NAME}"
+    if [[ "$BS" == "true" ]]; then
+        virsh vol-create-as \
+            --pool "${VIRSH_POOL}" \
+            --name "airship-gate-${NAME}-${DISK}.img" \
+            --capacity "${SIZE}"G \
+            --format qcow2 \
+            --backing-vol 'airship-gate-base.img' \
+            --backing-vol-format qcow2 &>> "${LOG_FILE}"
+    else
+        virsh vol-create-as \
+            --pool "${VIRSH_POOL}" \
+            --name "airship-gate-${NAME}-${DISK}.img" \
+            --capacity "${SIZE}"G \
+            --format qcow2 &>> "${LOG_FILE}"
+    fi
+}
+
+vm_create() {
+    set -x
+    NAME=${1}
+    DISK_OPTS="$(vm_create_vols "${NAME}")"
+
+    if [[ "$(config_vm_bootstrap "${NAME}")" == "true" ]]; then
+        iso_gen "${NAME}" "$(config_vm_userdata "${NAME}")"
         wait
 
         log Creating VM "${NAME}" and bootstrapping the boot drive
@@ -168,7 +278,7 @@ vm_create() {
             --vcpus "$(config_vm_vcpus ${NAME})" \
             --memory "$(config_vm_memory ${NAME})" \
             --import \
-            --disk "vol=${VIRSH_POOL}/airship-gate-${NAME}.img,${DISK_OPTS}" \
+            $DISK_OPTS \
             --disk "vol=${VIRSH_POOL}/cloud-init-${NAME}.iso,device=cdrom" &>> "${LOG_FILE}"
 
         ssh_wait "${NAME}"
@@ -190,7 +300,7 @@ vm_create() {
             --vcpus "$(config_vm_vcpus ${NAME})" \
             --memory "$(config_vm_memory ${NAME})" \
             --import \
-            --disk "vol=${VIRSH_POOL}/airship-gate-${NAME}.img,${DISK_OPTS}" &>> "${LOG_FILE}"
+            $DISK_OPTS &>> "${LOG_FILE}"
     fi
     virsh autostart "${NAME}"
 }
@@ -198,7 +308,7 @@ vm_create() {
 vm_create_validate() {
     NAME=${1}
     vm_create "${name}"
-    if [[ "$(config_vm_bootstrap ${name})" == "true" ]]
+    if [[ "$(config_vm_bootstrap "${name}")" == "true" ]]
     then
       vm_validate "${name}"
     fi
@@ -253,35 +363,6 @@ vm_validate() {
     if ! virsh list --name | grep "${NAME}" &> /dev/null; then
         log VM "${NAME}" did not start correctly.
         exit 1
-    fi
-}
-
-
-vol_create_root() {
-    NAME=${1}
-
-    if virsh vol-list --pool "${VIRSH_POOL}" | grep "airship-gate-${NAME}.img" &> /dev/null; then
-        log Deleting previous volume "airship-gate-${NAME}.img"
-        virsh vol-delete --pool "${VIRSH_POOL}" "airship-gate-${NAME}.img" &>> "${LOG_FILE}"
-    fi
-
-    log Creating root volume for "${NAME}"
-    if [[ "$(config_vm_bootstrap ${NAME})" == "true" ]]; then
-        virsh vol-create-as \
-            --pool "${VIRSH_POOL}" \
-            --name "airship-gate-${NAME}.img" \
-            --capacity 56G \
-            --allocation 56G \
-            --format qcow2 \
-            --backing-vol 'airship-gate-base.img' \
-            --backing-vol-format qcow2 &>> "${LOG_FILE}"
-    else
-        virsh vol-create-as \
-            --pool "${VIRSH_POOL}" \
-            --name "airship-gate-${NAME}.img" \
-            --capacity 56G \
-            --allocation 56G \
-            --format raw &>> "${LOG_FILE}"
     fi
 }
 

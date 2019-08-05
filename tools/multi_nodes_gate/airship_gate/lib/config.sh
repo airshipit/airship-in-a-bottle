@@ -1,4 +1,6 @@
+#!/bin/bash
 export TEMP_DIR=${TEMP_DIR:-$(mktemp -d)}
+export NAMEKEY_FILE=${NAMEKEY_FILE:-"$HOME/.airship_key"}
 export DEFINITION_DEPOT="${TEMP_DIR}/site_yaml/"
 export RENDERED_DEPOT="${TEMP_DIR}/rendered_yaml/"
 export CERT_DEPOT="${TEMP_DIR}/cert_yaml/"
@@ -82,6 +84,64 @@ config_vm_bootstrap() {
     fi
 }
 
+config_disk_list() {
+    layout_name="${1}"
+    jq -cr ".disk_layouts.${layout_name} | keys | join(\" \")" < "${GATE_MANIFEST}"
+}
+
+config_disk_details() {
+    layout_name="${1}"
+    disk_device="${2}"
+    jq -cr ".disk_layouts.${layout_name}.${disk_device}" < "${GATE_MANIFEST}"
+}
+
+config_disk_size() {
+    layout_name="$1"
+    disk_device="$2"
+    jq -cr ".disk_layouts.${layout_name}.${disk_device}.size" < "${GATE_MANIFEST}"
+}
+
+config_disk_format() {
+    layout_name="$1"
+    disk_device="$2"
+    do_format=$(jq -cr ".disk_layouts.${layout_name}.${disk_device} | has(\"format\")")
+
+    if [[ "$do_format" == "true" && "$disk_device" != "$(config_layout_bootstrap "$layout_name")" ]]
+    then
+      jq -cr ".disk_layouts.${layout_name}.${disk_device}.format" < "${GATE_MANIFEST}"
+    else
+      echo ""
+    fi
+}
+
+config_format_type() {
+    JSON="$1"
+    echo "$JSON" | jq -cr '.type'
+}
+
+config_format_mount() {
+    JSON="$1"
+    echo "$JSON" | jq -cr '.mountpoint'
+}
+
+config_disk_ioprofile() {
+    layout_name="$1"
+    disk_device="$2"
+    jq -cr ".disk_layouts.${layout_name}.${disk_device}.io_profile"
+}
+
+# Find which disk in a layout should
+# get the bootstrap image
+config_layout_bootstrap() {
+    layout_name="${1}"
+    jq -cr ".disk_layouts.${layout_name} | keys[] as \$k | {device: (\$k)} + (.[\$k]) | select(.bootstrap) | .device " < "${GATE_MANIFEST}"
+}
+
+config_vm_disk_layout() {
+    nodename=${1}
+    jq -cr ".vm.${nodename}.disk_layout" < "${GATE_MANIFEST}"
+}
+
 config_vm_userdata() {
     nodename=${1}
     val=$(jq -cr ".vm.${nodename}.userdata" < "${GATE_MANIFEST}")
@@ -139,4 +199,56 @@ besteffort() {
   set +e
   $@
   set -e
+}
+
+get_namekey() {
+  if [[ -r "$NAMEKEY_FILE" ]]
+  then
+    key=$(cat "$NAMEKEY_FILE")
+  else
+    key=$(openssl rand -hex 4)
+    echo -n "$key" > $NAMEKEY_FILE
+  fi
+
+  echo -n "$key"
+}
+
+is_netspec(){
+  value="$1"
+
+  if echo -n "$value" | grep -q "[0-9]+@.+"
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+netspec_netname(){
+  netspec="$1"
+
+  echo -n "$netspec" | awk -F'@' '{print $2}'
+}
+
+netspec_vlan(){
+  netspec="$1"
+
+  echo -n "$netspec" | awk -F'@' '{print $1}'
+}
+
+# We'll just add the conversions as needed
+cidr_to_netmask() {
+  cidr="$1"
+  netbits="$(echo "$cidr" | awk -F'/' '{print $2}')"
+
+  case "$netbits" in
+    32)
+      netmask="255.255.255.255"
+      ;;
+    24)
+      netmask="255.255.255.0"
+      ;;
+  esac
+
+  echo "$netmask"
 }
