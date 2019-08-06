@@ -48,24 +48,66 @@ config_vm_names() {
     jq -cr '.vm | keys | join(" ")' < "${GATE_MANIFEST}"
 }
 
-config_vm_ip() {
-    nodename=${1}
-    jq -cr ".vm.${nodename}.ip" < "${GATE_MANIFEST}"
+config_vm_iface_list() {
+    nodename="$1"
+    jq -cr ".vm.${nodename}.networking | del(.addresses) | keys | .[]" < "${GATE_MANIFEST}"
 }
 
-config_vm_mac() {
-    nodename=${1}
-    jq -cr ".vm.${nodename}.mac" < "${GATE_MANIFEST}"
+config_vm_iface_mac() {
+    nodename="$1"
+    interface="$2"
+    jq -cr ".vm.${nodename}.networking.${interface}.mac" < "${GATE_MANIFEST}"
 }
 
-config_vm_io() {
-    nodename=${1}
-    io_profile=$(jq -cr ".vm.${nodename}.io_profile" < "${GATE_MANIFEST}")
-    if [[ -z "$io_profile" ]]
+# What network this VM interface should be attached to
+config_vm_iface_network() {
+    nodename="$1"
+    interface="$2"
+    jq -cr ".vm.${nodename}.networking.${interface}.attachment.network" < "${GATE_MANIFEST}"
+}
+
+# What VLANs on a network should be attached to this node
+config_vm_iface_vlans() {
+    nodename="$1"
+    interface="$2"
+    jq -cr ".vm.${nodename}.networking.${interface}.attachment.vlans | select(.!=null)" < "${GATE_MANIFEST}"
+}
+
+# PCI slot for this VM interface
+config_vm_iface_slot() {
+    nodename="$1"
+    interface="$2"
+    jq -cr ".vm.${nodename}.networking.${interface}.pci.slot" < "${GATE_MANIFEST}"
+}
+
+# PCI card port for this VM interface
+config_vm_iface_port() {
+    nodename="$1"
+    interface="$2"
+    jq -cr ".vm.${nodename}.networking.${interface}.pci.port" < "${GATE_MANIFEST}"
+}
+
+# The IP address for the VM for a network. If vlan is also specified, the VLAN
+# on the network
+config_vm_net_ip() {
+    nodename="$1"
+    network="$2"
+    vlan="$3"
+
+    if is_netspec "$network"
     then
-      io_profile="fast"
+      vlan=$(netspec_vlan "$network")
+      network=$(netspec_netname "$network")
     fi
-    echo -n "$io_profile"
+
+    if [[ -z "$vlan" ]]
+    then
+      query=".vm.${nodename}.networking.addresses.${network}.ip"
+    else
+      query=".vm.${nodename}.networking.addresses.${network}.vlans.${vlan}.ip"
+    fi
+
+    jq -cr "$query" < "${GATE_MANIFEST}"
 }
 
 config_vm_vcpus() {
@@ -155,6 +197,224 @@ config_vm_userdata() {
 config_bgp_as() {
     as_number=${1}
     jq -cr ".bgp.${as_number}" < "${GATE_MANIFEST}"
+}
+
+config_net_list() {
+  jq -cr '.networking | keys | .[]' < "${GATE_MANIFEST}"
+}
+
+config_net_vlan_list() {
+  network="$1"
+
+  jq -cr ".networking.${network}.layer2.vlans // {} | keys | .[]" < "${GATE_MANIFEST}"
+}
+
+config_net_cidr() {
+  network="$1"
+  vlan="$2"
+
+  if is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network}.layer3.cidr"
+  else
+    query=".networking.${network}.vlans.${vlan}.layer3.cidr"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
+}
+
+config_net_is_layer3() {
+  network="$1"
+  vlan="$2"
+
+  if is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network} | has(\"layer3\")"
+  else
+    query=".network.${network}.vlans.${vlan} | has(\"layer3\")"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
+}
+
+# Find the layer 3 network tagged for a particular
+# role - this can be either a native or vlan network
+# If multiple networks have a role, the results is
+# undefined
+config_netspec_for_role() {
+  role="$1"
+
+  set -x
+
+  for net in $(config_net_list)
+  do
+    if config_net_has_role "$net" "$role"
+    then
+      netspec="$net"
+    fi
+
+    for vlan in $(config_net_vlan_list "$net")
+    do
+      if config_vlan_has_role "$net" "$vlan" "$role"
+      then
+        netspec="${vlan}@${net}"
+      fi
+    done
+  done
+
+  echo -n "$netspec"
+}
+
+config_net_has_role() {
+  netname="$1"
+  role="$2"
+
+  value="$(jq -cr ".networking.${netname}.roles | contains([\"${role}\"])" < "$GATE_MANIFEST")"
+
+  if [ "$value" == "true" ]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+config_vlan_has_role() {
+  netname="$1"
+  vlan="$2"
+  role="$3"
+
+  value="$(jq -cr " .networking.${netname}.vlans.${vlan}.roles | contains([\"${role}\"])" < "$GATE_MANIFEST")"
+
+  if [ "$value" == "true" ]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+config_net_selfip() {
+  network="$1"
+  vlan="$2"
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network}.layer3.address"
+  else
+    query=".networking.${network}.vlans.${vlan}.layer3.address"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
+}
+
+config_net_selfip_cidr() {
+  network="$1"
+  vlan="$2"
+
+  if  is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  selfip=$(config_net_selfip "$network" "$vlan")
+  netcidr=$(config_net_cidr "$network" "$vlan")
+  netbits=$(echo "$netcidr" | awk -F '/' '{print $2}')
+
+  printf "%s/%s" "$selfip" "$netbits"
+}
+
+config_net_gateway() {
+  network="$1"
+  vlan="$2"
+
+  if is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network}.layer3.gateway"
+  else
+    query=".networking.${network}.vlans.${vlan}.layer3.gateway"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
+}
+
+config_net_routemode() {
+  network="$1"
+  vlan="$2"
+
+  if is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network}.layer3.routing.mode"
+  else
+    query=".networking.${network}.vlans.${vlan}.layer3.routing.mode"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
+}
+
+config_net_mtu() {
+  network="$1"
+  vlan="$2"
+
+  if is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network}.layer2.mtu // 1500"
+  else
+    query=".networking.${network}.vlans.${vlan}.layer2.mtu // 1500"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
+}
+
+config_net_mac() {
+  network="$1"
+  vlan="$2"
+
+  if is_netspec "$network"
+  then
+    vlan=$(netspec_vlan "$network")
+    network=$(netspec_netname "$network")
+  fi
+
+  if [[ -z "$vlan" ]]
+  then
+    query=".networking.${network}.layer2.address"
+  else
+    query=".networking.${network}.vlans.${vlan}.layer2.address"
+  fi
+
+  jq -cr "$query" < "${GATE_MANIFEST}"
 }
 
 config_ingress_domain() {

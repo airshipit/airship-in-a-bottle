@@ -1,8 +1,0 @@
-<network>
-  <name>airship_gate</name>
-  <forward mode='nat'/>
-  <bridge name='airship_gate' stp='on' delay='0'/>
-  <mac address='52:54:00:e7:94:3f'/>
-  <ip address='172.24.1.1' netmask='255.255.255.0'>
-  </ip>
-</network>

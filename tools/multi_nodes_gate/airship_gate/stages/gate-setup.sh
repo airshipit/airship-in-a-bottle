@@ -30,7 +30,6 @@ ssh_setup_declare
 # Virsh setup
 pool_declare
 img_base_declare
-net_declare
 
 # Make libvirtd available via SSH
 make_virtmgr_account

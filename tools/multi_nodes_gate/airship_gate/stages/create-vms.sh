@@ -17,5 +17,6 @@ set -e
 
 source "${GATE_UTILS}"
 
+nets_declare
 vm_clean_all
 vm_create_all
