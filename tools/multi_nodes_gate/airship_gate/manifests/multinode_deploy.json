@@ -31,6 +31,23 @@
       }
     }
   },
+  "networking":{
+    "pxe": {
+      "roles":["ssh","bgp", "dns"],
+      "layer2": {
+        "mtu": 1500,
+        "address": "52:54:00:00:dd:31"
+      },
+      "layer3": {
+        "cidr": "172.24.1.0/24",
+        "address": "172.24.1.1",
+        "gateway": "172.24.1.1",
+        "routing": {
+          "mode": "nat"
+        }
+      }
+    }
+  },
   "stages": [
     {
       "name": "Gate Setup",
@@ -98,49 +115,120 @@
     "build": {
       "memory": 3072,
       "vcpus": 2,
-      "mac": "52:54:00:00:be:31",
-      "ip": "172.24.1.9",
-      "io_profile": "fast",
-      "disk_profile": "simple",
+      "disk_layout": "simple",
+      "networking": {
+        "ens3": {
+          "mac": "52:54:00:00:be:31",
+          "pci": {
+            "slot": 3,
+            "port": 0
+          },
+          "attachment": {
+            "network": "pxe"
+          }
+        },
+        "addresses": {
+          "pxe": {
+             "ip": "172.24.1.9"
+          }
+        }
+      },
       "bootstrap": true,
       "userdata": "packages: [docker.io]"
     },
     "n0" : {
       "memory": 24576,
       "vcpus": 16,
-      "mac": "52:54:00:00:a4:31",
-      "ip": "172.24.1.10",
-      "io_profile": "fast",
-      "disk_profile": "simple",
+      "disk_layout": "simple",
+      "networking": {
+        "ens3": {
+          "mac": "52:54:00:00:a4:31",
+          "pci": {
+            "slot": 3,
+            "port": 0
+          },
+          "attachment": {
+            "network": "pxe"
+          }
+        },
+        "addresses": {
+          "pxe": {
+            "ip": "172.24.1.10"
+          }
+        }
+      },
       "bootstrap": true
     },
     "n1" : {
       "memory": 3072,
       "vcpus": 2,
-      "mac": "52:54:00:00:a3:31",
-      "ip": "172.24.1.11",
-      "io_profile": "fast",
-      "disk_profile": "simple",
+      "disk_layout": "simple",
+      "networking": {
+        "ens3": {
+          "mac": "52:54:00:00:a3:31",
+          "pci": {
+            "slot": 3,
+            "port": 0
+          },
+          "attachment": {
+            "network": "pxe"
+          }
+        },
+        "addresses": {
+          "pxe": {
+            "ip": "172.24.1.11"
+          }
+        }
+      },
       "bootstrap": false
     },
     "n2" : {
       "memory": 3072,
       "vcpus": 2,
-      "mac": "52:54:00:1a:95:0d",
-      "ip": "172.24.1.12",
-      "io_profile": "fast",
-      "disk_profile": "simple",
+      "disk_layout": "simple",
+      "networking": {
+        "ens3": {
+          "mac": "52:54:00:1a:95:0d",
+          "pci": {
+            "slot": 3,
+            "port": 0
+          },
+          "attachment": {
+            "network": "pxe"
+          }
+        },
+        "addresses": {
+          "pxe": {
+            "ip": "172.24.1.12"
+          }
+        }
+      },
       "bootstrap": false
     },
     "n3" : {
       "memory": 3072,
       "vcpus": 2,
-      "mac": "52:54:00:31:c2:36",
-      "ip": "172.24.1.13",
-      "io_profile": "fast",
-      "disk_profile": "simple",
+      "disk_layout": "simple",
+      "networking": {
+        "ens3": {
+          "mac": "52:54:00:31:c2:36",
+          "pci": {
+            "slot": 3,
+            "port": 0
+          },
+          "attachment": {
+            "network": "pxe"
+          }
+        },
+        "addresses": {
+          "pxe": {
+            "ip": "172.24.1.13"
+          }
+        }
+      },
       "bootstrap": false
     }
+
   },
   "bgp" : {
     "quagga_as": 64688,

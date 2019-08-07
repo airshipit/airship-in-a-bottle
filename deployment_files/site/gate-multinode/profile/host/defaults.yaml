@@ -9,7 +9,6 @@ metadata:
   storagePolicy: cleartext
 data:
   hardware_profile: 'GenericVM'
-  primary_network: 'gp'
   oob:
     type: 'libvirt'
     libvirt_uri: 'qemu+ssh://virtmgr@172.24.1.1/system'
@@ -32,13 +31,15 @@ data:
               mountpoint: '/boot'
               fstype: 'ext4'
               mount_options: 'defaults'
+
+  primary_network: pxe
   interfaces:
     ens3:
-      device_link: 'gp'
+      device_link: pxe
       slaves:
-        - 'ens3'
+        - ens3
       networks:
-        - 'gp'
+        - pxe
   platform:
     image: 'xenial'
     kernel: 'hwe-16.04'
