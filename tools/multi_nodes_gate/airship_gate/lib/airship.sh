@@ -15,7 +15,8 @@ install_ingress_ca() {
 
 shipard_cmd_stdout() {
   # needed to reach airship endpoints
-  dns_server=$(config_vm_ip "${BUILD_NAME}")
+  dns_netspec="$(config_netspec_for_role "dns")"
+  dns_server=$(config_vm_net_ip "${BUILD_NAME}" "$dns_netspec")
   install_ingress_ca
   ssh_cmd "${BUILD_NAME}" \
     docker run -t --network=host \
@@ -43,7 +44,8 @@ shipyard_cmd() {
 }
 
 drydock_cmd_stdout() {
-  dns_server=$(config_vm_ip "${BUILD_NAME}")
+  dns_netspec="$(config_netspec_for_role "dns")"
+  dns_server=$(config_vm_net_ip "${BUILD_NAME}" "$dns_netspec")
   install_ingress_ca
   ssh_cmd "${BUILD_NAME}" \
     docker run -t --network=host \

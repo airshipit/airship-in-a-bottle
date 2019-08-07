@@ -5,7 +5,8 @@ QUAGGA_BGPD_CONF="${TEMP_DIR}/bgpd.conf"
 bgp_router_config() {
   quagga_as_number=$(config_bgp_as "quagga_as")
   calico_as_number=$(config_bgp_as "calico_as")
-  quagga_ip=$(config_vm_ip "build")
+  bgp_net="$(config_netspec_for_role "bgp")"
+  quagga_ip=$(config_vm_net_ip "build" "$bgp_net")
 
   QUAGGA_AS=${quagga_as_number} CALICO_AS=${calico_as_number} QUAGGA_IP=${quagga_ip} envsubst '${QUAGGA_AS} ${CALICO_AS} ${QUAGGA_IP}' < "${TEMPLATE_DIR}/bgpd_conf.sub" > "${QUAGGA_BGPD_CONF}"
 
