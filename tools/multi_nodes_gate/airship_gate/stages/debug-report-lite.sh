@@ -17,6 +17,8 @@ set -ex
 
 source "${GATE_UTILS}"
 
+export KUBECONFIG="${KUBECONFIG:-/etc/kubernetes/admin/kubeconfig.yaml}"
+
 ssh_cmd "${GENESIS_NAME}" apt-get install -y jq
 
 # Copies script and virtmgr private key to genesis VM
@@ -24,7 +26,7 @@ ssh_cmd "${GENESIS_NAME}" mkdir -p /root/airship
 rsync_cmd "${REPO_ROOT}/tools/multi_nodes_gate/airship_gate/bin/debug-report-lite.sh" "${GENESIS_NAME}:/root/airship/"
 
 set -o pipefail
-ssh_cmd "${GENESIS_NAME}" /root/airship/debug-report-lite.sh 2>&1 | tee -a "${LOG_FILE}"
+ssh_cmd_raw "${GENESIS_NAME}" "KUBECONFIG=${KUBECONFIG} /root/airship/debug-report-lite.sh" 2>&1 | tee -a "${LOG_FILE}"
 set +o pipefail
 
 rsync_cmd "${GENESIS_NAME}:/root/debug-${GENESIS_NAME}.tgz" .
