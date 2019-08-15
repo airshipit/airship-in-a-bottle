@@ -100,6 +100,10 @@ net.bridge.bridge-nf-call-ip6tables = 0
 net.bridge.bridge-nf-call-iptables = 0
 net.bridge.bridge-nf-call-arptables = 0
 EOF
+cat << EOF | sudo tee /etc/udev/rules.d/99-bridge.rules
+ACTION=="add", SUBSYSTEM=="module", KERNEL=="br_netfilter", \
+                RUN+="/lib/systemd/systemd-sysctl --prefix=/net/bridge"
+EOF
 besteffort sudo sysctl -p /etc/sysctl.d/60-bridge.conf
 
 if [[ ${REQUIRE_RELOG} -eq 1 ]]; then
