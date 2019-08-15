@@ -107,6 +107,7 @@ echo "Using rendered manifests file '$rendered_file'"
 
 # env vars which can be set if you want to disable
 : ${DISABLE_SECCOMP_PROFILE:=}
+: ${DISABLE_APPARMOR_PROFILES:=}
 
 
 ###############################################################################
@@ -131,4 +132,40 @@ if [[ ! $DISABLE_SECCOMP_PROFILE ]]; then
 
   # seccomp_default
   install_file "$path" "$content" "$permissions"
+fi
+
+###############################################################################
+# bootaction: apparmor-profiles
+###############################################################################
+
+if [[ ! $DISABLE_APPARMOR_PROFILES ]]; then
+
+  manifests_lookup "$rendered_file" "drydock/BootAction/v1" \
+                   "apparmor-profiles" "['data']['assets']" "get_size"
+
+  if [[ -n "$RESULT" ]] && [[ $RESULT -gt 0 ]]; then
+
+    # Fetch apparmor profile data
+    LAST=$(( $RESULT - 1 ))
+    for i in `seq 0 $LAST`; do
+
+      manifests_lookup "$rendered_file" "drydock/BootAction/v1" \
+                       "apparmor-profiles" "['data']['assets'][$i]['path']"
+      path="$RESULT"
+      echo "apparmor profiles asset[$i] path located: '$path'"
+      manifests_lookup "$rendered_file" "drydock/BootAction/v1" \
+                       "apparmor-profiles" "['data']['assets'][$i]['permissions']"
+      permissions="$RESULT"
+      echo "apparmor profiles asset[$i] permissions located: '$permissions'"
+      manifests_lookup "$rendered_file" "drydock/BootAction/v1" \
+                       "apparmor-profiles" "['data']['assets'][$i]['data']"
+      content="$RESULT"
+      echo "apparmor profiles assets[$i] data located: '$content'"
+
+      install_file "$path" "$content" "$permissions"
+    done
+
+    # reload all apparmor profiles
+    systemctl reload apparmor.service
+  fi
 fi
