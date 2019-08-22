@@ -141,7 +141,7 @@ fi
 if [[ ! $DISABLE_APPARMOR_PROFILES ]]; then
 
   manifests_lookup "$rendered_file" "drydock/BootAction/v1" \
-                   "apparmor-profiles" "['data']['assets']" "get_size"
+                   "apparmor-profiles" "['data']['assets']" "get_size" "true"
 
   if [[ -n "$RESULT" ]] && [[ $RESULT -gt 0 ]]; then
 
