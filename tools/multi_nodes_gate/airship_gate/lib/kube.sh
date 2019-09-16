@@ -3,7 +3,7 @@
 kubectl_apply() {
     VIA=${1}
     FILE=${2}
-    ssh_cmd "${VIA}" "cat ${FILE} | kubectl apply -f -"
+    ssh_cmd_raw "${VIA}" "KUBECONFIG=${KUBECONFIG}" "cat ${FILE} | kubectl apply -f -"
 }
 
 kubectl_cmd() {
@@ -11,7 +11,8 @@ kubectl_cmd() {
 
     shift
 
-    ssh_cmd "${VIA}" kubectl "${@}"
+    ssh_cmd_raw "${VIA}" "KUBECONFIG=${KUBECONFIG}" kubectl "${@}"
+
 }
 
 kubectl_wait_for_pod() {

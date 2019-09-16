@@ -17,6 +17,7 @@
 set +e
 set -x
 
+KUBECONFIG="${KUBECONFIG:-/etc/kubernetes/admin/kubeconfig.yaml}"
 source "${GATE_UTILS}"
 
 ERROR_DIR="${TEMP_DIR}/errors"
