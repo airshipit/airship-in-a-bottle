@@ -38,7 +38,7 @@ function get_objects () {
     export NAME=${input[1]#*/}
     echo "${OBJECT}/${NAME}"
     export BASE_DIR="${BASE_DIR:="/tmp"}"
-    DIR="${BASE_DIR}/ojects/cluster/${OBJECT}"
+    DIR="${BASE_DIR}/objects/cluster/${OBJECT}"
     mkdir -p ${DIR}
     kubectl get ${OBJECT} ${NAME} -o yaml > "${DIR}/${NAME}.yaml"
     kubectl describe ${OBJECT} ${NAME} > "${DIR}/${NAME}.txt"
