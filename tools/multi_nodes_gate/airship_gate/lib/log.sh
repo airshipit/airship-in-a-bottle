@@ -28,6 +28,13 @@ log_warn() {
     echo -e "${d} ${*}" >> "${LOG_FILE}"
 }
 
+log_error() {
+    d=$(date --utc)
+    echo -e "${C_MUTE}${d}${C_CLEAR} ${C_ERROR}ERROR${C_CLEAR} ${*}" 1>&2
+    echo -e "${d} ${*}" >> "${LOG_FILE}"
+}
+
+
 log_stage_diagnostic_header() {
             echo -e "  ${C_ERROR}= Diagnostic Report =${C_CLEAR}"
 }

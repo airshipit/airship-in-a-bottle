@@ -36,7 +36,17 @@ source "${GATE_UTILS}"
 
 sudo chmod -R 755 "${TEMP_DIR}"
 
-STAGES_DIR=${WORKSPACE}/multi_nodes_gate/airship_gate/stages
+STAGES_DIRS=()
+
+while read -r libdir;do
+  if [[ -d "$libdir" && -r "$libdir" && -x "$libdir" ]]; then
+    STAGES_DIRS+=( "$libdir" )
+  else
+    log_warn "Could not find stage library $libdir, skipping..."
+  fi
+done <<< "$(jq -c ".configuration.stage_libraries // [] | .[]" < "$GATE_MANIFEST")"
+
+STAGES_DIRS+=( "${WORKSPACE}/multi_nodes_gate/airship_gate/stages" )
 
 log_temp_dir
 echo
@@ -50,8 +60,18 @@ jq -cr '.stages | .[]' "${GATE_MANIFEST}" > "${STAGES}"
 exec 3< "$STAGES"
 while read -u 3 stage; do
     NAME=$(echo "${stage}" | jq -r .name)
-    STAGE_CMD=${STAGES_DIR}/$(echo "${stage}" | jq -r .script)
-
+    STAGE_SCRIPT="$(echo "${stage}" | jq -r .script)"
+    STAGE_CMD=""
+    for dir in "${STAGES_DIRS[@]}"; do
+      if [ -x "${dir}/${STAGE_SCRIPT}" ]; then
+        STAGE_CMD="${dir}/${STAGE_SCRIPT}"
+        break;
+      fi
+    done
+    if [ -z "$STAGE_CMD" ]; then
+      log_error "$STAGE_SCRIPT not found!"
+      exit 1
+    fi
     log_stage_header "${NAME}"
     if echo "${stage}" | jq -r '.arguments | @sh' | xargs "${STAGE_CMD}" ; then
         log_stage_success
