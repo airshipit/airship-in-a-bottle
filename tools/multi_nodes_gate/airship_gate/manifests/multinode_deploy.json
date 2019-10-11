@@ -10,6 +10,27 @@
     "172.24.1.5": ["maas"],
     "172.24.1.6": ["drydock","shipyard","keystone"]
   },
+  "disk_layouts":{
+    "simple": {
+      "vda": {
+        "size": 30,
+        "io_profile": "fast",
+        "bootstrap": true
+      }
+    },
+    "multi": {
+      "vda": {
+        "size": 15,
+        "io_profile": "fast",
+        "bootstrap": true
+      },
+      "vdb": {
+        "size": 15,
+        "io_profile": "fast",
+        "format": {"type": "ext4", "mountpoint": "/var"}
+      }
+    }
+  },
   "stages": [
     {
       "name": "Gate Setup",
@@ -80,15 +101,17 @@
       "mac": "52:54:00:00:be:31",
       "ip": "172.24.1.9",
       "io_profile": "fast",
+      "disk_profile": "simple",
       "bootstrap": true,
       "userdata": "packages: [docker.io]"
     },
     "n0" : {
-      "memory": 32768,
+      "memory": 24576,
       "vcpus": 16,
       "mac": "52:54:00:00:a4:31",
       "ip": "172.24.1.10",
       "io_profile": "fast",
+      "disk_profile": "simple",
       "bootstrap": true
     },
     "n1" : {
@@ -97,6 +120,7 @@
       "mac": "52:54:00:00:a3:31",
       "ip": "172.24.1.11",
       "io_profile": "fast",
+      "disk_profile": "simple",
       "bootstrap": false
     },
     "n2" : {
@@ -105,6 +129,7 @@
       "mac": "52:54:00:1a:95:0d",
       "ip": "172.24.1.12",
       "io_profile": "fast",
+      "disk_profile": "simple",
       "bootstrap": false
     },
     "n3" : {
@@ -113,6 +138,7 @@
       "mac": "52:54:00:31:c2:36",
       "ip": "172.24.1.13",
       "io_profile": "fast",
+      "disk_profile": "simple",
       "bootstrap": false
     }
   },
