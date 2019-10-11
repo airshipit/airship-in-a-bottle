@@ -1,3 +1,4 @@
+#!/bin/bash
 export GENESIS_NAME=n0
 export BUILD_NAME=build
 export SSH_CONFIG_DIR=${WORKSPACE}/multi_nodes_gate/airship_gate/config-ssh

@@ -457,7 +457,7 @@ join_array() {
 
 besteffort() {
   set +e
-  $@
+  "$@"
   set -e
 }
 
@@ -467,7 +467,7 @@ get_namekey() {
     key=$(cat "$NAMEKEY_FILE")
   else
     key=$(openssl rand -hex 4)
-    echo -n "$key" > $NAMEKEY_FILE
+    echo -n "$key" > "$NAMEKEY_FILE"
   fi
 
   echo -n "$key"

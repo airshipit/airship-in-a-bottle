@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ source "${GATE_UTILS}"
 # registry_up
 
 # Create temp_dir structure
-mkdir -p ${TEMP_DIR}/console
+mkdir -p "${TEMP_DIR}/console"
 
 # SSH setup
 ssh_setup_declare

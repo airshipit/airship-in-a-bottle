@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ -v GATE_COLOR && ${GATE_COLOR} = "1" ]]; then
     C_CLEAR="\e[0m"
     C_ERROR="\e[38;5;160m"

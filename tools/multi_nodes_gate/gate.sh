@@ -58,7 +58,7 @@ jq -cr '.stages | .[]' "${GATE_MANIFEST}" > "${STAGES}"
 # the read below, since we will be calling SSH, which will consume the
 # remaining data on STDIN.
 exec 3< "$STAGES"
-while read -u 3 stage; do
+while read -r -u 3 stage; do
     NAME=$(echo "${stage}" | jq -r .name)
     STAGE_SCRIPT="$(echo "${stage}" | jq -r .script)"
     STAGE_CMD=""

@@ -1,3 +1,4 @@
+#!/bin/bash
 docker_ps() {
     VIA="${1}"
     ssh_cmd "${VIA}" docker ps -a

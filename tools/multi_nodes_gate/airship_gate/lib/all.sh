@@ -1,7 +1,10 @@
+#!/bin/bash
 set -e
 
-LIB_DIR=$(realpath "$(dirname "${BASH_SOURCE}")")
-REPO_ROOT=$(realpath "$(dirname "${BASH_SOURCE}")/../../../..")
+LIB_DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
+export LIB_DIR
+REPO_ROOT=$(realpath "$(dirname "${BASH_SOURCE[0]}")/../../../..")
+export REPO_ROOT
 
 source "$LIB_DIR"/config.sh
 source "$LIB_DIR"/const.sh

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 nginx_down() {
     REGISTRY_ID=$(docker ps -qa -f name=promenade-nginx)
     if [ "x${REGISTRY_ID}" != "x" ]; then
@@ -22,7 +24,7 @@ nginx_cache_and_replace_tar_urls() {
     TAR_NUM=0
     mkdir -p "${NGINX_DIR}"
     for file in "$@"; do
-        grep -Po "^ +tar_url: \K.+$" "${file}" | while read tar_url ; do
+        grep -Po "^ +tar_url: \K.+$" "${file}" | while read -r tar_url ; do
             # NOTE(mark-burnet): Does not yet ignore repeated files.
             DEST_PATH="${NGINX_DIR}/cached-tar-${TAR_NUM}.tgz"
             log "Caching ${tar_url} in file: ${DEST_PATH}"

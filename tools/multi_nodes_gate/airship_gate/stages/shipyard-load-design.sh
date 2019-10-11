@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,9 +29,9 @@ while getopts "og" opt; do
         o)
             OMIT_CERTS=1
             ;;
-	g)
+        g)
             OMIT_GATE=1
-	    ;;
+            ;;
         *)
             echo "Unknown option"
             exit 1
@@ -57,7 +57,7 @@ ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/site"
 rsync_cmd "${DEFINITION_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/site/"
 
 sleep 120
-check_configdocs_result "$(shipyard_cmd create configdocs design --directory=${BUILD_WORK_DIR}/site --replace)"
+check_configdocs_result "$(shipyard_cmd create configdocs design "--directory=${BUILD_WORK_DIR}/site" --replace)"
 
 # Skip certs/gate if already part of site manifests
 if [[ -n "${USE_EXISTING_SECRETS}" ]]
@@ -70,14 +70,14 @@ if [[ "${OMIT_CERTS}" == "0" ]]
 then
   ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/certs"
   rsync_cmd "${CERT_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/certs/"
-  check_configdocs_result "$(shipyard_cmd create configdocs certs --directory=${BUILD_WORK_DIR}/certs --append)"
+  check_configdocs_result "$(shipyard_cmd create configdocs certs "--directory=${BUILD_WORK_DIR}/certs" --append)"
 fi
 
 if [[ "${OMIT_GATE}" == "0" ]]
 then
   ssh_cmd "${BUILD_NAME}" mkdir -p "${BUILD_WORK_DIR}/gate"
   rsync_cmd "${GATE_DEPOT}"/*.yaml "${BUILD_NAME}:${BUILD_WORK_DIR}/gate/"
-  check_configdocs_result "$(shipyard_cmd create configdocs gate --directory=${BUILD_WORK_DIR}/gate --append)"
+  check_configdocs_result "$(shipyard_cmd create configdocs gate "--directory=${BUILD_WORK_DIR}/gate" --append)"
 fi
 
 check_configdocs_result "$(shipyard_cmd commit configdocs)"

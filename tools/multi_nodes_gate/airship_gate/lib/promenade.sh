@@ -1,3 +1,5 @@
+#!/bin/bash
+
 promenade_health_check() {
     VIA=${1}
     log "Checking Promenade API health"

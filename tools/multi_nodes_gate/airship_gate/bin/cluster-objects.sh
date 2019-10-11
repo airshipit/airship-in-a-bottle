@@ -20,14 +20,14 @@ export CLUSTER_TYPE="${CLUSTER_TYPE:="node,clusterrole,clusterrolebinding,storag
 export PARALLELISM_FACTOR="${PARALLELISM_FACTOR:=2}"
 
 function list_objects () {
-    printf ${CLUSTER_TYPE} | xargs -d ',' -I {} -P1 -n1 bash -c 'echo "$@"' _ {}
+    printf "%s" ${CLUSTER_TYPE} | xargs -d ',' -I {} -P1 -n1 bash -c 'echo "$@"' _ {}
 }
 
 export -f list_objects
 
 function name_objects () {
     export OBJECT=$1
-    kubectl get ${OBJECT} -o name | xargs -L1 -I {} -P1 -n1 bash -c 'echo "${OBJECT} ${1#*/}"' _ {}
+    kubectl get "${OBJECT}" -o name | xargs -L1 -I {} -P1 -n1 bash -c "echo ${OBJECT} ${1#*/}" _ {}
 }
 
 export -f name_objects
@@ -39,9 +39,9 @@ function get_objects () {
     echo "${OBJECT}/${NAME}"
     export BASE_DIR="${BASE_DIR:="/tmp"}"
     DIR="${BASE_DIR}/objects/cluster/${OBJECT}"
-    mkdir -p ${DIR}
-    kubectl get ${OBJECT} ${NAME} -o yaml > "${DIR}/${NAME}.yaml"
-    kubectl describe ${OBJECT} ${NAME} > "${DIR}/${NAME}.txt"
+    mkdir -p "${DIR}"
+    kubectl get "${OBJECT}" "${NAME}" -o yaml > "${DIR}/${NAME}.yaml"
+    kubectl describe "${OBJECT}" "${NAME}" > "${DIR}/${NAME}.txt"
 }
 
 export -f get_objects

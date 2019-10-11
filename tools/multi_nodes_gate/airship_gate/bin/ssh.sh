@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,10 +15,10 @@
 
 set -e
 
-SCRIPT_DIR=$(realpath $(dirname $0))
-WORKSPACE=$(realpath ${SCRIPT_DIR}/../../..)
-GATE_UTILS=${WORKSPACE}/multi_nodes_gate/airship_gate/lib/all.sh
+SCRIPT_DIR="$(realpath "$(dirname "$0")")"
+WORKSPACE="$(realpath "${SCRIPT_DIR}/../../..")"
+GATE_UTILS="${WORKSPACE}/multi_nodes_gate/airship_gate/lib/all.sh"
 
-source ${GATE_UTILS}
+source "${GATE_UTILS}"
 
-exec ssh -F ${SSH_CONFIG_DIR}/config $@
+exec ssh -F "${SSH_CONFIG_DIR}/config" "$@"

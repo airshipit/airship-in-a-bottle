@@ -20,64 +20,64 @@ shipard_cmd_stdout() {
   install_ingress_ca
   ssh_cmd "${BUILD_NAME}" \
     docker run -t --network=host \
-    --dns ${dns_server} \
+    --dns "${dns_server}" \
     -v "${BUILD_WORK_DIR}:/work" \
-    -e OS_AUTH_URL=${AIRSHIP_KEYSTONE_URL} \
+    -e OS_AUTH_URL="${AIRSHIP_KEYSTONE_URL}" \
     -e OS_USERNAME=shipyard \
     -e OS_USER_DOMAIN_NAME=default \
     -e OS_PASSWORD="${SHIPYARD_PASSWORD}" \
     -e OS_PROJECT_DOMAIN_NAME=default \
     -e OS_PROJECT_NAME=service \
     -e REQUESTS_CA_BUNDLE=/work/ingress_ca.pem \
-    --entrypoint /usr/local/bin/shipyard "${IMAGE_SHIPYARD_CLI}" $* 2>&1
+    --entrypoint /usr/local/bin/shipyard "${IMAGE_SHIPYARD_CLI}" "$@" 2>&1
 }
 
 shipyard_cmd() {
   if [[ ! -z "${LOG_FILE}" ]]
   then
     set -o pipefail
-    shipard_cmd_stdout $* | tee -a "${LOG_FILE}"
+    shipard_cmd_stdout "$@" | tee -a "${LOG_FILE}"
     set +o pipefail
   else
-    shipard_cmd_stdout $*
+    shipard_cmd_stdout "$@"
   fi
 }
 
 drydock_cmd_stdout() {
   dns_netspec="$(config_netspec_for_role "dns")"
-  dns_server=$(config_vm_net_ip "${BUILD_NAME}" "$dns_netspec")
+  dns_server="$(config_vm_net_ip "${BUILD_NAME}" "$dns_netspec")"
   install_ingress_ca
   ssh_cmd "${BUILD_NAME}" \
     docker run -t --network=host \
-    --dns ${dns_server} \
+    --dns "${dns_server}" \
     -v "${BUILD_WORK_DIR}:/work" \
     -e DD_URL=http://drydock-api.ucp.svc.cluster.local:9000 \
-    -e OS_AUTH_URL=${AIRSHIP_KEYSTONE_URL} \
+    -e OS_AUTH_URL="${AIRSHIP_KEYSTONE_URL}" \
     -e OS_USERNAME=shipyard \
     -e OS_USER_DOMAIN_NAME=default \
     -e OS_PASSWORD="${SHIPYARD_PASSWORD}" \
     -e OS_PROJECT_DOMAIN_NAME=default \
     -e OS_PROJECT_NAME=service \
     -e REQUESTS_CA_BUNDLE=/work/ingress_ca.pem \
-    --entrypoint /usr/local/bin/drydock "${IMAGE_DRYDOCK_CLI}" $* 2>&1
+    --entrypoint /usr/local/bin/drydock "${IMAGE_DRYDOCK_CLI}" "$@" 2>&1
 }
 drydock_cmd() {
   if [[ ! -z "${LOG_FILE}" ]]
   then
     set -o pipefail
-    drydock_cmd_stdout $* | tee -a "${LOG_FILE}"
+    drydock_cmd_stdout "$@" | tee -a "${LOG_FILE}"
     set +o pipefail
   else
-    drydock_cmd_stdout $*
+    drydock_cmd_stdout "$@"
   fi
 }
 
 # Create a shipyard action
 # and poll until completion
 shipyard_action_wait() {
-  action=$1
-  timeout=${2:-3600}
-  poll_time=${3:-60}
+  action="$1"
+  timeout="${2:-3600}"
+  poll_time="${3:-60}"
 
   if [[ $action == "update_site" ]]
   then
@@ -149,7 +149,7 @@ collect_ssh_key() {
       return 0
   fi
 
-  cat << EOF > ${GATE_DEPOT}/airship_ubuntu_ssh_key.yaml
+  cat << EOF > "${GATE_DEPOT}/airship_ubuntu_ssh_key.yaml"
 ---
 schema: deckhand/Certificate/v1
 metadata:
@@ -161,6 +161,6 @@ metadata:
   storagePolicy: cleartext
 data: |-
 EOF
-  cat ${SSH_CONFIG_DIR}/id_rsa.pub | sed -e 's/^/  /' >> ${GATE_DEPOT}/airship_ubuntu_ssh_key.yaml
+   sed -e 's/^/  /' >> "${GATE_DEPOT}/airship_ubuntu_ssh_key.yaml" < "${SSH_CONFIG_DIR}/id_rsa.pub"
 }
 

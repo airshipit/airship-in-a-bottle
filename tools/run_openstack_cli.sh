@@ -21,8 +21,10 @@ OPENSTACK_CLI_IMAGE="${OPENSTACK_CLI_IMAGE:-docker.io/openstackhelm/heat:ocata}"
 
 # Get the path of the directory where the script is located
 # Source Base Docker Command
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd ${DIR} && source openstack_cli_docker_base_command.sh
+DIR="$(dirname "${BASH_SOURCE[0]}")"
+# shellcheck disable=SC1091
+cd "${DIR}" && source openstack_cli_docker_base_command.sh
 
 # Execute OpenStack CLI
-${base_docker_command} ${OPENSTACK_CLI_IMAGE} ${COMMAND} $@
+# shellcheck disable=SC2154
+${base_docker_command} "${OPENSTACK_CLI_IMAGE}" "${COMMAND}" "$@"

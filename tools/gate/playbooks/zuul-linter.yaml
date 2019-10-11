@@ -15,6 +15,16 @@
 - hosts: primary
   tasks:
     - name: Execute a Whitespace Linter check
-      command: find . -not -path "*/\.*" -not -path "*/doc/build/*" -not -name "*.tgz" -type f -exec egrep -l " +$" {} \;
+      command: find . -not -path "*/\.*" -not -path "*/doc/build/*" -not -name "*.tgz" -type f -exec egrep -ln " +$" {} \;
+      register: result
+      failed_when: result.stdout != ""
+    - name: Install shellcheck
+      apt:
+        name: "shellcheck"
+      become: true
+    - name: Execute Shellcheck Against Framework Scripts
+      command: find ./tools -type f -name '*.sh' -exec shellcheck -e SC1090 {} \;
+      args:
+        chdir: "{{ zuul.project.src_dir }}"
       register: result
       failed_when: result.stdout != ""

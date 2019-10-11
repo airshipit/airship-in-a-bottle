@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+#
 # Copyright 2019 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +29,7 @@ manifests_lookup(){
   local allow_fail="$6"
 
   FAIL=false
-  RESULT=`python3 -c "
+  RESULT=$(python3 -c "
 import yaml,sys
 y = yaml.load_all(open('$file'))
 for x in y:
@@ -50,7 +51,7 @@ for x in y:
           print(x$key_path)
           break
 else:
-  sys.exit(1)" 2>&1` || FAIL=true
+  sys.exit(1)" 2>&1) || FAIL=true
 
   if [[ $FAIL = true ]] && [[ $allow_fail != true ]]; then
     echo "Lookup failed for schema '$schema', metadata.name '$mdata_name', key path '$key_path'"
@@ -63,7 +64,8 @@ install_file(){
   local path="$1"
   local content="$2"
   local permissions="$3"
-  local dirname=$(dirname "$path")
+  local dirname
+  dirname=$(dirname "$path")
 
   if [[ ! -d $dirname ]]; then
     mkdir -p "$dirname"
@@ -72,9 +74,9 @@ install_file(){
   if [[ ! -f $path ]] || [ "$(cat "$path")" != "$content" ]; then
     echo "$content" > "$path"
     chmod "$permissions" "$path"
-    FILE_UPDATED=true
+    export FILE_UPDATED=true
   else
-    FILE_UPDATED=false
+    export FILE_UPDATED=false
   fi
 }
 
@@ -90,7 +92,7 @@ fi
 
 if ([[ -z $1 ]] && [[ -z $RENDERED ]]) || [[ $1 =~ .*[hH][eE][lL][pP].* ]]; then
   echo "Missing required script argument"
-  echo "Usage: ./$(basename $BASH_SOURCE) /path/to/rendered/site/manifest.yaml"
+  echo "Usage: ./$(basename "${BASH_SOURCE[0]}") /path/to/rendered/site/manifest.yaml"
   exit 1
 fi
 
@@ -106,8 +108,8 @@ fi
 echo "Using rendered manifests file '$rendered_file'"
 
 # env vars which can be set if you want to disable
-: ${DISABLE_SECCOMP_PROFILE:=}
-: ${DISABLE_APPARMOR_PROFILES:=}
+: "${DISABLE_SECCOMP_PROFILE:=}"
+: "${DISABLE_APPARMOR_PROFILES:=}"
 
 
 ###############################################################################
@@ -146,8 +148,8 @@ if [[ ! $DISABLE_APPARMOR_PROFILES ]]; then
   if [[ -n "$RESULT" ]] && [[ $RESULT -gt 0 ]]; then
 
     # Fetch apparmor profile data
-    LAST=$(( $RESULT - 1 ))
-    for i in `seq 0 $LAST`; do
+    LAST=$(( RESULT - 1 ))
+    for i in $(seq 0 $LAST); do
 
       manifests_lookup "$rendered_file" "drydock/BootAction/v1" \
                        "apparmor-profiles" "['data']['assets'][$i]['path']"

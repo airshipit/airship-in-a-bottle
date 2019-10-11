@@ -1,3 +1,5 @@
+#!/bin/bash
+
 kubectl_apply() {
     VIA=${1}
     FILE=${2}

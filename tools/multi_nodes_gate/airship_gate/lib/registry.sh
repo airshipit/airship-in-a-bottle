@@ -1,3 +1,5 @@
+#!/bin/bash
+
 registry_down() {
     REGISTRY_ID=$(docker ps -qa -f name=registry)
     if [[ ! -z ${REGISTRY_ID} ]]; then
@@ -7,7 +9,7 @@ registry_down() {
 }
 
 registry_list_images() {
-    FILES=($(find ${DEFINITION_DEPOT} -type f -name '*.yaml'))
+    FILES=($(find "${DEFINITION_DEPOT}" -type f -name '*.yaml'))
 
     HOSTNAME_REGEX='[a-zA-Z0-9][a-zA-Z0-9_-]{0,62}'
     DOMAIN_NAME_REGEX="${HOSTNAME_REGEX}(\.${HOSTNAME_REGEX})*"

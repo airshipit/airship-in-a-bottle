@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-if [[ -n $GATE_DEBUG && $GATE_DEBUG = "1" ]]; then
+if [[ -n "$GATE_DEBUG" && "$GATE_DEBUG" = "1" ]]; then
   set -x
 fi
 
@@ -22,9 +22,9 @@ set -e
 
 function upload_script() {
   source "$GATE_UTILS"
-  BASENAME=$(basename $BASH_SOURCE)
+  BASENAME="$(basename "${BASH_SOURCE[0]}")"
   # Copies script to genesis VM
-  rsync_cmd "$BASH_SOURCE" "$GENESIS_NAME:/root/airship/"
+  rsync_cmd "${BASH_SOURCE[0]}" "$GENESIS_NAME:/root/airship/"
   set -o pipefail
   ssh_cmd_raw "$GENESIS_NAME" "KUBECONFIG=${KUBECONFIG} GATE_DEBUG=${GATE_DEBUG} NUM_NODES=$1 /root/airship/${BASENAME}" 2>&1 | tee -a "$LOG_FILE"
   set +o pipefail
@@ -38,7 +38,7 @@ function kubectl_retry() {
     cnt=$((cnt+1))
     if [[ "$ret" -ne "0" ]]; then
       if [[ "$cnt" -lt "$MAX_TRIES" ]]; then
-        sleep $PAUSE
+        sleep "$PAUSE"
       else
         return 1
       fi
@@ -51,12 +51,12 @@ function kubectl_retry() {
 function check_kube_nodes() {
   try=0
   while true; do
-    nodes_list=$(kubectl_retry get nodes --no-headers) || true
-    ret=$?
-    try=$((try+1))
+    nodes_list="$(kubectl_retry get nodes --no-headers)" || true
+    ret="$?"
+    try="$((try+1))"
     if [ "$ret" -ne "0" ]; then
       if [[ "$try" -lt "$MAX_TRIES" ]]; then
-        sleep $PAUSE
+        sleep "$PAUSE"
       else
         echo -e "Can't get nodes"
         return 1
@@ -81,9 +81,9 @@ function check_kube_components() {
     res=$(kubectl_retry get cs -o jsonpath="{.items[*].conditions[?(@.type == \"Healthy\")].status}") || true
     try=$((try+1))
 
-    if $(echo $res | grep -q False); then
+    if echo "$res" | grep -q False; then
       if [[ "$try" -lt "$MAX_TRIES" ]]; then
-        sleep $PAUSE
+        sleep "$PAUSE"
       else
         echo "Error: kubernetes components are not working properly"
         kubectl_retry get cs
@@ -96,7 +96,7 @@ function check_kube_components() {
 }
 
 if [[ -n "$GATE_UTILS" ]]; then
-  upload_script $NUM_NODES
+  upload_script "$NUM_NODES"
 else
 set +e
   KUBECONFIG="${KUBECONFIG:-/etc/kubernetes/admin/kubeconfig.yaml}"
@@ -108,8 +108,7 @@ set +e
     echo "Error: ${KUBECTL} not found"
     exit 1
   fi
-  exit_code=0
-  check_kube_nodes $NUM_NODES
+  check_kube_nodes "$NUM_NODES"
   nodes_status=$?
   check_kube_components
   components_status=$?

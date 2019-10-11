@@ -40,3 +40,5 @@ sudo docker run -t --rm --net=host
 -v /:/host:rshared
 EndOfCommand
 )
+
+export base_docker_command

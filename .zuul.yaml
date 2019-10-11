@@ -27,10 +27,16 @@
       jobs:
         - airship-in-a-bottle-upload-git-mirror
 
+- nodeset:
+    name: airship-integration-single-node
+    nodes:
+      - name: primary
+        label: ubuntu-bionic
+
 - job:
     name: airship-in-a-bottle-linter
     run: tools/gate/playbooks/zuul-linter.yaml
-    nodeset: openstack-helm-single-node
+    nodeset: airship-integration-single-node
 
 - job:
     name: airship-in-a-bottle-upload-git-mirror

@@ -1,8 +1,11 @@
+#!/bin/bash
+
 rsync_cmd() {
     rsync -e "ssh -F ${SSH_CONFIG_DIR}/config" "${@}"
 }
 
 ssh_cmd_raw() {
+    # shellcheck disable=SC2068
     ssh -F "${SSH_CONFIG_DIR}/config" $@
 }
 
@@ -11,8 +14,10 @@ ssh_cmd() {
     shift
     args=$(shell-quote -- "${@}")
     if [[ -v GATE_DEBUG && ${GATE_DEBUG} = "1" ]]; then
+        # shellcheck disable=SC2029
         ssh -F "${SSH_CONFIG_DIR}/config" -v "${HOST}" "${args}"
     else
+        # shellcheck disable=SC2029
         ssh -F "${SSH_CONFIG_DIR}/config" "${HOST}" "${args}"
     fi
 }
@@ -28,9 +33,9 @@ ssh_config_declare() {
       env -i \
         "SSH_CONFIG_DIR=${SSH_CONFIG_DIR}" \
         "SSH_NODE_HOSTNAME=${n}" \
-        "SSH_NODE_IP=$(config_vm_net_ip ${n} "$ssh_net")" \
+        "SSH_NODE_IP=$(config_vm_net_ip "${n}" "$ssh_net")" \
           envsubst < "${TEMPLATE_DIR}/ssh-config-node.sub" >> "${SSH_CONFIG_DIR}/config"
-      if [[ "$(config_vm_bootstrap ${n})" == "true" ]]
+      if [[ "$(config_vm_bootstrap "${n}")" == "true" ]]
       then
         echo "    User root" >> "${SSH_CONFIG_DIR}/config"
       else

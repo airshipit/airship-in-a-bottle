@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@ set -e
 
 source "${GATE_UTILS}"
 
-DNS_SERVER=$1
+DNS_SERVER="$1"
 
 ingress_dns_config
-ingress_dns_start  ${DNS_SERVER}
+ingress_dns_start  "${DNS_SERVER}"

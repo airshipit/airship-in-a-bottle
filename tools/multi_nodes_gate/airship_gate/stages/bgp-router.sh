@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Copyright 2018 AT&T Intellectual Property.  All other rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@ set -e
 
 source "${GATE_UTILS}"
 
-BGP_ROUTER=$1
+BGP_ROUTER="$1"
 
 bgp_router_config
-bgp_router_start ${BGP_ROUTER}
+bgp_router_start "${BGP_ROUTER}"

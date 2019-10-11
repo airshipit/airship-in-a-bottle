@@ -184,8 +184,10 @@ iso_gen() {
 
     export NAME
     export SSH_PUBLIC_KEY
-    export NTP_POOLS="$(join_array ',' "$NTP_POOLS")"
-    export NTP_SERVERS="$(join_array ',' "$NTP_SERVERS")"
+    NTP_POOLS="$(join_array ',' "$NTP_POOLS")"
+    export NTP_POOLS
+    NTP_SERVERS="$(join_array ',' "$NTP_SERVERS")"
+    export NTP_SERVERS
     envsubst < "${TEMPLATE_DIR}/user-data.sub" > user-data
 
     fs_header="false"
@@ -199,11 +201,7 @@ iso_gen() {
           echo "fs_header:" >> user-data
           fs_header="true"
         fi
-        export FS_TYPE=$(config_format_type "$disk_format")
-        export DISK_DEVICE="$disk"
-        envsubst < "${TEMPLATE_DIR}/disk-data.sub" >> user-data
-        unset FS_TYPE
-        unset DISK_DEVICE
+        FS_TYPE="$(config_format_type "$disk_format")" DISK_DEVICE="$disk" envsubst < "${TEMPLATE_DIR}/disk-data.sub" >> user-data
       fi
     done
 
@@ -221,11 +219,7 @@ iso_gen() {
           mount_header="true"
         fi
 
-        export MOUNTPOINT=$(config_format_mount "$disk_format")
-        export DISK_DEVICE="$disk"
-        envsubst < "${TEMPLATE_DIR}/mount-data.sub" >> user-data
-        unset MOUNTPOINT
-        unset DISK_DEVICE
+        MOUNTPOINT="$(config_format_mount "$disk_format")" DISK_DEVICE="$disk" envsubst < "${TEMPLATE_DIR}/mount-data.sub" >> user-data
       fi
     done
 
@@ -288,6 +282,7 @@ nets_clean() {
 
       for iface in $(ip -oneline l show type vlan | grep "$netname" | awk -F ' ' '{print $2}' | tr -d ':' | awk -F '@' '{print $1}')
       do
+        # shellcheck disable=SC2024
         sudo ip l del dev "$iface" &>> "$LOG_FILE"
       done
       virsh net-destroy "$netname" &>> "${LOG_FILE}"
@@ -303,11 +298,11 @@ net_create() {
   if [[ $(config_net_is_layer3 "$net") == "true" ]]; then
     net_template="${TEMPLATE_DIR}/l3network-definition.sub"
 
-    NETNAME="${virsh_netname}" NETIP="$(config_net_selfip "$netname")" NETMASK="$(cidr_to_netmask $(config_net_cidr "$netname"))" NETMAC="$(config_net_mac "$netname")" envsubst < "$net_template" > ${TEMP_DIR}/net-${netname}.xml
+    NETNAME="${virsh_netname}" NETIP="$(config_net_selfip "$netname")" NETMASK="$(cidr_to_netmask "$(config_net_cidr "$netname")")" NETMAC="$(config_net_mac "$netname")" envsubst < "$net_template" > "${TEMP_DIR}/net-${netname}.xml"
   else
     net_template="${TEMPLATE_DIR}/l2network-definition.sub"
 
-    NETNAME="${virsh_netname}"  envsubst < "$net_template" > ${TEMP_DIR}/net-${netname}.xml
+    NETNAME="${virsh_netname}" envsubst < "$net_template" > "${TEMP_DIR}/net-${netname}.xml"
   fi
 
   log Creating network "${namekey}"_"${netname}"
@@ -499,12 +494,13 @@ vm_create() {
         wait
 
         log Creating VM "${NAME}" and bootstrapping the boot drive
+        # shellcheck disable=SC2086
         virt-install \
             --name "${NAME}" \
             --os-variant ubuntu16.04 \
             --virt-type kvm \
-            --cpu ${VIRSH_CPU_OPTS} \
-            --serial file,path=${TEMP_DIR}/console/${NAME}.log \
+            --cpu "${VIRSH_CPU_OPTS}" \
+            --serial "file,path=${TEMP_DIR}/console/${NAME}.log" \
             --graphics none \
             --noautoconsole \
             $NETWORK_OPTS \
@@ -520,13 +516,14 @@ vm_create() {
 
     else
         log Creating VM "${NAME}"
+        # shellcheck disable=SC2086
         virt-install \
             --name "${NAME}" \
             --os-variant ubuntu16.04 \
             --virt-type kvm \
-            --cpu ${VIRSH_CPU_OPTS} \
+            --cpu "${VIRSH_CPU_OPTS}" \
             --graphics none \
-            --serial file,path=${TEMP_DIR}/console/${NAME}.log \
+            --serial file,path="${TEMP_DIR}/console/${NAME}.log" \
             --noautoconsole \
             $NETWORK_OPTS \
             --vcpus "$(config_vm_vcpus "${NAME}")" \
@@ -607,7 +604,7 @@ get_libvirt_group() {
 make_virtmgr_account() {
     for libvirt_group in $(get_libvirt_group)
     do
-        if [[ -z "$(grep -oE '^virtmgr:' /etc/passwd)" ]]
+        if ! grep -qE '^virtmgr:' /etc/passwd
         then
             sudo useradd -m -s /bin/sh -g "${libvirt_group}" virtmgr
         else
@@ -628,17 +625,19 @@ gen_libvirt_key() {
         sudo cp "${GATE_SSH_KEY}.pub" ~virtmgr/.ssh/airship_gate.pub
     else
         log "Generating new SSH keypair for virtmgr"
+        #shellcheck disable=SC2024
         sudo ssh-keygen -N '' -b 2048 -t rsa -f ~virtmgr/.ssh/airship_gate &>> "${LOG_FILE}"
     fi
 }
 
 # Install private key into site definition
 install_libvirt_key() {
-    export PUB_KEY=$(sudo cat ~virtmgr/.ssh/airship_gate.pub)
+    PUB_KEY=$(sudo cat ~virtmgr/.ssh/airship_gate.pub)
+    export PUB_KEY
 
-    mkdir -p ${TEMP_DIR}/tmp
-    envsubst < "${TEMPLATE_DIR}/authorized_keys.sub" > ${TEMP_DIR}/tmp/virtmgr.authorized_keys
-    sudo cp ${TEMP_DIR}/tmp/virtmgr.authorized_keys ~virtmgr/.ssh/authorized_keys
+    mkdir -p "${TEMP_DIR}/tmp"
+    envsubst < "${TEMPLATE_DIR}/authorized_keys.sub" > "${TEMP_DIR}/tmp/virtmgr.authorized_keys"
+    sudo cp "${TEMP_DIR}/tmp/virtmgr.authorized_keys" ~virtmgr/.ssh/authorized_keys
     sudo chown -R virtmgr ~virtmgr/.ssh
     sudo chmod 700 ~virtmgr/.ssh
     sudo chmod 600 ~virtmgr/.ssh/authorized_keys
@@ -649,7 +648,7 @@ install_libvirt_key() {
     fi
 
     mkdir -p "${GATE_DEPOT}"
-    cat << EOF > ${GATE_DEPOT}/airship_drydock_kvm_ssh_key.yaml
+    cat << EOF > "${GATE_DEPOT}/airship_drydock_kvm_ssh_key.yaml"
 ---
 schema: deckhand/CertificateKey/v1
 metadata:
@@ -661,5 +660,5 @@ metadata:
   storagePolicy: cleartext
 data: |-
 EOF
-    sudo cat ~virtmgr/.ssh/airship_gate | sed -e 's/^/  /' >> ${GATE_DEPOT}/airship_drydock_kvm_ssh_key.yaml
+    sudo cat ~virtmgr/.ssh/airship_gate | sed -e 's/^/  /' >> "${GATE_DEPOT}/airship_drydock_kvm_ssh_key.yaml"
 }

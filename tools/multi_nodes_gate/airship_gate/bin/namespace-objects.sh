@@ -25,7 +25,7 @@ function get_namespaces () {
 
 function list_namespaced_objects () {
   export NAMESPACE=$1
-  printf ${OBJECT_TYPE} | xargs -d ',' -I {} -P1 -n1 bash -c 'echo "${NAMESPACE} $@"' _ {}
+  printf "%s" "${OBJECT_TYPE}" | xargs -d ',' -I {} -P1 -n1 bash -c "echo ${NAMESPACE} ${1#*/}" _ {}
 }
 
 export -f list_namespaced_objects
@@ -34,7 +34,7 @@ function name_objects () {
   input=($1)
   export NAMESPACE=${input[0]}
   export OBJECT=${input[1]}
-  kubectl get -n ${NAMESPACE} ${OBJECT} -o name | xargs -L1 -I {} -P1 -n1 bash -c 'echo "${NAMESPACE} ${OBJECT} $@"' _ {}
+  kubectl get -n "${NAMESPACE}" "${OBJECT}" -o name | xargs -L1 -I {} -P1 -n1 bash -c "echo ${NAMESPACE} ${OBJECT} ${1#*/}" _ {}
 }
 
 export -f name_objects
@@ -47,19 +47,19 @@ function get_objects () {
   echo "${NAMESPACE}/${OBJECT}/${NAME}"
   export BASE_DIR="${BASE_DIR:="/tmp"}"
   DIR="${BASE_DIR}/namespaces/${NAMESPACE}/${OBJECT}"
-  mkdir -p ${DIR}
-  kubectl get -n ${NAMESPACE} ${OBJECT} ${NAME} -o yaml > "${DIR}/${NAME}.yaml"
-  kubectl describe -n ${NAMESPACE} ${OBJECT} ${NAME} > "${DIR}/${NAME}.txt"
+  mkdir -p "${DIR}"
+  kubectl get -n "${NAMESPACE}" "${OBJECT}" "${NAME}" -o yaml > "${DIR}/${NAME}.yaml"
+  kubectl describe -n "${NAMESPACE}" "${OBJECT}" "${NAME}" > "${DIR}/${NAME}.txt"
 
   LOG_DIR="${BASE_DIR}/pod-logs"
   mkdir -p ${LOG_DIR}
 
   if [ ${OBJECT_TYPE} = "pods" ]; then
     POD_DIR="${LOG_DIR}/${NAME}"
-    mkdir -p ${POD_DIR}
+    mkdir -p "${POD_DIR}"
     CONTAINERS=$(kubectl get pod "${NAME}" -n "${NAMESPACE}" -o json | jq -r '.spec.containers[].name')
     for CONTAINER in ${CONTAINERS}; do
-      kubectl logs -n ${NAMESPACE} ${NAME} -c ${CONTAINER} > "${POD_DIR}/${CONTAINER}.txt"
+      kubectl logs -n "${NAMESPACE}" "${NAME}" -c "${CONTAINER}" > "${POD_DIR}/${CONTAINER}.txt"
     done
   fi
 }
