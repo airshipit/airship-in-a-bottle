@@ -24,10 +24,11 @@ ssh_config_declare() {
       envsubst < "${TEMPLATE_DIR}/ssh-config-global.sub" > "${SSH_CONFIG_DIR}/config"
     for n in $(config_vm_names)
     do
+      ssh_net="$(config_netspec_for_role "ssh")"
       env -i \
         "SSH_CONFIG_DIR=${SSH_CONFIG_DIR}" \
         "SSH_NODE_HOSTNAME=${n}" \
-        "SSH_NODE_IP=$(config_vm_ip ${n})" \
+        "SSH_NODE_IP=$(config_vm_net_ip ${n} "$ssh_net")" \
           envsubst < "${TEMPLATE_DIR}/ssh-config-node.sub" >> "${SSH_CONFIG_DIR}/config"
       if [[ "$(config_vm_bootstrap ${n})" == "true" ]]
       then
