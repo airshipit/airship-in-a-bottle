@@ -13,19 +13,19 @@
   "disk_layouts":{
     "simple": {
       "vda": {
-        "size": 30,
+        "size": 64,
         "io_profile": "fast",
         "bootstrap": true
       }
     },
     "multi": {
       "vda": {
-        "size": 15,
+        "size": 48,
         "io_profile": "fast",
         "bootstrap": true
       },
       "vdb": {
-        "size": 15,
+        "size": 16,
         "io_profile": "fast",
         "format": {"type": "ext4", "mountpoint": "/var"}
       }
