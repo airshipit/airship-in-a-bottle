@@ -169,7 +169,7 @@ config_format_mount() {
 config_disk_ioprofile() {
     layout_name="$1"
     disk_device="$2"
-    jq -cr ".disk_layouts.${layout_name}.${disk_device}.io_profile"
+    jq -cr ".disk_layouts.${layout_name}.${disk_device}.io_profile" < "${GATE_MANIFEST}"
 }
 
 # Find which disk in a layout should
