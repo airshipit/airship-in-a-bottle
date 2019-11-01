@@ -88,3 +88,10 @@ then
 else
   collect_design_docs
 fi
+
+# TODO(dc6350): as of 11/4/2019, Pegleg is running as root and
+# producing files with permission 640, and Promenade tasks running
+# as non-root users cannot read them. This line makes the files
+# world-readable and can be removed when Pegleg is no longer
+# running as root.
+sudo chmod 644 "${DEFINITION_DEPOT}"*.yaml
