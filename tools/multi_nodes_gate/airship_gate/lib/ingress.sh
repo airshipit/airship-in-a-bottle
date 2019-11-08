@@ -2,6 +2,7 @@
 
 DNS_ZONE_FILE="${TEMP_DIR}/ingress.dns"
 COREFILE="${TEMP_DIR}/ingress.corefile"
+RESOLV_CONF="${TEMP_DIR}/resolv.conf"
 
 ingress_dns_config() {
   ingress_domain="$(config_ingress_domain)"
@@ -25,6 +26,16 @@ ingress_dns_config() {
   DNS_DOMAIN="${ingress_domain}" ZONE_FILE="$(basename "$DNS_ZONE_FILE")" DNS_SERVERS="$UPSTREAM_DNS" envsubst < "${TEMPLATE_DIR}/ingress_corefile.sub" > "${COREFILE}"
 }
 
+ingress_resolv_conf() {
+  # Update node DNS settings
+  touch "$RESOLV_CONF"
+  for server in $UPSTREAM_DNS; do
+    if ! grep "nameserver $server" "$RESOLV_CONF"; then
+      echo "nameserver $server" >> "$RESOLV_CONF"
+    fi
+  done
+}
+
 ingress_dns_start() {
   # nodename where DNS should run
   nodename="$1"
@@ -32,8 +43,12 @@ ingress_dns_start() {
 
   remote_zone_file="${remote_work_dir}/$(basename "$DNS_ZONE_FILE")"
   remote_corefile="${remote_work_dir}/$(basename "$COREFILE")"
+  remote_resolv_conf="/etc/$(basename "$RESOLV_CONF")"
   ssh_cmd "${nodename}" mkdir -p "${remote_work_dir}"
   rsync_cmd "$DNS_ZONE_FILE" "${nodename}:${remote_zone_file}"
   rsync_cmd "$COREFILE" "${nodename}:${remote_corefile}"
+  rsync_cmd "$RESOLV_CONF" "${nodename}:${remote_resolv_conf}"
+  ssh_cmd "${nodename}" systemctl stop systemd-resolved
+  ssh_cmd "${nodename}" systemctl disable systemd-resolved
   ssh_cmd "${nodename}" docker run -d -v /var/tmp/coredns:/data -w /data --network host --restart always -P "$IMAGE_COREDNS" -conf "$(basename "$remote_corefile")"
 }

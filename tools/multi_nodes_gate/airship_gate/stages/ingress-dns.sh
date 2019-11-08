@@ -20,4 +20,5 @@ source "${GATE_UTILS}"
 DNS_SERVER="$1"
 
 ingress_dns_config
+ingress_resolv_conf "${DNS_SERVER}"
 ingress_dns_start  "${DNS_SERVER}"
