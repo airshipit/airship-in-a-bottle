@@ -100,6 +100,8 @@ shipyard_action_wait() {
     if [[ $(date +%s) -ge ${end_time} ]]
     then
       log "Shipyard action ${action} did not complete in ${timeout} seconds."
+      ACTION=$(shipyard_cmd describe "${ACTION_ID}")
+      log "${ACTION}"
       return 2
     fi
 

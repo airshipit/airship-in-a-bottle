@@ -13,7 +13,7 @@
   "disk_layouts":{
     "simple": {
       "vda": {
-        "size": 64,
+        "size": 96,
         "io_profile": "fast",
         "bootstrap": true
       }
