@@ -501,7 +501,7 @@ vm_create() {
             --virt-type kvm \
             --cpu "${VIRSH_CPU_OPTS}" \
             --serial "file,path=${TEMP_DIR}/console/${NAME}.log" \
-            --graphics none \
+            --graphics vnc,listen=0.0.0.0 \
             --noautoconsole \
             $NETWORK_OPTS \
             --vcpus "$(config_vm_vcpus "${NAME}")" \
@@ -522,7 +522,7 @@ vm_create() {
             --os-variant ubuntu16.04 \
             --virt-type kvm \
             --cpu "${VIRSH_CPU_OPTS}" \
-            --graphics none \
+            --graphics vnc,listen=0.0.0.0 \
             --serial file,path="${TEMP_DIR}/console/${NAME}.log" \
             --noautoconsole \
             $NETWORK_OPTS \
