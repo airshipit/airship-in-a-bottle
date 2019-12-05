@@ -256,7 +256,7 @@ config_net_is_layer3() {
 config_netspec_for_role() {
   role="$1"
 
-  set -x
+  set -e
 
   for net in $(config_net_list)
   do
