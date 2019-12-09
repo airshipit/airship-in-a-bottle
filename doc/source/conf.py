@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Airship'
-copyright = u'2017 AT&T Intellectual Property.'
+copyright = u'2019 The Airship Authors.'
 author = u'Airship Authors'
 
 # The version info for the project you're documenting, acts as replacement for
