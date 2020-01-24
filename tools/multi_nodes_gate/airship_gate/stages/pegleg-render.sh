@@ -53,7 +53,7 @@ render_pegleg_cli() {
         done
     fi
 
-    cli_string+=("render" "-o" "/collect/rendered.yaml")
+    cli_string+=("render" "-s" "/collect/rendered.yaml")
 
     cli_string+=("$(config_pegleg_sitename)")
 
