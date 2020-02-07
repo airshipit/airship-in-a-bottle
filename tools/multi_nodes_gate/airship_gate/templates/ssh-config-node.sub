@@ -1,2 +1,0 @@
-Host ${SSH_NODE_HOSTNAME}
-    HostName ${SSH_NODE_IP}

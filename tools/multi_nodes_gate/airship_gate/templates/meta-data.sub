@@ -1,3 +1,0 @@
-#cloud-config
-instance-id: ucp-${NAME}
-local-hostname: ${NAME}
